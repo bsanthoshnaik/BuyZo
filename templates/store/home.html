@@ -221,111 +221,181 @@
             max-width: 1600px;
             margin: 0 auto;
         }
-.banner-slider {
-    width: 100%;
-    height: 300px;
 
-    position: relative;
-    overflow: hidden;
 
-    border-radius: 12px;
-    background: #ffffff;
-}
+        /* ==================================================
+           BANNER SECTION
+           HEIGHT AUTOMATICALLY COMES FROM IMAGE
+        ================================================== */
 
-.banner-slide {
-    position: absolute;
-    inset: 0;
+        .banner-section {
+            width: 100%;
+            margin: 0;
+        }
 
-    width: 100%;
-    height: 300px;
+        .banner-slider {
+            position: relative;
 
-    opacity: 0;
-    visibility: hidden;
+            width: 100%;
 
-    transform: translateX(100%);
+            overflow: hidden;
 
-    transition:
-        transform 0.0 ease,
-        opacity 0.0 ease;
+            border-radius: 12px;
 
-    z-index: 1;
-}
+            background: #ffffff;
 
-.banner-slide.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-    z-index: 2;
-}
+            height: auto;
 
-.banner-slide a {
-    display: flex;
+            transition: height 0.35s ease;
+        }
 
-    width: 100%;
-    height: 300px;
+        .banner-slide {
+            position: absolute;
 
-    align-items: center;
-    justify-content: center;
-}
+            top: 0;
+            left: 0;
 
-.banner-slide img {
-    width: 100%;
-    height: 300px;
+            width: 100%;
 
-    display: block;
+            transform: translateX(100%);
 
-    object-fit: contain;
-    object-position: center;
-}
+            transition: transform 0.6s ease;
 
-/* ==================================================
-   BANNER ARROWS
-================================================== */
+            z-index: 1;
+        }
 
-.banner-arrow {
-    position: absolute;
+        .banner-slide.active {
+            transform: translateX(0);
 
-    top: 50%;
+            z-index: 2;
+        }
 
-    transform: translateY(-50%);
+        .banner-slide a {
+            display: block;
 
-    width: 42px;
-    height: 42px;
+            width: 100%;
 
-    border: none;
+            line-height: 0;
 
-    border-radius: 50%;
+            background: #ffffff;
+        }
 
-    background: rgba(255, 255, 255, 0.92);
+        .banner-slide img {
+            display: block;
 
-    color: #172554;
+            width: 100%;
 
-    font-size: 25px;
+            height: auto;
 
-    cursor: pointer;
+            object-fit: contain;
 
-    z-index: 10;
+            object-position: center;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            background: #ffffff;
+        }
 
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.15);
-}
 
-.banner-arrow:hover {
-    background: #ff9f1c;
-    color: white;
-}
+        /* ==================================================
+           BANNER ARROWS
+        ================================================== */
 
-.banner-prev {
-    left: 14px;
-}
+        .banner-arrow {
+            position: absolute;
 
-.banner-next {
-    right: 14px;
-}
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.92);
+
+            color: #172554;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            z-index: 20;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .banner-arrow:hover {
+            background: #ff9f1c;
+            color: white;
+        }
+
+        .banner-prev {
+            left: 14px;
+        }
+
+        .banner-next {
+            right: 14px;
+        }
+
+
+        /* ==================================================
+           BANNER FALLBACK
+        ================================================== */
+
+        .banner-fallback {
+            width: 100%;
+            min-height: 300px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #172554,
+                    #2563eb
+                );
+
+            color: white;
+        }
+
+        .banner-fallback h1 {
+            margin: 0 0 12px;
+
+            font-size: 32px;
+        }
+
+        .banner-fallback p {
+            margin: 0 0 20px;
+
+            font-size: 16px;
+        }
+
+        .banner-shop-button {
+            padding: 12px 25px;
+
+            background: #ff9f1c;
+
+            color: white;
+
+            border-radius: 7px;
+
+            font-weight: 800;
+        }
+
 
         /* ==================================================
            PRODUCTS HEADER
@@ -711,53 +781,9 @@
            MOBILE BOTTOM NAVIGATION
         ================================================== */
 
-.bottom-nav {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 68px;
-
-    background: white;
-    border-top: 1px solid #e5e7eb;
-
-    display: flex;
-    align-items: stretch;
-    justify-content: space-around;
-
-    z-index: 3000;
-
-    box-shadow:
-        0 -3px 12px rgba(0, 0, 0, 0.10);
-}
-
-.nav-item {
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    color: #64748b;
-
-    font-size: 11px;
-    font-weight: 700;
-}
-
-.nav-icon {
-    font-size: 21px;
-    line-height: 1;
-    margin-bottom: 5px;
-}
-
-.nav-item.active {
-    color: #ff9f1c;
-}
-
-.nav-item:hover {
-    color: #ff9f1c;
-}
+        .bottom-nav {
+            display: none;
+        }
 
 
         /* ==================================================
@@ -792,6 +818,9 @@
             body {
                 padding-bottom: 72px;
             }
+
+
+            /* HEADER */
 
             .header {
                 min-height: auto;
@@ -832,6 +861,9 @@
                 display: none;
             }
 
+
+            /* CATEGORY */
+
             .category-nav {
                 justify-content: flex-start;
 
@@ -846,19 +878,53 @@
                 font-size: 13px;
             }
 
-            .banner-section {
-                width: calc(100% - 20px);
 
-                margin-top: 10px;
+            /* ==================================================
+               MOBILE BANNER
+               AUTOMATIC HEIGHT
+            ================================================== */
+
+            .banner-section {
+                width: 100%;
+
+                margin: 0;
             }
 
             .banner-slider {
-                aspect-ratio: 16 / 7;
+                width: 100%;
 
-                min-height: 150px;
+                height: auto;
+                min-height: 0;
 
-                border-radius: 9px;
+                border-radius: 0;
+
+                background: #ffffff;
             }
+
+            .banner-slide {
+                width: 100%;
+
+                height: auto;
+            }
+
+            .banner-slide a {
+                width: 100%;
+
+                height: auto;
+            }
+
+            .banner-slide img {
+                width: 100%;
+
+                height: auto;
+
+                object-fit: contain;
+
+                object-position: center;
+            }
+
+
+            /* MOBILE ARROWS */
 
             .banner-arrow {
                 width: 34px;
@@ -874,6 +940,9 @@
             .banner-next {
                 right: 7px;
             }
+
+
+            /* PRODUCTS HEADER */
 
             .products-header {
                 width: calc(100% - 20px);
@@ -893,6 +962,9 @@
                 font-size: 12px;
             }
 
+
+            /* PRODUCTS */
+
             .products-container {
                 width: calc(100% - 20px);
 
@@ -901,6 +973,9 @@
 
                 gap: 10px;
             }
+
+
+            /* PRODUCT */
 
             .product {
                 padding: 9px;
@@ -957,6 +1032,9 @@
                 font-size: 12px;
             }
 
+
+            /* WISHLIST */
+
             .wishlist-form {
                 top: 8px;
                 right: 8px;
@@ -968,6 +1046,9 @@
 
                 font-size: 19px;
             }
+
+
+            /* FOOTER */
 
             .footer {
                 margin-top: 30px;
@@ -1180,14 +1261,12 @@
         🏠 Home
     </a>
 
-
     <a
         href="{% url 'home' %}?category=Food"
         class="category-btn {% if category == 'Food' %}active{% endif %}"
     >
         🍔 Food
     </a>
-
 
     <a
         href="{% url 'home' %}?category=Grocery"
@@ -1196,14 +1275,12 @@
         🛒 Grocery
     </a>
 
-
     <a
         href="{% url 'home' %}?category=Books"
         class="category-btn {% if category == 'Books' %}active{% endif %}"
     >
         📚 Books
     </a>
-
 
     <a
         href="{% url 'home' %}?category=Medicine"
@@ -1212,14 +1289,12 @@
         💊 Medicine
     </a>
 
-
     <a
         href="{% url 'home' %}?category=Electronics"
         class="category-btn {% if category == 'Electronics' %}active{% endif %}"
     >
         📱 Electronics
     </a>
-
 
     <a
         href="{% url 'home' %}?category=Fashion"
@@ -1265,6 +1340,7 @@
                             <img
                                 src="{{ banner.image.url }}"
                                 alt="{{ banner.title }}"
+                                onload="adjustBannerHeight()"
                             >
 
                         </a>
@@ -1285,7 +1361,6 @@
                         ‹
                     </button>
 
-
                     <button
                         type="button"
                         class="banner-arrow banner-next"
@@ -1298,8 +1373,6 @@
                 {% endif %}
 
             {% else %}
-
-                <!-- FALLBACK IF NO BANNER IS ADDED IN ADMIN -->
 
                 <div class="banner-fallback">
 
@@ -1354,7 +1427,6 @@
 
         </h2>
 
-
         <div class="products-count">
 
             {{ products|length }} products
@@ -1369,7 +1441,6 @@
     ================================================== -->
 
     <section class="products-container">
-
 
         {% for product in products %}
 
@@ -1432,11 +1503,11 @@
                     <div
                         class="product-image"
                         style="
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            font-size:50px;
-                            background:#f8fafc;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 50px;
+                            background: #f8fafc;
                         "
                     >
                         🛒
@@ -1445,9 +1516,6 @@
                 {% endif %}
 
             </a>
-
-
-           
 
 
             <!-- PRODUCT NAME -->
@@ -1473,10 +1541,6 @@
 
             </div>
 
-
-            <!-- QUANTITY -->
-
-          
 
             <!-- ADD TO CART -->
 
@@ -1561,7 +1625,6 @@
 ================================================== -->
 
 <nav class="bottom-nav">
-
 
     <a
         href="{% url 'home' %}"
@@ -1651,8 +1714,13 @@
         quantityInput.value =
             quantity;
 
-        quantitySpan.textContent =
-            quantity + " kg";
+        if (quantitySpan) {
+
+            quantitySpan.textContent =
+                quantity + " kg";
+
+        }
+
     }
 
 
@@ -1681,14 +1749,20 @@
             quantityInput.value =
                 quantity;
 
-            quantitySpan.textContent =
-                quantity + " kg";
+            if (quantitySpan) {
+
+                quantitySpan.textContent =
+                    quantity + " kg";
+
+            }
+
         }
+
     }
 
 
     /* ==================================================
-       BANNER CAROUSEL
+       BANNER VARIABLES
     ================================================== */
 
     let currentBanner = 0;
@@ -1696,86 +1770,435 @@
     const bannerSlides =
         document.querySelectorAll(".banner-slide");
 
+    const bannerSlider =
+        document.getElementById("bannerSlider");
 
-    function showBanner(index) {
+
+    /* ==================================================
+       AUTOMATIC BANNER HEIGHT
+    ================================================== */
+
+    function adjustBannerHeight() {
+
+        if (!bannerSlider) {
+            return;
+        }
 
         if (!bannerSlides.length) {
             return;
         }
 
-        bannerSlides.forEach(
-            function(slide) {
+        const activeSlide =
+            bannerSlides[currentBanner];
 
-                slide.classList.remove("active");
+        if (!activeSlide) {
+            return;
+        }
+
+        const image =
+            activeSlide.querySelector("img");
+
+        if (!image) {
+            return;
+        }
+
+        if (
+            !image.naturalWidth ||
+            !image.naturalHeight
+        ) {
+            return;
+        }
+
+
+        /*
+            The image width is 100% of the
+            banner.
+
+            Calculate its natural height
+            using the image's original ratio.
+        */
+
+        const bannerWidth =
+            bannerSlider.clientWidth;
+
+        const imageRatio =
+            image.naturalHeight /
+            image.naturalWidth;
+
+        const calculatedHeight =
+            bannerWidth * imageRatio;
+
+
+        bannerSlider.style.height =
+            calculatedHeight + "px";
+
+    }
+
+
+    /* ==================================================
+       UPDATE BANNER HEIGHT AFTER IMAGE LOAD
+    ================================================== */
+
+    function waitForBannerImage() {
+
+        const activeSlide =
+            bannerSlides[currentBanner];
+
+        if (!activeSlide) {
+            return;
+        }
+
+        const image =
+            activeSlide.querySelector("img");
+
+        if (!image) {
+            return;
+        }
+
+        if (image.complete) {
+
+            adjustBannerHeight();
+
+        } else {
+
+            image.addEventListener(
+                "load",
+                adjustBannerHeight,
+                {
+                    once: true
+                }
+            );
+
+        }
+
+    }
+
+
+    /* ==================================================
+       NEXT BANNER
+       CURRENT MOVES LEFT
+       NEXT COMES FROM RIGHT
+    ================================================== */
+
+    function nextBanner() {
+
+        if (bannerSlides.length <= 1) {
+            return;
+        }
+
+        const currentSlide =
+            bannerSlides[currentBanner];
+
+        let nextIndex =
+            currentBanner + 1;
+
+        if (
+            nextIndex >=
+            bannerSlides.length
+        ) {
+
+            nextIndex = 0;
+
+        }
+
+        const nextSlide =
+            bannerSlides[nextIndex];
+
+
+        /* Prepare next banner on RIGHT */
+
+        nextSlide.style.transition =
+            "none";
+
+        nextSlide.style.transform =
+            "translateX(100%)";
+
+        nextSlide.style.zIndex =
+            "3";
+
+
+        /* Change active index */
+
+        currentBanner =
+            nextIndex;
+
+
+        /*
+            Calculate new banner height
+            before starting animation.
+        */
+
+        const nextImage =
+            nextSlide.querySelector("img");
+
+        if (
+            nextImage &&
+            nextImage.naturalWidth &&
+            nextImage.naturalHeight
+        ) {
+
+            const bannerWidth =
+                bannerSlider.clientWidth;
+
+            const ratio =
+                nextImage.naturalHeight /
+                nextImage.naturalWidth;
+
+            const newHeight =
+                bannerWidth * ratio;
+
+            bannerSlider.style.height =
+                newHeight + "px";
+
+        }
+
+
+        /* Force browser to apply position */
+
+        nextSlide.offsetHeight;
+
+
+        /* Current banner moves LEFT */
+
+        currentSlide.style.transition =
+            "transform 0.6s ease";
+
+        currentSlide.style.transform =
+            "translateX(-100%)";
+
+
+        /* Next banner moves CENTER */
+
+        nextSlide.style.transition =
+            "transform 0.6s ease";
+
+        nextSlide.style.transform =
+            "translateX(0)";
+
+
+        /* Reset old banner */
+
+        setTimeout(
+            function() {
+
+                currentSlide.style.transition =
+                    "none";
+
+                currentSlide.style.transform =
+                    "translateX(100%)";
+
+                currentSlide.style.zIndex =
+                    "1";
+
+                adjustBannerHeight();
+
+            },
+            650
+        );
+
+    }
+
+
+    /* ==================================================
+       PREVIOUS BANNER
+       CURRENT MOVES RIGHT
+       PREVIOUS COMES FROM LEFT
+    ================================================== */
+
+    function previousBanner() {
+
+        if (bannerSlides.length <= 1) {
+            return;
+        }
+
+        const currentSlide =
+            bannerSlides[currentBanner];
+
+        let previousIndex =
+            currentBanner - 1;
+
+        if (previousIndex < 0) {
+
+            previousIndex =
+                bannerSlides.length - 1;
+
+        }
+
+        const previousSlide =
+            bannerSlides[previousIndex];
+
+
+        /* Prepare previous banner on LEFT */
+
+        previousSlide.style.transition =
+            "none";
+
+        previousSlide.style.transform =
+            "translateX(-100%)";
+
+        previousSlide.style.zIndex =
+            "3";
+
+
+        /* Change active index */
+
+        currentBanner =
+            previousIndex;
+
+
+        /*
+            Calculate previous banner
+            height before animation.
+        */
+
+        const previousImage =
+            previousSlide.querySelector("img");
+
+        if (
+            previousImage &&
+            previousImage.naturalWidth &&
+            previousImage.naturalHeight
+        ) {
+
+            const bannerWidth =
+                bannerSlider.clientWidth;
+
+            const ratio =
+                previousImage.naturalHeight /
+                previousImage.naturalWidth;
+
+            const newHeight =
+                bannerWidth * ratio;
+
+            bannerSlider.style.height =
+                newHeight + "px";
+
+        }
+
+
+        /* Force browser to apply position */
+
+        previousSlide.offsetHeight;
+
+
+        /* Current banner moves RIGHT */
+
+        currentSlide.style.transition =
+            "transform 0.6s ease";
+
+        currentSlide.style.transform =
+            "translateX(100%)";
+
+
+        /* Previous banner moves CENTER */
+
+        previousSlide.style.transition =
+            "transform 0.6s ease";
+
+        previousSlide.style.transform =
+            "translateX(0)";
+
+
+        /* Reset old banner */
+
+        setTimeout(
+            function() {
+
+                currentSlide.style.transition =
+                    "none";
+
+                currentSlide.style.transform =
+                    "translateX(-100%)";
+
+                currentSlide.style.zIndex =
+                    "1";
+
+                adjustBannerHeight();
+
+            },
+            650
+        );
+
+    }
+
+
+    /* ==================================================
+       START FIRST BANNER
+    ================================================== */
+
+    if (bannerSlides.length) {
+
+        bannerSlides.forEach(
+            function(slide, index) {
+
+                slide.style.transition =
+                    "none";
+
+                if (index === 0) {
+
+                    slide.style.transform =
+                        "translateX(0)";
+
+                    slide.style.zIndex =
+                        "2";
+
+                } else {
+
+                    slide.style.transform =
+                        "translateX(100%)";
+
+                    slide.style.zIndex =
+                        "1";
+
+                }
 
             }
         );
 
 
-        if (index >= bannerSlides.length) {
+        /*
+            Wait until the first image
+            is available.
+        */
 
-            currentBanner = 0;
+        waitForBannerImage();
 
-        }
-
-
-        if (index < 0) {
-
-            currentBanner =
-                bannerSlides.length - 1;
-
-        }
-
-
-        bannerSlides[currentBanner]
-            .classList.add("active");
     }
 
 
-    function nextBanner() {
+    /* ==================================================
+       ADJUST WHEN WINDOW SIZE CHANGES
+       IMPORTANT FOR MOBILE / LAPTOP
+    ================================================== */
 
-        if (!bannerSlides.length) {
-            return;
-        }
+    window.addEventListener(
+        "resize",
+        function() {
 
-        currentBanner++;
-
-        if (
-            currentBanner >=
-            bannerSlides.length
-        ) {
-
-            currentBanner = 0;
+            adjustBannerHeight();
 
         }
-
-        showBanner(currentBanner);
-    }
+    );
 
 
-    function previousBanner() {
+    /* ==================================================
+       ADJUST AFTER PAGE LOAD
+    ================================================== */
 
-        if (!bannerSlides.length) {
-            return;
-        }
+    window.addEventListener(
+        "load",
+        function() {
 
-        currentBanner--;
-
-        if (currentBanner < 0) {
-
-            currentBanner =
-                bannerSlides.length - 1;
+            adjustBannerHeight();
 
         }
-
-        showBanner(currentBanner);
-    }
+    );
 
 
-    /*
-       Automatically change banner
-       every 3 seconds.
-    */
+    /* ==================================================
+       AUTOMATIC BANNER
+       EVERY 5 SECONDS
+    ================================================== */
 
     if (bannerSlides.length > 1) {
 
