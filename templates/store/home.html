@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BuyZo - Online Shopping</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f3f6;
+            color: #172554;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+            width: 100%;
+            background: #172554;
+            min-height: 74px;
+            padding: 12px 28px;
+
+            display: flex;
+            align-items: center;
+            gap: 28px;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            color: #ff9f1c;
+            font-size: 29px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            font-size: 27px;
+        }
+
+        .search-form {
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            width: 100%;
+            height: 46px;
+
+            border: none;
+            outline: none;
+
+            padding: 0 18px;
+
+            border-radius: 7px 0 0 7px;
+
+            font-size: 16px;
+            color: #333;
+
+            background: white;
+        }
+
+        .search-button {
+            height: 46px;
+            min-width: 55px;
+
+            border: none;
+
+            background: #ff9f1c;
+            color: white;
+
+            border-radius: 0 7px 7px 0;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+        .search-button:hover {
+            background: #f28c00;
+        }
+
+        .header-account {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .header-account:hover {
+            color: #ff9f1c;
+        }
+
+
+        /* ==================================================
+           CART MESSAGE
+        ================================================== */
+
+        .cart-message {
+            position: fixed;
+
+            top: 90px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            background: #16a34a;
+            color: white;
+
+            padding: 13px 24px;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            z-index: 5000;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+
+        /* ==================================================
+           CATEGORY NAVIGATION
+        ================================================== */
+
+        .category-nav {
+            width: 100%;
+
+            background: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 10px 15px;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            overflow-x: auto;
+            white-space: nowrap;
+
+            scrollbar-width: none;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 9px 18px;
+
+            border-radius: 22px;
+
+            background: #f3f4f6;
+            color: #172554;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition: 0.2s;
+
+            white-space: nowrap;
+        }
+
+        .category-btn:hover {
+            background: #172554;
+            color: white;
+        }
+
+        .category-btn.active {
+            background: #ff9f1c;
+            color: white;
+        }
+
+
+        /* ==================================================
+           MAIN PAGE
+        ================================================== */
+
+        .main-container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+
+        /* ==================================================
+           BANNER SECTION
+        ================================================== */
+.banner-slider {
+    width: 100%;
+    height: 320px;
+
+    position: relative;
+    overflow: hidden;
+
+    border-radius: 12px;
+    background: #eee;
+}
+
+.banner-slide {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.5s ease,
+        visibility 0.5s ease;
+}
+
+.banner-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.banner-slide::before {
+    content: "";
+
+    position: absolute;
+    inset: -30px;
+
+    background-image: var(--banner-bg);
+    background-size: cover;
+    background-position: center;
+
+    filter: blur(20px);
+    transform: scale(1.1);
+
+    z-index: 0;
+}
+
+.banner-slide a {
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+}
+
+.banner-slide img {
+    width: 100%;
+    height: 320px;
+    object-fit: fill;
+}
+        /* ==================================================
+           BANNER ARROWS
+        ================================================== */
+
+        .banner-arrow {
+            position: absolute;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 42px;
+            height: 42px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.92);
+
+            color: #172554;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            z-index: 10;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .banner-arrow:hover {
+            background: #ff9f1c;
+            color: white;
+        }
+
+        .banner-prev {
+            left: 14px;
+        }
+
+        .banner-next {
+            right: 14px;
+        }
+
+
+        /* ==================================================
+           PRODUCTS HEADER
+        ================================================== */
+
+        .products-header {
+            width: calc(100% - 36px);
+
+            margin: 28px auto 16px;
+
+            background: white;
+
+            padding: 17px 20px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .products-title {
+            margin: 0;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            color: #172554;
+        }
+
+        .products-count {
+            color: #64748b;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* ==================================================
+           PRODUCTS GRID
+        ================================================== */
+
+        .products-container {
+            width: calc(100% - 36px);
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+
+        /* ==================================================
+           PRODUCT CARD
+        ================================================== */
+
+        .product {
+            position: relative;
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 2px 9px rgba(0, 0, 0, 0.08);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 7px 20px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* ==================================================
+           WISHLIST
+        ================================================== */
+
+        .wishlist-form {
+            position: absolute;
+
+            top: 12px;
+            right: 12px;
+
+            z-index: 20;
+        }
+
+        .wishlist-button {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            border: 1px solid #e5e7eb;
+
+            background: white;
+
+            color: #475569;
+
+            font-size: 23px;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: 0.2s;
+        }
+
+        .wishlist-button:hover {
+            color: #e11d48;
+
+            background: #fff1f2;
+
+            transform: scale(1.08);
+        }
+
+        .wishlist-button.active {
+            color: #e11d48;
+        }
+
+
+        /* ==================================================
+           PRODUCT IMAGE
+        ================================================== */
+
+        .product-image-link {
+            display: block;
+
+            width: 100%;
+
+            background: #ffffff;
+        }
+
+        .product-image {
+            width: 100%;
+
+            height: 220px;
+
+            display: block;
+
+            object-fit: contain;
+
+            object-position: center;
+
+            border-radius: 8px;
+
+            background: white;
+        }
+
+
+        /* ==================================================
+           PRODUCT CATEGORY
+        ================================================== */
+
+        .product-category {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            background: #eef2ff;
+
+            color: #3730a3;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+
+        /* ==================================================
+           PRODUCT NAME
+        ================================================== */
+
+        .product-name {
+            margin: 9px 0 7px;
+
+            color: #172554;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            line-height: 1.35;
+
+            min-height: 45px;
+        }
+
+
+        /* ==================================================
+           PRICE
+        ================================================== */
+
+        .price {
+            color: #15803d;
+
+            font-size: 19px;
+
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* ==================================================
+           QUANTITY
+        ================================================== */
+
+        .quantity {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 16px;
+
+            margin-bottom: 12px;
+        }
+
+        .quantity button {
+            width: 34px;
+            height: 34px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #172554;
+            color: white;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+        .quantity button:hover {
+            background: #2563eb;
+        }
+
+        .quantity span {
+            min-width: 50px;
+
+            text-align: center;
+
+            color: #334155;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        /* ==================================================
+           ADD TO CART
+        ================================================== */
+
+        .add-cart {
+            width: 100%;
+
+            height: 43px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #16a34a;
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .add-cart:hover {
+            background: #15803d;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* ==================================================
+           NO PRODUCTS
+        ================================================== */
+
+        .no-products {
+            grid-column: 1 / -1;
+
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 70px 20px;
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 17px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        .footer {
+            width: 100%;
+
+            margin-top: 45px;
+
+            padding: 28px 20px;
+
+            background: #172554;
+
+            color: white;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+
+        /* ==================================================
+           DESKTOP ACCOUNT AREA
+        ================================================== */
+
+        .desktop-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+        .desktop-link {
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .desktop-link:hover {
+            color: #ff9f1c;
+        }
+
+
+        /* ==================================================
+           MOBILE BOTTOM NAVIGATION
+        ================================================== */
+
+.bottom-nav {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 68px;
+
+    background: white;
+    border-top: 1px solid #e5e7eb;
+
+    display: flex;
+    align-items: stretch;
+    justify-content: space-around;
+
+    z-index: 3000;
+
+    box-shadow:
+        0 -3px 12px rgba(0, 0, 0, 0.10);
+}
+
+.nav-item {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #64748b;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.nav-icon {
+    font-size: 21px;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.nav-item.active {
+    color: #ff9f1c;
+}
+
+.nav-item:hover {
+    color: #ff9f1c;
+}
+
+
+        /* ==================================================
+           TABLET
+        ================================================== */
+
+        @media (max-width: 1100px) {
+
+            .header {
+                gap: 16px;
+                padding: 12px 18px;
+            }
+
+            .desktop-links {
+                display: none;
+            }
+
+            .products-container {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+        }
+
+
+        /* ==================================================
+           MOBILE
+        ================================================== */
+
+        @media (max-width: 700px) {
+
+            body {
+                padding-bottom: 72px;
+            }
+
+            .header {
+                min-height: auto;
+
+                padding: 12px;
+
+                display: block;
+            }
+
+            .logo {
+                display: block;
+
+                text-align: center;
+
+                margin-bottom: 10px;
+
+                font-size: 25px;
+            }
+
+            .search-form {
+                width: 100%;
+                max-width: none;
+            }
+
+            .search-box {
+                height: 43px;
+
+                font-size: 14px;
+            }
+
+            .search-button {
+                height: 43px;
+
+                min-width: 48px;
+            }
+
+            .header-account {
+                display: none;
+            }
+
+            .category-nav {
+                justify-content: flex-start;
+
+                padding: 9px 10px;
+
+                gap: 7px;
+            }
+
+            .category-btn {
+                padding: 8px 14px;
+
+                font-size: 13px;
+            }
+
+            .banner-section {
+                width: calc(100% - 20px);
+
+                margin-top: 10px;
+            }
+
+            .banner-slider {
+                aspect-ratio: 16 / 7;
+
+                min-height: 150px;
+
+                border-radius: 9px;
+            }
+
+            .banner-arrow {
+                width: 34px;
+                height: 34px;
+
+                font-size: 20px;
+            }
+
+            .banner-prev {
+                left: 7px;
+            }
+
+            .banner-next {
+                right: 7px;
+            }
+
+            .products-header {
+                width: calc(100% - 20px);
+
+                margin: 18px auto 12px;
+
+                padding: 14px;
+
+                border-radius: 8px;
+            }
+
+            .products-title {
+                font-size: 20px;
+            }
+
+            .products-count {
+                font-size: 12px;
+            }
+
+            .products-container {
+                width: calc(100% - 20px);
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 10px;
+            }
+
+            .product {
+                padding: 9px;
+
+                border-radius: 9px;
+            }
+
+            .product-image {
+                height: 145px;
+            }
+
+            .product-category {
+                margin-top: 8px;
+
+                font-size: 9px;
+
+                padding: 4px 7px;
+            }
+
+            .product-name {
+                font-size: 14px;
+
+                min-height: 38px;
+            }
+
+            .price {
+                font-size: 15px;
+
+                margin-bottom: 9px;
+            }
+
+            .quantity {
+                gap: 7px;
+
+                margin-bottom: 9px;
+            }
+
+            .quantity button {
+                width: 30px;
+                height: 30px;
+
+                font-size: 18px;
+            }
+
+            .quantity span {
+                min-width: 34px;
+
+                font-size: 12px;
+            }
+
+            .add-cart {
+                height: 38px;
+
+                font-size: 12px;
+            }
+
+            .wishlist-form {
+                top: 8px;
+                right: 8px;
+            }
+
+            .wishlist-button {
+                width: 34px;
+                height: 34px;
+
+                font-size: 19px;
+            }
+
+            .footer {
+                margin-top: 30px;
+
+                padding-bottom: 90px;
+            }
+
+
+            /* MOBILE BOTTOM NAV */
+
+            .bottom-nav {
+                position: fixed;
+
+                left: 0;
+                bottom: 0;
+
+                width: 100%;
+
+                height: 68px;
+
+                background: white;
+
+                border-top: 1px solid #e5e7eb;
+
+                display: flex;
+
+                align-items: stretch;
+
+                justify-content: space-around;
+
+                z-index: 3000;
+
+                box-shadow:
+                    0 -3px 12px rgba(0, 0, 0, 0.10);
+            }
+
+            .nav-item {
+                flex: 1;
+
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: center;
+
+                justify-content: center;
+
+                color: #64748b;
+
+                font-size: 11px;
+
+                font-weight: 700;
+            }
+
+            .nav-icon {
+                font-size: 21px;
+
+                line-height: 1;
+
+                margin-bottom: 5px;
+            }
+
+            .nav-item.active {
+                color: #ff9f1c;
+            }
+
+            .nav-item:hover {
+                color: #ff9f1c;
+            }
+
+        }
+
+
+        /* ==================================================
+           VERY SMALL MOBILE
+        ================================================== */
+
+        @media (max-width: 380px) {
+
+            .products-container {
+                gap: 8px;
+            }
+
+            .product-image {
+                height: 125px;
+            }
+
+            .product-name {
+                font-size: 13px;
+            }
+
+            .price {
+                font-size: 14px;
+            }
+
+            .add-cart {
+                font-size: 11px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     CART MESSAGE
+================================================== -->
+
+{% if cart_message %}
+
+<div
+    class="cart-message"
+    id="cartMessage"
+>
+    {{ cart_message }}
+</div>
+
+{% endif %}
+
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="header">
+
+    <a
+        href="{% url 'home' %}"
+        class="logo"
+    >
+        <span class="logo-icon">🛍️</span>
+        BuyZo
+    </a>
+
+
+    <!-- SEARCH -->
+
+    <form
+        method="GET"
+        action="{% url 'home' %}"
+        class="search-form"
+    >
+
+        {% if category %}
+
+            <input
+                type="hidden"
+                name="category"
+                value="{{ category }}"
+            >
+
+        {% endif %}
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search|default:'' }}"
+            class="search-box"
+            placeholder="Search products, food, grocery, electronics..."
+            autocomplete="off"
+        >
+
+        <button
+            type="submit"
+            class="search-button"
+            title="Search"
+        >
+            🔍
+        </button>
+
+    </form>
+
+
+    <div class="desktop-links">
+
+        <a
+            href="{% url 'cart' %}"
+            class="desktop-link"
+        >
+            🛒 Cart
+        </a>
+
+        <a
+            href="{% url 'account' %}"
+            class="desktop-link"
+        >
+            👤 Account
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ==================================================
+     CATEGORY NAVIGATION
+================================================== -->
+
+<nav class="category-nav">
+
+    <a
+        href="{% url 'home' %}"
+        class="category-btn {% if not category %}active{% endif %}"
+    >
+        🏠 Home
+    </a>
+
+
+    <a
+        href="{% url 'home' %}?category=Food"
+        class="category-btn {% if category == 'Food' %}active{% endif %}"
+    >
+        🍔 Food
+    </a>
+
+
+    <a
+        href="{% url 'home' %}?category=Grocery"
+        class="category-btn {% if category == 'Grocery' %}active{% endif %}"
+    >
+        🛒 Grocery
+    </a>
+
+
+    <a
+        href="{% url 'home' %}?category=Books"
+        class="category-btn {% if category == 'Books' %}active{% endif %}"
+    >
+        📚 Books
+    </a>
+
+
+    <a
+        href="{% url 'home' %}?category=Medicine"
+        class="category-btn {% if category == 'Medicine' %}active{% endif %}"
+    >
+        💊 Medicine
+    </a>
+
+
+    <a
+        href="{% url 'home' %}?category=Electronics"
+        class="category-btn {% if category == 'Electronics' %}active{% endif %}"
+    >
+        📱 Electronics
+    </a>
+
+
+    <a
+        href="{% url 'home' %}?category=Fashion"
+        class="category-btn {% if category == 'Fashion' %}active{% endif %}"
+    >
+        👕 Fashion
+    </a>
+
+</nav>
+
+
+<!-- ==================================================
+     MAIN CONTENT
+================================================== -->
+
+<main class="main-container">
+
+
+    <!-- ==================================================
+         ADMIN BANNER CAROUSEL
+    ================================================== -->
+
+    <section class="banner-section">
+
+        <div
+            class="banner-slider"
+            id="bannerSlider"
+        >
+
+            {% if banners %}
+
+                {% for banner in banners %}
+
+                    <div
+                        class="banner-slide {% if forloop.first %}active{% endif %}"
+                    >
+
+                        <a
+                            href="{% url 'home' %}?category={{ banner.category|urlencode }}"
+                            title="View {{ banner.category }} products"
+                        >
+
+                            <img
+                                src="{{ banner.image.url }}"
+                                alt="{{ banner.title }}"
+                            >
+
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+
+                {% if banners|length > 1 %}
+
+                    <button
+                        type="button"
+                        class="banner-arrow banner-prev"
+                        onclick="previousBanner()"
+                        aria-label="Previous banner"
+                    >
+                        ‹
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="banner-arrow banner-next"
+                        onclick="nextBanner()"
+                        aria-label="Next banner"
+                    >
+                        ›
+                    </button>
+
+                {% endif %}
+
+            {% else %}
+
+                <!-- FALLBACK IF NO BANNER IS ADDED IN ADMIN -->
+
+                <div class="banner-fallback">
+
+                    <h1>
+                        Shop Smart with BuyZo
+                    </h1>
+
+                    <p>
+                        Great products. Great prices. Delivered to you.
+                    </p>
+
+                    <a
+                        href="#products"
+                        class="banner-shop-button"
+                    >
+                        SHOP NOW
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         PRODUCTS HEADER
+    ================================================== -->
+
+    <section
+        class="products-header"
+        id="products"
+    >
+
+        <h2 class="products-title">
+
+            {% if category %}
+
+                {{ category }} Products
+
+            {% elif search %}
+
+                Search Results
+
+            {% else %}
+
+                🛍️ Today's Products
+
+            {% endif %}
+
+        </h2>
+
+
+        <div class="products-count">
+
+            {{ products|length }} products
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         PRODUCTS
+    ================================================== -->
+
+    <section class="products-container">
+
+
+        {% for product in products %}
+
+        <article
+            class="product"
+            data-category="{{ product.category }}"
+            data-name="{{ product.name|lower }}"
+        >
+
+
+            <!-- WISHLIST -->
+
+            <form
+                method="POST"
+                action="{% url 'toggle_wishlist' product.pk %}"
+                class="wishlist-form"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="wishlist-button {% if product.pk in wishlist_product_ids %}active{% endif %}"
+                    title="Add to Wishlist"
+                >
+
+                    {% if product.pk in wishlist_product_ids %}
+
+                        ♥️
+
+                    {% else %}
+
+                        ♡
+
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+            <!-- PRODUCT IMAGE -->
+
+            <a
+                href="{% url 'product_detail' product.pk %}"
+                class="product-image-link"
+            >
+
+                {% if product.image %}
+
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.name }}"
+                        class="product-image"
+                        loading="lazy"
+                    >
+
+                {% else %}
+
+                    <div
+                        class="product-image"
+                        style="
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:50px;
+                            background:#f8fafc;
+                        "
+                    >
+                        🛒
+                    </div>
+
+                {% endif %}
+
+            </a>
+
+
+           
+
+
+            <!-- PRODUCT NAME -->
+
+            <h3 class="product-name">
+
+                {{ product.name }}
+
+            </h3>
+
+
+            <!-- PRICE -->
+
+            <div class="price">
+
+                ₹{{ product.price }}
+
+                {% if product.category == "Grocery" or product.category == "Food" %}
+
+                    / kg
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+          
+
+            <!-- ADD TO CART -->
+
+            <form
+                method="POST"
+                action="{% url 'add_to_cart' product.pk %}"
+            >
+
+                {% csrf_token %}
+
+                <input
+                    type="hidden"
+                    name="quantity"
+                    value="1"
+                    class="cart-quantity"
+                >
+
+                <button
+                    type="submit"
+                    class="add-cart"
+                >
+                    🛒 Add to Cart
+                </button>
+
+            </form>
+
+        </article>
+
+
+        {% empty %}
+
+
+        <!-- NO PRODUCTS -->
+
+        <div class="no-products">
+
+            🛒
+
+            <br><br>
+
+            No products found.
+
+            <br><br>
+
+            {% if search %}
+
+                Try searching for another product.
+
+            {% elif category %}
+
+                No products available in {{ category }}.
+
+            {% else %}
+
+                Please add products from Django Admin.
+
+            {% endif %}
+
+        </div>
+
+
+        {% endfor %}
+
+    </section>
+
+
+    <!-- ==================================================
+         FOOTER
+    ================================================== -->
+
+    <footer class="footer">
+
+        © 2026 BuyZo | Online Shopping
+
+    </footer>
+
+</main>
+
+
+<!-- ==================================================
+     MOBILE BOTTOM NAVIGATION
+================================================== -->
+
+<nav class="bottom-nav">
+
+
+    <a
+        href="{% url 'home' %}"
+        class="nav-item active"
+    >
+
+        <div class="nav-icon">
+            🏠
+        </div>
+
+        Home
+
+    </a>
+
+
+    <a
+        href="{% url 'wishlist' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            ❤️
+        </div>
+
+        Wishlist
+
+    </a>
+
+
+    <a
+        href="{% url 'cart' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            🛒
+        </div>
+
+        Cart
+
+    </a>
+
+
+    <a
+        href="{% url 'account' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            👤
+        </div>
+
+        Account
+
+    </a>
+
+</nav>
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script>
+
+
+    /* ==================================================
+       QUANTITY + BUTTON
+    ================================================== */
+
+    function increaseQuantity(button) {
+
+        const product =
+            button.closest(".product");
+
+        const quantityInput =
+            product.querySelector(".cart-quantity");
+
+        const quantitySpan =
+            product.querySelector(".quantity span");
+
+        let quantity =
+            parseInt(quantityInput.value) || 1;
+
+        quantity++;
+
+        quantityInput.value =
+            quantity;
+
+        quantitySpan.textContent =
+            quantity + " kg";
+    }
+
+
+    /* ==================================================
+       QUANTITY - BUTTON
+    ================================================== */
+
+    function decreaseQuantity(button) {
+
+        const product =
+            button.closest(".product");
+
+        const quantityInput =
+            product.querySelector(".cart-quantity");
+
+        const quantitySpan =
+            product.querySelector(".quantity span");
+
+        let quantity =
+            parseInt(quantityInput.value) || 1;
+
+        if (quantity > 1) {
+
+            quantity--;
+
+            quantityInput.value =
+                quantity;
+
+            quantitySpan.textContent =
+                quantity + " kg";
+        }
+    }
+
+
+    /* ==================================================
+       BANNER CAROUSEL
+    ================================================== */
+
+    let currentBanner = 0;
+
+    const bannerSlides =
+        document.querySelectorAll(".banner-slide");
+
+
+    function showBanner(index) {
+
+        if (!bannerSlides.length) {
+            return;
+        }
+
+        bannerSlides.forEach(
+            function(slide) {
+
+                slide.classList.remove("active");
+
+            }
+        );
+
+
+        if (index >= bannerSlides.length) {
+
+            currentBanner = 0;
+
+        }
+
+
+        if (index < 0) {
+
+            currentBanner =
+                bannerSlides.length - 1;
+
+        }
+
+
+        bannerSlides[currentBanner]
+            .classList.add("active");
+    }
+
+
+    function nextBanner() {
+
+        if (!bannerSlides.length) {
+            return;
+        }
+
+        currentBanner++;
+
+        if (
+            currentBanner >=
+            bannerSlides.length
+        ) {
+
+            currentBanner = 0;
+
+        }
+
+        showBanner(currentBanner);
+    }
+
+
+    function previousBanner() {
+
+        if (!bannerSlides.length) {
+            return;
+        }
+
+        currentBanner--;
+
+        if (currentBanner < 0) {
+
+            currentBanner =
+                bannerSlides.length - 1;
+
+        }
+
+        showBanner(currentBanner);
+    }
+
+
+    /*
+       Automatically change banner
+       every 3 seconds.
+    */
+
+    if (bannerSlides.length > 1) {
+
+        setInterval(
+            function() {
+
+                nextBanner();
+
+            },
+            3000
+        );
+
+    }
+
+
+    /* ==================================================
+       AUTO HIDE CART MESSAGE
+    ================================================== */
+
+    setTimeout(
+        function() {
+
+            const message =
+                document.getElementById(
+                    "cartMessage"
+                );
+
+            if (message) {
+
+                message.style.transition =
+                    "opacity 0.3s ease";
+
+                message.style.opacity =
+                    "0";
+
+                setTimeout(
+                    function() {
+
+                        message.remove();
+
+                    },
+                    300
+                );
+
+            }
+
+        },
+        3000
+    );
+
+</script>
+
+
+</body>
+
+</html>

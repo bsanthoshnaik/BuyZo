@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Checkout - BuyZo</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f1f3f6;
+        color: #212121;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header {
+        background: #2874f0;
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        font-size: 27px;
+        font-weight: bold;
+    }
+
+    .header-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .header-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    /* ================= CONTAINER ================= */
+
+    .checkout-container {
+        max-width: 1000px;
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    .checkout-title {
+        font-size: 25px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .checkout-card {
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 18px;
+        padding: 22px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-title {
+        font-size: 19px;
+        font-weight: bold;
+        margin-bottom: 18px;
+    }
+
+    /* ================= ADDRESS ================= */
+
+    .address-option {
+        position: relative;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .address-option:hover {
+        border-color: #2874f0;
+        background: #f8fbff;
+    }
+
+    .address-option.selected {
+        border: 2px solid #2874f0;
+        background: #f5f9ff;
+    }
+
+    .address-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .address-select {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .address-select input {
+        margin-right: 10px;
+        width: 17px;
+        height: 17px;
+        cursor: pointer;
+    }
+
+    .address-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .address-text {
+        margin-top: 9px;
+        margin-left: 27px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    /* ================= THREE DOT MENU ================= */
+
+    .address-menu {
+        position: relative;
+    }
+
+    .three-dots {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: transparent;
+        border-radius: 50%;
+        font-size: 25px;
+        line-height: 25px;
+        cursor: pointer;
+        color: #555;
+    }
+
+    .three-dots:hover {
+        background: #f1f3f6;
+    }
+
+    /* ================= DROPDOWN ================= */
+
+    .address-dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 40px;
+        width: 175px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 7px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+        z-index: 100;
+        overflow: hidden;
+    }
+
+    .address-dropdown.show {
+        display: block;
+    }
+
+    .address-dropdown button,
+    .address-dropdown a {
+        display: block;
+        width: 100%;
+        padding: 13px 14px;
+        border: none;
+        background: white;
+        color: #212121;
+        text-align: left;
+        text-decoration: none;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .address-dropdown button:hover {
+        background: #f5f5f5;
+    }
+
+    .address-dropdown a:hover {
+        background: #fff1f1;
+    }
+
+    .address-dropdown .remove-link {
+        color: #d32f2f;
+    }
+
+    /* ================= ADD ADDRESS ================= */
+
+    .add-address-button {
+        display: inline-block;
+        margin-top: 5px;
+        padding: 11px 18px;
+        background: #2874f0;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .add-address-button:hover {
+        background: #1769d1;
+    }
+
+    .no-address {
+        padding: 15px;
+        background: #fff8e1;
+        border: 1px solid #ffe082;
+        border-radius: 6px;
+        color: #795548;
+        margin-bottom: 15px;
+    }
+
+    /* ================= PAYMENT ================= */
+
+    .payment-option {
+        border: 1px solid #ddd;
+        border-radius: 7px;
+        padding: 17px;
+        margin-bottom: 12px;
+    }
+
+    .payment-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .payment-label input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    /* ================= UPI ================= */
+
+    #upi-section {
+        display: none;
+        margin-top: 18px;
+        padding: 18px;
+        border: 1px solid #ddd;
+        border-radius: 7px;
+        background: #fafafa;
+    }
+
+    .upi-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .upi-info {
+        background: #eef5ff;
+        border: 1px solid #c7ddff;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        color: #174ea6;
+        line-height: 1.5;
+    }
+
+    .upi-details {
+        margin-top: 12px;
+        padding: 15px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+    }
+
+    .upi-label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .upi-input {
+        width: 100%;
+        max-width: 450px;
+        padding: 13px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    .upi-input:focus {
+        outline: none;
+        border-color: #2874f0;
+    }
+
+    .verify-button {
+        margin-top: 12px;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px;
+        background: #2874f0;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .verify-button:hover {
+        background: #1769d1;
+    }
+
+    #upi-message {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    #payment-success {
+        display: none;
+        margin-top: 12px;
+        padding: 12px;
+        border-radius: 6px;
+        background: #e8f5e9;
+        color: #2e7d32;
+        font-weight: bold;
+    }
+
+    /* ================= PRICE DETAILS ================= */
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 9px 0;
+        font-size: 16px;
+    }
+
+    .price-total {
+        border-top: 1px solid #ddd;
+        margin-top: 10px;
+        padding-top: 15px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    /* ================= PLACE ORDER ================= */
+
+    .place-order-section {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+    }
+
+    .place-order-button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 6px;
+        background: #2874f0;
+        color: white;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .place-order-button:disabled {
+        background: #bdbdbd;
+        cursor: not-allowed;
+    }
+
+    .place-order-button:not(:disabled):hover {
+        background: #1769d1;
+    }
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 700px) {
+
+        .header {
+            padding: 15px 18px;
+        }
+
+        .logo {
+            font-size: 23px;
+        }
+
+        .header-links {
+            gap: 12px;
+        }
+
+        .checkout-container {
+            margin-top: 18px;
+        }
+
+        .checkout-card {
+            padding: 16px;
+        }
+
+        .address-text {
+            margin-left: 0;
+        }
+
+        .address-dropdown {
+            right: 0;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="logo">
+        🛒 BuyZo
+    </div>
+
+    <div class="header-links">
+
+        <a href="{% url 'cart' %}">
+            Cart
+        </a>
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= CHECKOUT ================= -->
+
+<div class="checkout-container">
+
+    <div class="checkout-title">
+        Checkout
+    </div>
+
+
+    <!-- ================= DELIVERY ADDRESS ================= -->
+
+    <div class="checkout-card">
+
+        <div class="card-title">
+            1. Delivery Address
+        </div>
+
+        {% if addresses %}
+
+            {% for address in addresses %}
+
+            <div
+                class="address-option"
+                id="address-option-{{ address.id }}"
+                onclick="selectAddress('{{ address.id }}')"
+            >
+
+                <div class="address-top">
+
+                    <label
+                        class="address-select"
+                        onclick="event.stopPropagation()"
+                    >
+
+                        <input
+                            type="radio"
+                            name="address_select"
+                            id="address-{{ address.id }}"
+                            onclick="selectAddress('{{ address.id }}')"
+                        >
+
+                        <span class="address-name">
+                            {{ address.full_name }}
+                        </span>
+
+                    </label>
+
+
+                    <!-- THREE DOTS -->
+
+                    <div class="address-menu">
+
+                        <button
+                            type="button"
+                            class="three-dots"
+                            onclick="event.stopPropagation(); toggleAddressMenu('{{ address.id }}')"
+                            aria-label="Address options"
+                        >
+                            ⋮
+                        </button>
+
+
+                        <!-- DROPDOWN MENU -->
+
+                        <div
+                            class="address-dropdown"
+                            id="address-menu-{{ address.id }}"
+                        >
+
+                            <button
+                                type="button"
+                                onclick="event.stopPropagation(); saveAddress('{{ address.id }}')"
+                            >
+                                💾 Save Address
+                            </button>
+
+                            <a
+                                href="{% url 'remove_address' address.id %}"
+                                class="remove-link"
+                                onclick="event.stopPropagation(); return confirm('Are you sure you want to remove this address?');"
+                            >
+                                🗑 Remove Address
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADDRESS DETAILS -->
+
+                <div class="address-text">
+
+                    📱 {{ address.mobile }}<br>
+
+                    🏠 {{ address.house }},
+                    {{ address.street }}<br>
+
+                    {{ address.city }},
+                    {{ address.state }} -
+                    {{ address.pincode }}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="no-address">
+
+                You don't have a delivery address yet.
+
+                Please add your delivery address before placing your order.
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- ADD NEW ADDRESS -->
+
+        <a
+            href="{% url 'add_address' %}"
+            class="add-address-button"
+        >
+            + Add New Address
+        </a>
+
+    </div>
+
+
+    <!-- ================= PAYMENT ================= -->
+
+    <div class="checkout-card">
+
+        <div class="card-title">
+            2. Payment Method
+        </div>
+
+
+        <!-- CASH ON DELIVERY -->
+
+        <div class="payment-option">
+
+            <label class="payment-label">
+
+                <input
+                    type="radio"
+                    name="payment_choice"
+                    value="COD"
+                    onclick="selectPayment('COD')"
+                >
+
+                <span>
+                    💵 Cash on Delivery
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <!-- ONLINE PAYMENT -->
+
+        <div class="payment-option">
+
+            <label class="payment-label">
+
+                <input
+                    type="radio"
+                    name="payment_choice"
+                    value="ONLINE"
+                    onclick="selectPayment('ONLINE')"
+                >
+
+                <span>
+                    💳 Online Payment / UPI
+                </span>
+
+            </label>
+
+
+            <!-- UPI SECTION -->
+
+            <div id="upi-section">
+
+                <div class="upi-title">
+                    Pay using UPI
+                </div>
+
+
+                <div class="upi-info">
+                    Enter your UPI ID to continue with online payment.
+                </div>
+
+
+                <!-- UPI DETAILS -->
+
+                <div
+                    id="upi-details"
+                    class="upi-details"
+                >
+
+                    <label
+                        for="upi_id"
+                        class="upi-label"
+                    >
+                        Enter your UPI ID
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="upi_id"
+                        class="upi-input"
+                        placeholder="example@upi"
+                        autocomplete="off"
+                    >
+
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        class="verify-button"
+                        onclick="verifyUPI()"
+                    >
+                        Verify UPI
+                    </button>
+
+
+                    <div id="upi-message"></div>
+
+
+                    <div id="payment-success">
+                        ✓ UPI ID format verified successfully.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= PRICE DETAILS ================= -->
+
+    <div class="checkout-card">
+
+        <div class="card-title">
+            3. Price Details
+        </div>
+
+
+        <div class="price-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <span>
+                ₹{{ subtotal|floatformat:2 }}
+            </span>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span>
+                Delivery Charge
+            </span>
+
+            <span>
+
+                {% if delivery_charge == 0 %}
+                    FREE
+                {% else %}
+                    ₹{{ delivery_charge|floatformat:2 }}
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <div class="price-row price-total">
+
+            <span>
+                Total Amount
+            </span>
+
+            <span>
+                ₹{{ total_amount|floatformat:2 }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ORDER FORM ================= -->
+
+    <form
+        method="POST"
+        action="{% url 'place_order' %}"
+        id="order-form"
+    >
+
+        {% csrf_token %}
+
+
+        <input
+            type="hidden"
+            name="address_id"
+            id="address_id"
+        >
+
+
+        <input
+            type="hidden"
+            name="payment_method"
+            id="payment_method"
+        >
+
+
+        <input
+            type="hidden"
+            name="upi_id"
+            id="upi_id_hidden"
+        >
+
+
+        <div class="place-order-section">
+
+            <button
+                type="submit"
+                id="place-order-button"
+                class="place-order-button"
+                disabled
+            >
+                PLACE ORDER
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+    /* =====================================================
+       VARIABLES
+    ===================================================== */
+
+    let selectedAddress = "";
+    let selectedPayment = "";
+    let upiVerified = false;
+
+
+    /* =====================================================
+       SELECT ADDRESS
+    ===================================================== */
+
+    function selectAddress(addressId) {
+
+        selectedAddress = String(addressId);
+
+        document.getElementById(
+            "address_id"
+        ).value = addressId;
+
+
+        document.querySelectorAll(
+            ".address-option"
+        ).forEach(
+            function(option) {
+
+                option.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        const selectedOption =
+            document.getElementById(
+                "address-option-" + addressId
+            );
+
+
+        if (selectedOption) {
+
+            selectedOption.classList.add(
+                "selected"
+            );
+
+        }
+
+
+        document.querySelectorAll(
+            'input[name="address_select"]'
+        ).forEach(
+            function(radio) {
+
+                radio.checked = false;
+
+            }
+        );
+
+
+        const radio =
+            document.getElementById(
+                "address-" + addressId
+            );
+
+
+        if (radio) {
+
+            radio.checked = true;
+
+        }
+
+
+        closeAddressMenus();
+
+        checkPlaceOrder();
+    }
+
+
+    /* =====================================================
+       THREE DOT MENU
+    ===================================================== */
+
+    function toggleAddressMenu(addressId) {
+
+        const menu =
+            document.getElementById(
+                "address-menu-" + addressId
+            );
+
+
+        document.querySelectorAll(
+            ".address-dropdown"
+        ).forEach(
+            function(item) {
+
+                if (item !== menu) {
+
+                    item.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        menu.classList.toggle("show");
+    }
+
+
+    /* =====================================================
+       CLOSE ADDRESS MENUS
+    ===================================================== */
+
+    function closeAddressMenus() {
+
+        document.querySelectorAll(
+            ".address-dropdown"
+        ).forEach(
+            function(menu) {
+
+                menu.classList.remove(
+                    "show"
+                );
+
+            }
+        );
+    }
+
+
+    /* =====================================================
+       SAVE ADDRESS
+    ===================================================== */
+
+    function saveAddress(addressId) {
+
+        closeAddressMenus();
+
+        alert(
+            "Address saved successfully."
+        );
+    }
+
+
+    /* =====================================================
+       CLOSE MENU WHEN CLICKING OUTSIDE
+    ===================================================== */
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                !event.target.closest(
+                    ".address-menu"
+                )
+            ) {
+
+                closeAddressMenus();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       SELECT PAYMENT
+    ===================================================== */
+
+    function selectPayment(paymentMethod) {
+
+        selectedPayment = paymentMethod;
+
+
+        document.getElementById(
+            "payment_method"
+        ).value = paymentMethod;
+
+
+        const upiSection =
+            document.getElementById(
+                "upi-section"
+            );
+
+
+        if (paymentMethod === "COD") {
+
+            upiSection.style.display =
+                "none";
+
+            upiVerified = false;
+
+
+            document.getElementById(
+                "upi_id_hidden"
+            ).value = "";
+
+
+            document.getElementById(
+                "upi_id"
+            ).value = "";
+
+
+            document.getElementById(
+                "payment-success"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "upi-message"
+            ).innerText = "";
+
+        }
+
+
+        if (paymentMethod === "ONLINE") {
+
+            upiSection.style.display =
+                "block";
+
+            upiVerified = false;
+
+
+            document.getElementById(
+                "upi_id_hidden"
+            ).value = "";
+
+
+            document.getElementById(
+                "payment-success"
+            ).style.display = "none";
+
+
+            document.getElementById(
+                "upi-message"
+            ).innerText = "";
+
+        }
+
+
+        checkPlaceOrder();
+    }
+
+
+    /* =====================================================
+       VERIFY UPI
+    ===================================================== */
+
+    function verifyUPI() {
+
+        const upiId =
+            document.getElementById(
+                "upi_id"
+            ).value.trim();
+
+
+        const message =
+            document.getElementById(
+                "upi-message"
+            );
+
+
+        const success =
+            document.getElementById(
+                "payment-success"
+            );
+
+
+        if (upiId === "") {
+
+            upiVerified = false;
+
+            message.innerText =
+                "Please enter your UPI ID.";
+
+            message.style.color =
+                "red";
+
+            success.style.display =
+                "none";
+
+            checkPlaceOrder();
+
+            return;
+        }
+
+
+        const upiPattern =
+            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+$/;
+
+
+        if (!upiPattern.test(upiId)) {
+
+            upiVerified = false;
+
+            message.innerText =
+                "Please enter a valid UPI ID.";
+
+            message.style.color =
+                "red";
+
+            success.style.display =
+                "none";
+
+            checkPlaceOrder();
+
+            return;
+        }
+
+
+        upiVerified = true;
+
+
+        document.getElementById(
+            "upi_id_hidden"
+        ).value = upiId;
+
+
+        message.innerText =
+            "UPI ID format verified.";
+
+        message.style.color =
+            "green";
+
+
+        success.style.display =
+            "block";
+
+
+        checkPlaceOrder();
+    }
+
+
+    /* =====================================================
+       CHECK PLACE ORDER
+    ===================================================== */
+
+    function checkPlaceOrder() {
+
+        const addressId =
+            document.getElementById(
+                "address_id"
+            ).value;
+
+
+        const paymentMethod =
+            document.getElementById(
+                "payment_method"
+            ).value;
+
+
+        const button =
+            document.getElementById(
+                "place-order-button"
+            );
+
+
+        if (!addressId) {
+
+            button.disabled = true;
+
+            return;
+        }
+
+
+        /* COD */
+
+        if (paymentMethod === "COD") {
+
+            button.disabled = false;
+
+            return;
+        }
+
+
+        /* ONLINE */
+
+        if (
+            paymentMethod === "ONLINE" &&
+            upiVerified === true
+        ) {
+
+            button.disabled = false;
+
+            return;
+        }
+
+
+        button.disabled = true;
+    }
+
+
+    /* =====================================================
+       CONFIRM BEFORE ORDER
+    ===================================================== */
+
+    document
+        .getElementById("order-form")
+        .addEventListener(
+            "submit",
+            function(event) {
+
+                const addressId =
+                    document.getElementById(
+                        "address_id"
+                    ).value;
+
+
+                const paymentMethod =
+                    document.getElementById(
+                        "payment_method"
+                    ).value;
+
+
+                if (!addressId) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a delivery address."
+                    );
+
+                    return;
+                }
+
+
+                if (!paymentMethod) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a payment method."
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    paymentMethod === "ONLINE"
+                ) {
+
+                    if (!upiVerified) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please verify your UPI ID."
+                        );
+
+                        return;
+                    }
+
+                }
+
+
+                const confirmed =
+                    confirm(
+                        "Are you sure you want to place this order?"
+                    );
+
+
+                if (!confirmed) {
+
+                    event.preventDefault();
+
+                }
+
+            }
+        );
+
+</script>
+```
+
+</body>
+
+</html>

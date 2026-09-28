@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BuyZo Cart</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            color: #172554;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 18px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+        }
+
+        .header-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ================= MAIN ================= */
+
+        .cart-container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .cart-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* ================= CART ITEM ================= */
+
+        .cart-item {
+            background: white;
+            margin-bottom: 18px;
+            padding: 20px;
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            gap: 25px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ================= IMAGE ================= */
+
+        .cart-image-link {
+            display: block;
+        }
+
+        .cart-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* ================= DETAILS ================= */
+
+        .details {
+            flex: 1;
+        }
+
+        .product-name {
+            color: #172554;
+            text-decoration: none;
+        }
+
+        .product-name h2 {
+            margin: 0 0 8px;
+            font-size: 24px;
+        }
+
+        .product-name h2:hover {
+            color: #2563eb;
+        }
+
+        .category {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* ================= QUANTITY ================= */
+
+        .quantity-title {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 7px;
+        }
+
+        .quantity-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-button {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #172554;
+            color: white;
+
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .quantity-button:hover {
+            background: #2563eb;
+        }
+
+        .quantity-value {
+            min-width: 45px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* ================= REMOVE ================= */
+
+        .remove-button {
+            margin-top: 15px;
+
+            border: none;
+            background: #f4cb939f;
+            color: white;
+
+            padding: 9px 16px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .remove-button:hover {
+            background: #f4cb939f;
+        }
+
+        /* ================= ITEM TOTAL ================= */
+
+        .item-total-box {
+            min-width: 170px;
+            text-align: right;
+        }
+
+        .item-total-label {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .item-total {
+            font-size: 21px;
+            font-weight: bold;
+            color: #172554;
+        }
+
+        /* ================= TOTAL BOX ================= */
+
+        .total-box {
+            background: white;
+            padding: 25px;
+            margin-top: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+            text-align: right;
+        }
+
+        .price-details-title {
+            text-align: left;
+            font-size: 21px;
+            font-weight: bold;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 10px 0;
+
+            font-size: 17px;
+        }
+
+        .summary-row strong {
+            font-size: 18px;
+        }
+
+        .total-label {
+            color: #555;
+            font-size: 16px;
+        }
+
+        .total {
+            font-size: 30px;
+            font-weight: bold;
+            color: #172554;
+            margin-top: 5px;
+        }
+
+        .grand-total-row {
+            border-top: 1px dashed #ccc;
+            margin-top: 10px;
+            padding-top: 18px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grand-total-label {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .grand-total {
+            font-size: 28px;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        /* ================= CHECKOUT ================= */
+
+        .checkout-button {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            background: #16a34a;
+            color: white;
+
+            text-decoration: none;
+
+            padding: 14px 35px;
+
+            border-radius: 7px;
+
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .checkout-button:hover {
+            background: #15803d;
+        }
+
+        /* ================= EMPTY CART ================= */
+
+        .empty {
+            background: white;
+            padding: 70px 30px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-icon {
+            font-size: 60px;
+        }
+
+        .empty h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #666;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            background: #172554;
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 25px;
+
+            border-radius: 6px;
+        }
+
+        .continue-shopping:hover {
+            background: #2563eb;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 15px 18px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cart-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .details {
+                width: 100%;
+            }
+
+            .item-total-box {
+                width: 100%;
+                text-align: left;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+            }
+
+            .total-box {
+                text-align: left;
+            }
+
+            .grand-total-row {
+                text-align: left;
+            }
+
+            .checkout-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .summary-row {
+                font-size: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<div class="header">
+
+    <div class="logo">
+        🛒 BuyZo
+    </div>
+
+    <div class="header-links">
+
+        <a
+            href="{% url 'home' %}"
+            class="header-link"
+        >
+            🏠 Home
+        </a>
+
+        <a
+            href="{% url 'wishlist' %}"
+            class="header-link"
+        >
+            ❤️ Wishlist
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CART ================= -->
+
+<div class="cart-container">
+
+    <div class="cart-title">
+        🛒 Your Shopping Cart
+    </div>
+
+
+    {% for item in cart_items %}
+
+
+    <!-- ================= CART ITEM ================= -->
+
+    <div class="cart-item">
+
+
+        <!-- PRODUCT IMAGE -->
+
+        <a
+            href="{% url 'product_detail' item.product.id %}"
+            class="cart-image-link"
+        >
+
+            {% if item.product.image %}
+
+                <img
+                    src="{{ item.product.image.url }}"
+                    class="cart-image"
+                    alt="{{ item.product.name }}"
+                >
+
+            {% else %}
+
+                <div
+                    class="cart-image"
+                    style="
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        background:#f3f4f6;
+                        font-size:50px;
+                    "
+                >
+                    🛒
+                </div>
+
+            {% endif %}
+
+        </a>
+
+
+        <!-- ================= PRODUCT DETAILS ================= -->
+
+        <div class="details">
+
+
+            <!-- PRODUCT NAME -->
+
+            <a
+                href="{% url 'product_detail' item.product.id %}"
+                class="product-name"
+            >
+
+                <h2>
+                    {{ item.product.name }}
+                </h2>
+
+            </a>
+
+
+            <!-- CATEGORY -->
+
+            <div class="category">
+                {{ item.product.category }}
+            </div>
+
+
+            <!-- PRICE -->
+
+            <div class="price">
+                ₹{{ item.product.price|floatformat:2 }}
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="quantity-title">
+                Quantity
+            </div>
+
+
+            <div class="quantity-box">
+
+
+                <!-- DECREASE -->
+
+                <a
+                    href="{% url 'decrease_cart' item.id %}"
+                    style="text-decoration:none;"
+                >
+
+                    <button
+                        type="button"
+                        class="quantity-button"
+                    >
+                        −
+                    </button>
+
+                </a>
+
+
+                <!-- QUANTITY -->
+
+                <span class="quantity-value">
+                    {{ item.quantity }}
+                </span>
+
+
+                <!-- INCREASE -->
+
+                <a
+                    href="{% url 'increase_cart' item.id %}"
+                    style="text-decoration:none;"
+                >
+
+                    <button
+                        type="button"
+                        class="quantity-button"
+                    >
+                        +
+                    </button>
+
+                </a>
+
+            </div>
+
+
+            <!-- REMOVE -->
+
+            <a
+                href="{% url 'remove_from_cart' item.id %}"
+                style="text-decoration:none;"
+            >
+
+                <button
+                    type="button"
+                    class="remove-button"
+                >
+                    🗑 Remove from Cart
+                </button>
+
+            </a>
+
+        </div>
+
+
+        <!-- ================= ITEM TOTAL ================= -->
+
+        <div class="item-total-box">
+
+            <div class="item-total-label">
+                Item Total
+            </div>
+
+            <div class="item-total">
+                ₹{{ item.product.price|floatformat:2 }}
+                ×
+                {{ item.quantity }}
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    {% empty %}
+
+
+    <!-- ================= EMPTY CART ================= -->
+
+    <div class="empty">
+
+        <div class="empty-icon">
+            🛒
+        </div>
+
+        <h2>
+            Your cart is empty
+        </h2>
+
+        <p>
+            Add some products from BuyZo.
+        </p>
+
+        <a
+            href="{% url 'home' %}"
+            class="continue-shopping"
+        >
+            Continue Shopping
+        </a>
+
+    </div>
+
+
+    {% endfor %}
+
+
+    <!-- ================= TOTAL ================= -->
+
+    {% if cart_items %}
+
+    <div class="total-box">
+
+        <div class="price-details-title">
+            Price Details
+        </div>
+
+
+        <!-- TOTAL ITEMS -->
+
+        <div class="summary-row">
+
+            <span>
+                Total Items
+            </span>
+
+            <strong>
+                {{ cart_items|length }}
+            </strong>
+
+        </div>
+
+
+        <!-- CART TOTAL -->
+
+        <div class="grand-total-row">
+
+            <span class="grand-total-label">
+                Total Amount
+            </span>
+
+            <span class="grand-total">
+                ₹{{ total|floatformat:2 }}
+            </span>
+
+        </div>
+
+
+        <!-- CHECKOUT -->
+
+        <a
+            href="{% url 'checkout' %}"
+            class="checkout-button"
+        >
+            Proceed to Checkout →
+        </a>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>

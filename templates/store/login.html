@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QuickCart | Login</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at 10% 15%,
+                    rgba(255,255,255,0.65),
+                    transparent 20%
+                ),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(255,255,255,0.35),
+                    transparent 22%
+                ),
+                radial-gradient(
+                    circle at 80% 85%,
+                    rgba(255,150,0,0.45),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    135deg,
+                    #fff700 0%,
+                    #ffd000 45%,
+                    #ff9500 100%
+                );
+
+            overflow: hidden;
+            position: relative;
+        }
+
+
+        /* Background decoration */
+
+        body::before {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.20);
+
+            top: -80px;
+            left: -70px;
+
+            box-shadow:
+                400px 100px 0 rgba(255,255,255,0.12),
+                700px 500px 0 rgba(255,255,255,0.15);
+
+            filter: blur(2px);
+        }
+
+
+        /* Login box */
+
+        .login-box {
+            position: relative;
+
+            z-index: 5;
+
+            width: 400px;
+
+            padding: 40px;
+
+            background: rgba(255,255,255,0.96);
+
+            border-radius: 28px;
+
+            box-shadow:
+                0 30px 70px rgba(0,0,0,0.25),
+                0 10px 25px rgba(255,150,0,0.25);
+
+            backdrop-filter: blur(12px);
+
+            animation: appear 0.7s ease;
+        }
+
+
+        /* Animation */
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+
+        /* Logo */
+
+        .logo {
+            text-align: center;
+            font-size: 55px;
+        }
+
+
+        /* Heading */
+
+        h1 {
+            text-align: center;
+
+            color: #222;
+
+            margin-top: 10px;
+        }
+
+
+        /* Subtitle */
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            margin-top: 8px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* Success message */
+
+        .success {
+            background: #e5ffe9;
+
+            color: #16802c;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            margin-bottom: 15px;
+
+            font-size: 14px;
+        }
+
+
+        /* Error message */
+
+        .error {
+            background: #ffe5e5;
+
+            color: #d60000;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            margin-bottom: 15px;
+
+            font-size: 14px;
+        }
+
+
+        /* Labels */
+
+        label {
+            display: block;
+
+            margin-top: 15px;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+
+        /* Inputs */
+
+        input {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+
+        input:focus {
+            border-color: #ffb000;
+
+            box-shadow:
+                0 0 0 3px rgba(255,190,0,0.18);
+        }
+
+
+        /* Login button */
+
+        button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd900,
+                    #ffad00
+                );
+
+            color: #222;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 18px rgba(255,165,0,0.30);
+
+            transition: 0.3s;
+        }
+
+
+        button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(255,165,0,0.40);
+        }
+
+
+        /* Forgot password */
+
+        .forgot-password {
+            text-align: right;
+
+            margin-top: 12px;
+        }
+
+
+        .forgot-password a {
+            display: inline-block;
+
+            color: #e38b00;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            cursor: pointer;
+        }
+
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Register */
+
+        .register {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #777;
+
+            font-size: 14px;
+        }
+
+
+        .register a {
+            color: #e38b00;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            margin-left: 4px;
+        }
+
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            .login-box {
+                width: 90%;
+
+                padding: 30px 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="login-box">
+
+
+        <!-- Logo -->
+
+        <div class="logo">
+            🛵
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1>
+            Welcome Back 👋
+        </h1>
+
+
+        <p class="subtitle">
+            Login to continue shopping
+        </p>
+
+
+        <!-- Success message -->
+
+        {% if success %}
+
+        <div class="success">
+            {{ success }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- Error message -->
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- Login form -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>
+                Mobile Number or Gmail
+            </label>
+
+
+            <input
+                type="text"
+                name="login_id"
+                placeholder="Enter mobile number or Gmail"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+
+
+            <button type="submit">
+                LOGIN
+            </button>
+
+        </form>
+
+
+        <!-- Forgot password -->
+
+        <div class="forgot-password">
+
+            <a href="/forgot-password/">
+                Forgot Password?
+            </a>
+
+        </div>
+
+
+        <!-- Register -->
+
+        <div class="register">
+
+            New user?
+
+            <a href="/register/">
+                Register
+            </a>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

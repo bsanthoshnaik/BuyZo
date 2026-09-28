@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        BuyZo - Order Details
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f3f6;
+
+            color: #172554;
+
+            padding-bottom: 40px;
+
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            background: #172554;
+
+            color: white;
+
+            padding: 18px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+        }
+
+
+        .back {
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 28px;
+
+        }
+
+
+        .header-title {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            max-width: 850px;
+
+            margin: 20px auto;
+
+            padding: 0 15px;
+
+        }
+
+
+        /* =========================
+           ORDER HEADER CARD
+        ========================= */
+
+        .order-header {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .order-number {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .order-date {
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+
+            color: #166534;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .section-title {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        /* =========================
+           ORDER ITEMS
+        ========================= */
+
+        .order-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eeeeee;
+
+        }
+
+
+        .order-item:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .product-image {
+
+            width: 80px;
+
+            height: 80px;
+
+            object-fit: cover;
+
+            border-radius: 12px;
+
+            background: #f5f5f5;
+
+        }
+
+
+        .item-info {
+
+            flex: 1;
+
+        }
+
+
+        .product-name {
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .item-quantity {
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .item-price {
+
+            color: #555;
+
+            font-size: 13px;
+
+        }
+
+
+        .item-total {
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           PRICE DETAILS
+        ========================= */
+
+        .price-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 8px 0;
+
+            font-size: 14px;
+
+        }
+
+
+        .price-label {
+
+            color: #666;
+
+        }
+
+
+        .price-value {
+
+            font-weight: 500;
+
+        }
+
+
+        .grand-total-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-top: 1px solid #dddddd;
+
+            margin-top: 10px;
+
+            padding-top: 15px;
+
+        }
+
+
+        .grand-total-label {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+        }
+
+
+        .grand-total {
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            color: #172554;
+
+        }
+
+
+        /* =========================
+           PAYMENT
+        ========================= */
+
+        .info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 9px 0;
+
+            font-size: 14px;
+
+        }
+
+
+        .info-label {
+
+            color: #777;
+
+        }
+
+
+        .info-value {
+
+            font-weight: bold;
+
+            text-align: right;
+
+        }
+
+
+        .payment-pending {
+
+            color: #b45309;
+
+        }
+
+
+        .payment-paid {
+
+            color: #15803d;
+
+        }
+
+
+        /* =========================
+           ADDRESS
+        ========================= */
+
+        .address-box {
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            padding: 15px;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+
+        }
+
+
+        .address-name {
+
+            font-weight: bold;
+
+            font-size: 16px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 20px;
+
+        }
+
+
+        .button {
+
+            flex: 1;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        .orders-button {
+
+            background: #172554;
+
+            color: white;
+
+        }
+
+
+        .home-button {
+
+            background: #ff9f1c;
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                margin: 15px auto;
+
+                padding: 0 12px;
+
+            }
+
+
+            .section,
+            .order-header {
+
+                padding: 16px;
+
+            }
+
+
+            .product-image {
+
+                width: 65px;
+
+                height: 65px;
+
+            }
+
+
+            .product-name {
+
+                font-size: 14px;
+
+            }
+
+
+            .item-total {
+
+                font-size: 14px;
+
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+    <a
+        href="{% url 'orders' %}"
+        class="back"
+    >
+        ←
+    </a>
+
+    <div class="header-title">
+        Order Details
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+
+    <!-- =========================
+         ORDER INFORMATION
+    ========================= -->
+
+    <div class="order-header">
+
+        <div class="order-number">
+
+            Order #{{ order.order_number }}
+
+        </div>
+
+
+        <div class="order-date">
+
+            Ordered on
+            {{ order.created_at|date:"d M Y, h:i A" }}
+
+        </div>
+
+
+        <div class="status">
+
+            {{ order.status }}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Order Items
+        </div>
+
+
+        {% for item in order.items.all %}
+
+        <div class="order-item">
+
+
+            <!-- PRODUCT IMAGE -->
+
+            {% if item.product.image %}
+
+            <img
+                src="{{ item.product.image.url }}"
+                class="product-image"
+                alt="{{ item.product.name }}"
+            >
+
+            {% else %}
+
+            <div class="product-image"></div>
+
+            {% endif %}
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <div class="item-info">
+
+                <div class="product-name">
+
+                    {{ item.product.name }}
+
+                </div>
+
+
+                <div class="item-quantity">
+
+                    Quantity:
+                    {{ item.quantity }}
+
+                </div>
+
+
+                <div class="item-price">
+
+                    Price:
+                    ₹{{ item.price|floatformat:2 }}
+
+                </div>
+
+            </div>
+
+
+            <!-- ITEM TOTAL -->
+
+            <div class="item-total">
+
+                ₹{{ item.total|floatformat:2 }}
+
+            </div>
+
+
+        </div>
+
+        {% empty %}
+
+        <p>
+            No items found in this order.
+        </p>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- =========================
+         PRICE DETAILS
+    ========================= -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Price Details
+        </div>
+
+
+        <div class="price-row">
+
+            <span class="price-label">
+                Subtotal
+            </span>
+
+            <span class="price-value">
+                ₹{{ order.subtotal|floatformat:2 }}
+            </span>
+
+        </div>
+
+
+        <div class="price-row">
+
+            <span class="price-label">
+                Delivery Charge
+            </span>
+
+            <span class="price-value">
+
+                {% if order.delivery_charge == 0 %}
+
+                    FREE
+
+                {% else %}
+
+                    ₹{{ order.delivery_charge|floatformat:2 }}
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <div class="grand-total-row">
+
+            <span class="grand-total-label">
+                Total Amount
+            </span>
+
+            <span class="grand-total">
+                ₹{{ order.total_amount|floatformat:2 }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PAYMENT DETAILS
+    ========================= -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Payment Details
+        </div>
+
+
+        <div class="info-row">
+
+            <span class="info-label">
+                Payment Method
+            </span>
+
+            <span class="info-value">
+                {{ order.get_payment_method_display }}
+            </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+            <span class="info-label">
+                Payment Status
+            </span>
+
+
+            <span
+                class="info-value
+                {% if order.payment_status == 'Paid' %}
+                    payment-paid
+                {% elif order.payment_status == 'Pending' %}
+                    payment-pending
+                {% endif %}"
+            >
+
+                {{ order.payment_status }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DELIVERY ADDRESS
+    ========================= -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Delivery Address
+        </div>
+
+
+        <div class="address-box">
+
+            <div class="address-name">
+
+                {{ order.address.full_name }}
+
+            </div>
+
+
+            📱 {{ order.address.mobile }}
+
+            <br>
+
+
+            {{ order.address.house }}
+
+            <br>
+
+
+            {{ order.address.street }}
+
+            <br>
+
+
+            {{ order.address.city }},
+            {{ order.address.state }}
+
+            <br>
+
+
+            PIN:
+            {{ order.address.pincode }}
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BUTTONS
+    ========================= -->
+
+    <div class="buttons">
+
+        <a
+            href="{% url 'orders' %}"
+            class="button orders-button"
+        >
+            ← My Orders
+        </a>
+
+
+        <a
+            href="{% url 'home' %}"
+            class="button home-button"
+        >
+            Continue Shopping
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

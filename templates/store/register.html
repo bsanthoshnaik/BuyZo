@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(circle at 15% 20%, #fff8a8 0%, transparent 25%),
+                radial-gradient(circle at 85% 15%, #ffe66d 0%, transparent 25%),
+                radial-gradient(circle at 80% 85%, #ff9f43 0%, transparent 30%),
+                linear-gradient(135deg, #fff200, #ffd000 45%, #ff9d00);
+
+            overflow: hidden;
+        }
+
+
+        /* Decorative background circles */
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.20);
+            backdrop-filter: blur(5px);
+        }
+
+        .circle-one {
+            width: 220px;
+            height: 220px;
+            top: -70px;
+            left: -60px;
+        }
+
+        .circle-two {
+            width: 300px;
+            height: 300px;
+            right: -120px;
+            bottom: -100px;
+        }
+
+        .circle-three {
+            width: 90px;
+            height: 90px;
+            left: 15%;
+            bottom: 10%;
+        }
+
+        .circle-four {
+            width: 120px;
+            height: 120px;
+            right: 15%;
+            top: 10%;
+        }
+
+
+        /* Main card */
+
+        .card {
+            position: relative;
+            z-index: 10;
+
+            width: 410px;
+
+            padding: 24px 30px;
+
+            border-radius: 26px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            box-shadow:
+                0 30px 70px rgba(80, 50, 0, 0.28),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+            backdrop-filter: blur(20px);
+
+            animation: showCard 0.7s ease;
+        }
+
+
+        @keyframes showCard {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        /* Logo */
+
+        .logo {
+            width: 58px;
+            height: 58px;
+
+            margin: 0 auto 10px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 18px;
+
+            background: linear-gradient(
+                135deg,
+                #ffe600,
+                #ffad00
+            );
+
+            font-size: 30px;
+
+            box-shadow:
+                0 10px 20px rgba(255, 170, 0, 0.30);
+        }
+
+
+        /* Heading */
+
+        h1 {
+            text-align: center;
+
+            color: #171717;
+
+            font-size: 27px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .subtitle {
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 16px;
+        }
+
+
+        /* Error */
+
+        .error {
+            background: #fff0f0;
+
+            color: #d40000;
+
+            padding: 9px;
+
+            border-radius: 9px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* Input group */
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+
+        .input-group label {
+            display: block;
+
+            color: #333;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+
+        .input-box {
+            position: relative;
+        }
+
+
+        .input-icon {
+            position: absolute;
+
+            left: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 16px;
+        }
+
+
+        input {
+            width: 100%;
+
+            height: 44px;
+
+            padding: 0 14px 0 42px;
+
+            border: 1.5px solid #e4e4e4;
+
+            border-radius: 11px;
+
+            background: #fafafa;
+
+            outline: none;
+
+            font-size: 13px;
+
+            color: #222;
+
+            transition: 0.25s;
+        }
+
+
+        input::placeholder {
+            color: #aaa;
+        }
+
+
+        input:focus {
+            background: white;
+
+            border-color: #ffb000;
+
+            box-shadow:
+                0 0 0 3px rgba(255, 185, 0, 0.13);
+        }
+
+
+        /* Register button */
+
+        .register-btn {
+            width: 100%;
+
+            height: 46px;
+
+            margin-top: 3px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffe000,
+                    #ffad00
+                );
+
+            color: #191919;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.3px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 20px rgba(255, 165, 0, 0.28);
+
+            transition: all 0.25s;
+        }
+
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(255, 165, 0, 0.38);
+        }
+
+
+        .register-btn:active {
+            transform: scale(0.98);
+        }
+
+
+        /* Login */
+
+        .login-text {
+            text-align: center;
+
+            margin-top: 15px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+
+        .login-text a {
+            color: #e38a00;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            margin-left: 4px;
+        }
+
+
+        .login-text a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* Security text */
+
+        .secure {
+            text-align: center;
+
+            margin-top: 10px;
+
+            color: #999;
+
+            font-size: 10px;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            .card {
+                width: calc(100% - 30px);
+
+                padding: 20px 22px;
+
+                border-radius: 23px;
+            }
+
+            .logo {
+                width: 52px;
+                height: 52px;
+
+                font-size: 27px;
+
+                margin-bottom: 8px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                margin-bottom: 13px;
+            }
+
+            input {
+                height: 42px;
+            }
+
+            .register-btn {
+                height: 44px;
+            }
+
+            .login-text {
+                margin-top: 12px;
+            }
+
+            .secure {
+                margin-top: 8px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Background decorations -->
+
+    <div class="circle circle-one"></div>
+    <div class="circle circle-two"></div>
+    <div class="circle circle-three"></div>
+    <div class="circle circle-four"></div>
+
+
+    <!-- Register Card -->
+
+    <div class="card">
+
+
+        <!-- Logo -->
+
+        <div class="logo">
+            🛒
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1>
+            Create Account
+        </h1>
+
+
+        <p class="subtitle">
+            Create your account and start shopping
+        </p>
+
+
+        <!-- Error -->
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <!-- Registration Form -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- Full Name -->
+
+            <div class="input-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Mobile / Gmail -->
+
+            <div class="input-group">
+
+                <label>
+                    Mobile Number or Gmail
+                </label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">
+                        📱
+                    </span>
+
+                    <input
+                        type="text"
+                        name="login_id"
+                        placeholder="Enter mobile number or Gmail"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Password -->
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Confirm Password -->
+
+            <div class="input-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <div class="input-box">
+
+                    <span class="input-icon">
+                        🔐
+                    </span>
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Register Button -->
+
+            <button
+                type="submit"
+                class="register-btn"
+            >
+                CREATE ACCOUNT
+            </button>
+
+        </form>
+
+
+        <!-- Login -->
+
+        <div class="login-text">
+
+            Already have an account?
+
+            <a href="/login/">
+                Login
+            </a>
+
+        </div>
+
+
+        <!-- Security -->
+
+        <div class="secure">
+            🔒 Your information is securely stored
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

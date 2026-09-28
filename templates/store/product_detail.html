@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ product.name }} - BuyZo</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            padding-bottom: 80px;
+        }
+
+
+        /* =========================
+           TOP HEADER
+        ========================= */
+
+        .top-header {
+            background: #172554;
+            color: white;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .back-button {
+            color: white;
+            text-decoration: none;
+            font-size: 30px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ff9f1c;
+            white-space: nowrap;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .search-box form {
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .cart-top {
+            color: white;
+            text-decoration: none;
+            font-size: 25px;
+        }
+
+
+        /* =========================
+           PRODUCT CONTAINER
+        ========================= */
+
+        .product-container {
+            max-width: 1100px;
+            margin: 25px auto;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            gap: 40px;
+        }
+
+
+        /* =========================
+           IMAGE GALLERY
+        ========================= */
+
+        .gallery {
+            width: 50%;
+            position: relative;
+        }
+
+        .main-image-box {
+            width: 100%;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .gallery-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: rgba(0, 0, 0, 0.55);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .gallery-button:hover {
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .previous {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+
+        /* =========================
+           WISHLIST
+        ========================= */
+
+        .wishlist-form {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            z-index: 10;
+        }
+
+        .wishlist-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 28px;
+            cursor: pointer;
+            color: #777;
+            transition: 0.2s;
+        }
+
+        .wishlist-button:hover {
+            transform: scale(1.08);
+        }
+
+        .wishlist-button.active {
+            color: red;
+        }
+
+
+        /* =========================
+           VARIANT / OPTION SECTION
+        ========================= */
+
+        .variant-section {
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .variant-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 13px;
+            color: #222;
+        }
+
+        .variant-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+
+        /* =========================
+           SMALL OPTION BOX
+        ========================= */
+
+        .variant-option {
+            min-width: 42px;
+            height: 38px;
+            padding: 0 10px;
+            background: #ffffff;
+            border: 1px solid #d6d6d6;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #222;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .variant-option:hover {
+            border-color: #ff9f1c;
+            color: #e87500;
+        }
+
+
+        /* =========================
+           SELECTED OPTION
+        ========================= */
+
+        .variant-option.selected {
+            border: 2px solid #ff9f1c;
+            background: #fff7e8;
+            color: #e87500;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           OUT OF STOCK
+        ========================= */
+
+        .variant-option.out-of-stock {
+            background: #f5f5f5;
+            color: #999;
+            border-color: #ddd;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+
+        /* =========================
+           SELECTED TEXT
+        ========================= */
+
+        .selected-text {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .selected-text strong {
+            color: #16a34a;
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-form {
+            flex: 1;
+            margin: 0;
+        }
+
+        .add-cart,
+        .buy-now {
+            width: 100%;
+            border: none;
+            color: white;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-cart {
+            background: #16a34a;
+        }
+
+        .add-cart:hover {
+            background: #15803d;
+        }
+
+        .buy-now {
+            background: #ff9f1c;
+        }
+
+        .buy-now:hover {
+            background: #f59e0b;
+        }
+
+
+        /* =========================
+           PRODUCT DETAILS
+        ========================= */
+
+        .product-info-box {
+            margin-top: 25px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .product-info-box h3 {
+            margin-bottom: 10px;
+            color: #172554;
+        }
+
+        .product-info-box p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            background: white;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2000;
+            box-shadow:
+                0 -2px 10px
+                rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-item {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 23px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item:hover {
+            color: #172554;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .top-header {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .product-container {
+                margin: 10px;
+                padding: 15px;
+                display: block;
+            }
+
+            .gallery {
+                width: 100%;
+            }
+
+            .main-image-box {
+                height: 350px;
+            }
+
+            .product-info {
+                padding: 20px 0 0;
+            }
+
+            .product-name {
+                font-size: 25px;
+            }
+
+            .variant-options {
+                gap: 8px;
+            }
+
+            .variant-option {
+                min-width: 42px;
+                height: 38px;
+                padding: 0 10px;
+            }
+
+            .action-buttons {
+                display: flex;
+                gap: 10px;
+            }
+
+            .add-cart,
+            .buy-now {
+                padding: 13px;
+                font-size: 14px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .main-image-box {
+                height: 300px;
+            }
+
+            .product-name {
+                font-size: 22px;
+            }
+
+            .price {
+                font-size: 27px;
+            }
+
+            .action-buttons {
+                gap: 8px;
+            }
+
+            .variant-option {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     TOP HEADER
+================================================== -->
+
+<div class="top-header">
+
+
+    <a
+        href="{% url 'home' %}"
+        class="back-button"
+    >
+        ←
+    </a>
+
+
+    <div class="logo">
+        BuyZo
+    </div>
+
+
+    <div class="search-box">
+
+        <form
+            method="GET"
+            action="{% url 'home' %}"
+        >
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search products..."
+            >
+
+        </form>
+
+    </div>
+
+
+    <a
+        href="{% url 'cart' %}"
+        class="cart-top"
+    >
+        🛒
+    </a>
+
+
+</div>
+
+
+
+<!-- ==================================================
+     PRODUCT
+================================================== -->
+
+<div class="product-container">
+
+
+    <!-- ==================================================
+         IMAGE GALLERY
+    ================================================== -->
+
+    <div class="gallery">
+
+
+        <div class="main-image-box">
+
+
+            {% if product.image %}
+
+                <img
+                    id="mainImage"
+                    src="{{ product.image.url }}"
+                    alt="{{ product.name }}"
+                    class="main-image"
+                >
+
+            {% elif images %}
+
+                <img
+                    id="mainImage"
+                    src="{{ images.0.image.url }}"
+                    alt="{{ product.name }}"
+                    class="main-image"
+                >
+
+            {% else %}
+
+                <div style="font-size:100px;">
+                    🛒
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <button
+            type="button"
+            class="gallery-button previous"
+            onclick="previousImage()"
+        >
+            ‹
+        </button>
+
+
+        <button
+            type="button"
+            class="gallery-button next"
+            onclick="nextImage()"
+        >
+            ›
+        </button>
+
+
+        <!-- WISHLIST -->
+
+        {% if customer %}
+
+            <form
+                method="POST"
+                action="{% url 'toggle_wishlist' product.id %}"
+                class="wishlist-form"
+            >
+
+                {% csrf_token %}
+
+
+                <button
+                    type="submit"
+                    class="wishlist-button {% if is_wishlisted %}active{% endif %}"
+                >
+
+                    {% if is_wishlisted %}
+
+                        ♥️
+
+                    {% else %}
+
+                        ♡
+
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         PRODUCT INFORMATION
+    ================================================== -->
+
+    <div class="product-info">
+
+
+        <h1 class="product-name">
+
+            {{ product.name }}
+
+        </h1>
+
+
+        <div class="category">
+
+            Category:
+            {{ product.category }}
+
+        </div>
+
+
+        <div class="price-label">
+
+            Price
+
+        </div>
+
+
+        <div class="price">
+
+            ₹<span id="price">{{ product.price }}</span>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             CATEGORY BASED VARIANTS
+        ================================================== -->
+
+        {% if variants %}
+
+            <div class="variant-section">
+
+
+                <!-- =========================
+                     FASHION
+                ========================= -->
+
+                {% if product.category == "Fashion" %}
+
+                    <div class="variant-title">
+                        Select Size
+                    </div>
+
+
+                <!-- =========================
+                     GROCERY
+                ========================= -->
+
+                {% elif product.category == "Grocery" %}
+
+                    <div class="variant-title">
+                        Select Weight
+                    </div>
+
+
+                <!-- =========================
+                     ELECTRONICS
+                ========================= -->
+
+                {% elif product.category == "Electronics" %}
+
+                    <div class="variant-title">
+                        Select Variant
+                    </div>
+
+
+                <!-- =========================
+                     MEDICINE
+                ========================= -->
+
+                {% elif product.category == "Medicine" %}
+
+                    <div class="variant-title">
+                        Select Pack Size
+                    </div>
+
+
+                <!-- =========================
+                     FOOD
+                ========================= -->
+
+                {% elif product.category == "Food" %}
+
+                    <div class="variant-title">
+                        Select Quantity
+                    </div>
+
+
+                <!-- =========================
+                     BOOKS
+                ========================= -->
+
+                {% elif product.category == "Books" %}
+
+                    <div class="variant-title">
+                        Select Format
+                    </div>
+
+
+                {% else %}
+
+                    <div class="variant-title">
+                        Select Option
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- =========================
+                     OPTIONS
+                ========================= -->
+
+                <div class="variant-options">
+
+
+                    {% for variant in variants %}
+
+                        {% if variant.stock > 0 %}
+
+                            <!-- ONE BUTTON PER VARIANT -->
+
+                            <button
+                                type="button"
+                                class="variant-option"
+                                data-id="{{ variant.id }}"
+                                data-name="{{ variant.name }}"
+                                data-price="{{ variant.price }}"
+                                data-stock="{{ variant.stock }}"
+                                onclick="selectVariant(this)"
+                            >
+                                {{ variant.name }}
+                            </button>
+
+                        {% else %}
+
+                            <!-- OUT OF STOCK OPTION -->
+
+                            <button
+                                type="button"
+                                class="variant-option out-of-stock"
+                                disabled
+                            >
+                                {{ variant.name }}
+                            </button>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                </div>
+
+
+                <!-- SELECTED OPTION -->
+
+                <div
+                    class="selected-text"
+                    id="selectedVariantText"
+                >
+
+                    Please select an option
+
+                </div>
+
+
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- ==================================================
+             ACTION BUTTONS
+        ================================================== -->
+
+        <div class="action-buttons">
+
+
+            <!-- ADD TO CART -->
+
+            <form
+                method="POST"
+                action="{% url 'add_to_cart' product.id %}"
+                class="action-form"
+                id="cartForm"
+            >
+
+                {% csrf_token %}
+
+
+                <input
+                    type="hidden"
+                    name="variant_id"
+                    id="cartVariantId"
+                    value=""
+                >
+
+
+                <button
+                    type="submit"
+                    class="add-cart"
+                >
+
+                    🛒 Add to Cart
+
+                </button>
+
+            </form>
+
+
+
+            <!-- BUY NOW -->
+
+            <form
+                method="POST"
+                action="{% url 'buy_now' product.id %}"
+                class="action-form"
+                id="buyForm"
+            >
+
+                {% csrf_token %}
+
+
+                <input
+                    type="hidden"
+                    name="variant_id"
+                    id="buyVariantId"
+                    value=""
+                >
+
+
+                <button
+                    type="submit"
+                    class="buy-now"
+                >
+
+                    ⚡ Buy Now
+
+                </button>
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             PRODUCT DETAILS
+        ================================================== -->
+
+        <div class="product-info-box">
+
+
+            <h3>
+                Product Details
+            </h3>
+
+
+            <p>
+                Fresh and quality product
+                available on BuyZo.
+            </p>
+
+
+            <p>
+                Category:
+                {{ product.category }}
+            </p>
+
+
+            <p>
+                Product quantity:
+                {{ product.quantity }}
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==================================================
+     BOTTOM NAVIGATION
+================================================== -->
+
+<div class="bottom-nav">
+
+
+    <!-- ACCOUNT -->
+
+    <a
+        href="{% url 'account' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            👤
+        </div>
+
+        Account
+
+    </a>
+
+
+    <!-- CART -->
+
+    <a
+        href="{% url 'cart' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            🛒
+        </div>
+
+        Cart
+
+    </a>
+
+
+    <!-- WISHLIST -->
+
+    <a
+        href="{% url 'wishlist' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            ❤️
+        </div>
+
+        Wishlist
+
+    </a>
+
+
+    <!-- HOME -->
+
+    <a
+        href="{% url 'home' %}"
+        class="nav-item"
+    >
+
+        <div class="nav-icon">
+            🏠
+        </div>
+
+        Home
+
+    </a>
+
+
+</div>
+
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script>
+
+
+/* ==================================================
+   PRODUCT IMAGES
+================================================== */
+
+const images = [
+
+    {% if product.image %}
+
+        "{{ product.image.url }}",
+
+    {% endif %}
+
+
+    {% for extra in images %}
+
+        "{{ extra.image.url }}",
+
+    {% endfor %}
+
+];
+
+
+let currentIndex = 0;
+
+
+function showImage() {
+
+    if (images.length === 0) {
+        return;
+    }
+
+    const image =
+        document.getElementById(
+            "mainImage"
+        );
+
+    if (image) {
+
+        image.src =
+            images[currentIndex];
+
+    }
+
+}
+
+
+function nextImage() {
+
+    if (images.length === 0) {
+        return;
+    }
+
+    currentIndex++;
+
+    if (
+        currentIndex >=
+        images.length
+    ) {
+
+        currentIndex = 0;
+
+    }
+
+    showImage();
+
+}
+
+
+function previousImage() {
+
+    if (images.length === 0) {
+        return;
+    }
+
+    currentIndex--;
+
+    if (currentIndex < 0) {
+
+        currentIndex =
+            images.length - 1;
+
+    }
+
+    showImage();
+
+}
+
+
+
+/* ==================================================
+   SELECT PRODUCT VARIANT
+================================================== */
+
+function selectVariant(button) {
+
+    const variantId =
+        button.dataset.id;
+
+    const variantName =
+        button.dataset.name;
+
+    const variantPrice =
+        button.dataset.price;
+
+
+    /* Remove old selection */
+
+    document
+        .querySelectorAll(
+            ".variant-option"
+        )
+        .forEach(
+            function(option) {
+
+                option.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+    /* Select clicked option */
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    /* Change price */
+
+    const price =
+        document.getElementById(
+            "price"
+        );
+
+
+    if (price) {
+
+        price.innerText =
+            parseFloat(
+                variantPrice
+            ).toFixed(2);
+
+    }
+
+
+    /* Show selected option */
+
+    const selectedText =
+        document.getElementById(
+            "selectedVariantText"
+        );
+
+
+    if (selectedText) {
+
+        selectedText.innerHTML =
+            "Selected: <strong>" +
+            variantName +
+            "</strong>";
+
+    }
+
+
+    /* Send variant to cart */
+
+    const cartVariant =
+        document.getElementById(
+            "cartVariantId"
+        );
+
+
+    if (cartVariant) {
+
+        cartVariant.value =
+            variantId;
+
+    }
+
+
+    /* Send variant to Buy Now */
+
+    const buyVariant =
+        document.getElementById(
+            "buyVariantId"
+        );
+
+
+    if (buyVariant) {
+
+        buyVariant.value =
+            variantId;
+
+    }
+
+}
+
+
+
+/* ==================================================
+   VALIDATE VARIANT
+================================================== */
+
+function validateVariant(event) {
+
+    const availableVariants =
+        document.querySelectorAll(
+            ".variant-option:not(.out-of-stock)"
+        );
+
+
+    const selectedVariant =
+        document.querySelector(
+            ".variant-option.selected"
+        );
+
+
+    /*
+       If this product has variants,
+       customer must select one.
+    */
+
+    if (
+        availableVariants.length > 0 &&
+        !selectedVariant
+    ) {
+
+        event.preventDefault();
+
+        alert(
+            "Please select an option before continuing."
+        );
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+
+/* ==================================================
+   ADD TO CART
+================================================== */
+
+const cartForm =
+    document.getElementById(
+        "cartForm"
+    );
+
+
+if (cartForm) {
+
+    cartForm.addEventListener(
+        "submit",
+        validateVariant
+    );
+
+}
+
+
+
+/* ==================================================
+   BUY NOW
+================================================== */
+
+const buyForm =
+    document.getElementById(
+        "buyForm"
+    );
+
+
+if (buyForm) {
+
+    buyForm.addEventListener(
+        "submit",
+        validateVariant
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
