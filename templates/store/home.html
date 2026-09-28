@@ -221,20 +221,15 @@
             max-width: 1600px;
             margin: 0 auto;
         }
-
-
-        /* ==================================================
-           BANNER SECTION
-        ================================================== */
 .banner-slider {
     width: 100%;
-    height: 320px;
+    height: 300px;
 
     position: relative;
     overflow: hidden;
 
     border-radius: 12px;
-    background: #eee;
+    background: #ffffff;
 }
 
 .banner-slide {
@@ -242,103 +237,95 @@
     inset: 0;
 
     width: 100%;
-    height: 100%;
+    height: 300px;
 
     opacity: 0;
     visibility: hidden;
 
+    transform: translateX(100%);
+
     transition:
-        opacity 0.5s ease,
-        visibility 0.5s ease;
+        transform 0.0 ease,
+        opacity 0.0 ease;
+
+    z-index: 1;
 }
 
 .banner-slide.active {
     opacity: 1;
     visibility: visible;
+    transform: translateX(0);
     z-index: 2;
 }
 
-.banner-slide::before {
-    content: "";
-
-    position: absolute;
-    inset: -30px;
-
-    background-image: var(--banner-bg);
-    background-size: cover;
-    background-position: center;
-
-    filter: blur(20px);
-    transform: scale(1.1);
-
-    z-index: 0;
-}
-
 .banner-slide a {
-    position: relative;
-
-    display: block;
+    display: flex;
 
     width: 100%;
-    height: 100%;
+    height: 300px;
 
-    z-index: 1;
+    align-items: center;
+    justify-content: center;
 }
 
 .banner-slide img {
     width: 100%;
-    height: 320px;
-    object-fit: fill;
+    height: 300px;
+
+    display: block;
+
+    object-fit: contain;
+    object-position: center;
 }
-        /* ==================================================
-           BANNER ARROWS
-        ================================================== */
 
-        .banner-arrow {
-            position: absolute;
+/* ==================================================
+   BANNER ARROWS
+================================================== */
 
-            top: 50%;
+.banner-arrow {
+    position: absolute;
 
-            transform: translateY(-50%);
+    top: 50%;
 
-            width: 42px;
-            height: 42px;
+    transform: translateY(-50%);
 
-            border: none;
+    width: 42px;
+    height: 42px;
 
-            border-radius: 50%;
+    border: none;
 
-            background: rgba(255, 255, 255, 0.92);
+    border-radius: 50%;
 
-            color: #172554;
+    background: rgba(255, 255, 255, 0.92);
 
-            font-size: 25px;
+    color: #172554;
 
-            cursor: pointer;
+    font-size: 25px;
 
-            z-index: 10;
+    cursor: pointer;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    z-index: 10;
 
-            box-shadow:
-                0 2px 8px rgba(0, 0, 0, 0.15);
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        .banner-arrow:hover {
-            background: #ff9f1c;
-            color: white;
-        }
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.15);
+}
 
-        .banner-prev {
-            left: 14px;
-        }
+.banner-arrow:hover {
+    background: #ff9f1c;
+    color: white;
+}
 
-        .banner-next {
-            right: 14px;
-        }
+.banner-prev {
+    left: 14px;
+}
 
+.banner-next {
+    right: 14px;
+}
 
         /* ==================================================
            PRODUCTS HEADER
@@ -1798,7 +1785,7 @@
                 nextBanner();
 
             },
-            3000
+            7000
         );
 
     }
