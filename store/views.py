@@ -173,91 +173,37 @@ def register(request):
 
     if request.method == "POST":
 
-        name = request.POST.get(
-            "name",
-            ""
-        ).strip()
+        name = request.POST.get("name", "").strip()
+        login_id = request.POST.get("login_id", "").strip()
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
 
-        login_id = request.POST.get(
-            "login_id",
-            ""
-        ).strip()
-
-        password = request.POST.get(
-            "password",
-            ""
-        )
-
-        confirm_password = request.POST.get(
-            "confirm_password",
-            ""
-        )
-
-        # NAME VALIDATION
         if not name:
-            messages.error(
-                request,
-                "Please enter your name."
-            )
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Please enter your name.")
+            return render(request, "store/register.html")
 
-        # MOBILE / EMAIL REQUIRED
         if not login_id:
-            messages.error(
-                request,
-                "Please enter mobile number or email."
-            )
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Please enter mobile number or email.")
+            return render(request, "store/register.html")
 
-        # PASSWORD REQUIRED
         if not password:
-            messages.error(
-                request,
-                "Please enter a password."
-            )
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Please enter a password.")
+            return render(request, "store/register.html")
 
-        # PASSWORD CONFIRMATION
-        if password != confirm_password:
-            messages.error(
-                request,
-                "Passwords do not match."
-            )
-            return render(
-                request,
-                "store/register.html"
-            )
-
-        # PASSWORD LENGTH
         if len(password) < 4:
-            messages.error(
-                request,
-                "Password must contain at least 4 characters."
-            )
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Password must contain at least 4 characters.")
+            return render(request, "store/register.html")
 
-        # REMOVE SPACES FROM MOBILE NUMBER
+        if not confirm_password:
+            messages.error(request, "Please confirm your password.")
+            return render(request, "store/register.html")
+
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return render(request, "store/register.html")
+
         mobile_number = login_id.replace(" ", "")
-
-        # CHECK WHETHER LOGIN ID IS AN INDIAN MOBILE NUMBER
-        is_mobile = re.fullmatch(
-            r"[6-9][0-9]{9}",
-            mobile_number
-        )
-
-        # CHECK WHETHER LOGIN ID IS AN EMAIL
+        is_mobile = re.fullmatch(r"[6-9][0-9]{9}", mobile_number)
         is_email = False
 
         if not is_mobile:
@@ -265,39 +211,26 @@ def register(request):
                 validate_email(login_id)
                 is_email = True
             except ValidationError:
-                messages.error(
-                    request,
-                    "Please enter a valid 10-digit mobile number or valid email address."
-                )
-                return render(
-                    request,
-                    "store/register.html"
-                )
+                messages.error(request, "Please enter a valid 10-digit mobile number or valid email address.")
+                return render(request, "store/register.html")
 
-        # NORMALIZE LOGIN ID
         if is_mobile:
             login_id = mobile_number
-        elif is_email:
+            existing_customer = Customer.objects.filter(
+                Q(login_id__iexact=login_id) | Q(mobile=login_id)
+            ).first()
+        else:
             login_id = login_id.lower()
-
-        # CHECK IF MOBILE / EMAIL ALREADY EXISTS
-        existing_customer = Customer.objects.filter(
-            login_id__iexact=login_id
-        ).first()
+            existing_customer = Customer.objects.filter(
+                Q(login_id__iexact=login_id) | Q(email__iexact=login_id)
+            ).first()
 
         if existing_customer:
-            messages.error(
-                request,
-                "This mobile number or email is already registered."
-            )
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "This mobile number or email is already registered.")
+            return render(request, "store/register.html")
 
-        # CREATE CUSTOMER
         if is_mobile:
-            customer = Customer.objects.create(
+            Customer.objects.create(
                 name=name,
                 login_id=login_id,
                 password=password,
@@ -305,7 +238,7 @@ def register(request):
                 email=None
             )
         else:
-            customer = Customer.objects.create(
+            Customer.objects.create(
                 name=name,
                 login_id=login_id,
                 password=password,
@@ -313,22 +246,10 @@ def register(request):
                 email=login_id
             )
 
-        # LOGIN THE NEW CUSTOMER
-        request.session["customer_id"] = customer.id
+        messages.success(request, "Registration successful!")
+        return redirect("login")
 
-        messages.success(
-            request,
-            "Registration successful!"
-        )
-
-        return redirect(
-            "home"
-        )
-
-    return render(
-        request,
-        "store/register.html"
-    )
+    return render(request, "store/register.html")
 
 
 # LOGIN
@@ -337,48 +258,35 @@ def login_page(request):
 
     if request.method == "POST":
 
-        login_id = request.POST.get(
-            "login_id",
-            ""
-        ).strip()
+        login_id = request.POST.get("login_id", "").strip()
+        password = request.POST.get("password", "")
 
-        password = request.POST.get(
-            "password",
-            ""
-        )
+        if not login_id:
+            messages.error(request, "Please enter your mobile number or email.")
+            return render(request, "store/login.html")
+
+        if not password:
+            messages.error(request, "Please enter your password.")
+            return render(request, "store/login.html")
+
+        normalized_login = login_id.replace(" ", "")
 
         customer = Customer.objects.filter(
-            login_id__iexact=login_id,
+            Q(login_id__iexact=normalized_login)
+            | Q(mobile=normalized_login)
+            | Q(email__iexact=normalized_login),
             password=password
         ).first()
 
         if customer:
-
             request.session["customer_id"] = customer.id
+            messages.success(request, f"Welcome back, {customer.name}!")
+            return redirect("home")
 
-            messages.success(
-                request,
-                f"Welcome back, {customer.name}!"
-            )
+        messages.error(request, "Invalid mobile/email or password.")
+        return render(request, "store/login.html")
 
-            return redirect(
-                "home"
-            )
-
-        messages.error(
-            request,
-            "Invalid mobile/email or password."
-        )
-
-        return render(
-            request,
-            "store/login.html"
-        )
-
-    return render(
-        request,
-        "store/login.html"
-    )
+    return render(request, "store/login.html")
 
 
 # LOGOUT

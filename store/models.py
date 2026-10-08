@@ -1,9 +1,7 @@
 from django.db import models
 
 
-# =========================================================
 # CUSTOMER
-# =========================================================
 
 class Customer(models.Model):
 
@@ -35,9 +33,7 @@ class Customer(models.Model):
         return self.name
 
 
-# =========================================================
 # PRODUCT
-# =========================================================
 
 class Product(models.Model):
 
@@ -79,9 +75,7 @@ class Product(models.Model):
         return self.name
 
 
-# =========================================================
 # PRODUCT VARIANT
-# =========================================================
 
 class ProductVariant(models.Model):
 
@@ -112,9 +106,7 @@ class ProductVariant(models.Model):
         return f"{self.product.name} - {self.name}"
 
 
-# =========================================================
 # PRODUCT IMAGES
-# =========================================================
 
 class ProductImage(models.Model):
 
@@ -132,9 +124,7 @@ class ProductImage(models.Model):
         return self.product.name
 
 
-# =========================================================
 # CART ITEM
-# =========================================================
 
 class CartItem(models.Model):
 
@@ -168,9 +158,7 @@ class CartItem(models.Model):
         )
 
 
-# =========================================================
 # WISHLIST
-# =========================================================
 
 class WishlistItem(models.Model):
 
@@ -209,10 +197,7 @@ class WishlistItem(models.Model):
             f"{self.product.name}"
         )
 
-
-# =========================================================
 # ADDRESS
-# =========================================================
 
 class Address(models.Model):
 
@@ -265,9 +250,7 @@ class Address(models.Model):
         )
 
 
-# =========================================================
 # ORDER
-# =========================================================
 
 class Order(models.Model):
 
@@ -337,9 +320,7 @@ class Order(models.Model):
         return self.order_number
 
 
-# =========================================================
 # ORDER ITEM
-# =========================================================
 
 class OrderItem(models.Model):
 
@@ -374,9 +355,7 @@ class OrderItem(models.Model):
         return self.product.name
 
 
-# =========================================================
 # PAYMENT
-# =========================================================
 
 class Payment(models.Model):
 
@@ -414,9 +393,7 @@ class Payment(models.Model):
         return f"Payment - Order #{self.order.id}"
 
 
-# =========================================================
 # UPI PAYMENT
-# =========================================================
 
 class UPIPayment(models.Model):
 
@@ -442,10 +419,7 @@ class UPIPayment(models.Model):
         return self.app_name
 
 
-# =========================================================
 # BANNER
-# =========================================================
-
 class Banner(models.Model):
 
     CATEGORY_CHOICES = [
