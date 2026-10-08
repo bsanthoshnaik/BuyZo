@@ -8,12 +8,10 @@ import dj_database_url
 
 
 # BASE DIRECTORY
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY
-
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
     "django-insecure-change-this-for-production"
@@ -25,19 +23,13 @@ ALLOWED_HOSTS = ["*"]
 
 
 # APPLICATIONS
-
 INSTALLED_APPS = [
 
     'django.contrib.admin',
-
     'django.contrib.auth',
-
     'django.contrib.contenttypes',
-
     'django.contrib.sessions',
-
     'django.contrib.messages',
-
     'django.contrib.staticfiles',
 
     'store',
@@ -45,34 +37,25 @@ INSTALLED_APPS = [
 
 
 # MIDDLEWARE
-
 MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
-
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
-
     'django.middleware.common.CommonMiddleware',
-
     'django.middleware.csrf.CsrfViewMiddleware',
-
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-
     'django.contrib.messages.middleware.MessageMiddleware',
-
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 
 # URL CONFIGURATION
-
 ROOT_URLCONF = 'blinkit.urls'
 
 
 # TEMPLATES
-
 TEMPLATES = [
 
     {
@@ -89,10 +72,9 @@ TEMPLATES = [
             'context_processors': [
 
                 'django.template.context_processors.request',
-
                 'django.contrib.auth.context_processors.auth',
-
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -100,14 +82,10 @@ TEMPLATES = [
 
 
 # WSGI
-
 WSGI_APPLICATION = 'blinkit.wsgi.application'
 
 
 # DATABASE
-
-# Local computer → SQLite
-# Render → Neon PostgreSQL using DATABASE_URL
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -140,6 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME':
         'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+
 ]
 
 
@@ -156,7 +135,7 @@ USE_TZ = True
 
 # STATIC FILES
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
