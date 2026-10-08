@@ -3,6 +3,8 @@ Django settings for blinkit project.
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 
 # BASE DIRECTORY
@@ -12,7 +14,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
 
-SECRET_KEY = 'django-insecure-q=4^8%o!szh4svg&ivxq5iffpnclnnz_5un&_e$$5gks4^zl'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-change-this-for-production"
+)
 
 DEBUG = True
 
@@ -101,14 +106,14 @@ WSGI_APPLICATION = 'blinkit.wsgi.application'
 
 # DATABASE
 
+# Local computer → SQLite
+# Render → Neon PostgreSQL using DATABASE_URL
+
 DATABASES = {
-
-    'default': {
-
-        'ENGINE': 'django.db.backends.sqlite3',
-
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
@@ -169,7 +174,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # SESSION SETTINGS
-
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
