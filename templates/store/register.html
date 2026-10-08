@@ -32,7 +32,7 @@
         }
 
 
-        /* Decorative background circles */
+        /* BACKGROUND CIRCLES */
 
         .circle {
             position: absolute;
@@ -70,7 +70,7 @@
         }
 
 
-        /* Main card */
+        /* MAIN CARD */
 
         .card {
             position: relative;
@@ -108,7 +108,7 @@
         }
 
 
-        /* Logo */
+        /* LOGO */
 
         .logo {
             width: 58px;
@@ -135,7 +135,7 @@
         }
 
 
-        /* Heading */
+        /* HEADING */
 
         h1 {
             text-align: center;
@@ -159,7 +159,7 @@
         }
 
 
-        /* Error */
+        /* ERROR MESSAGE */
 
         .error {
             background: #fff0f0;
@@ -175,10 +175,33 @@
             font-size: 12px;
 
             margin-bottom: 10px;
+
+            border: 1px solid #ffd0d0;
         }
 
 
-        /* Input group */
+        /* SUCCESS MESSAGE */
+
+        .success {
+            background: #edfff2;
+
+            color: #16803c;
+
+            padding: 9px;
+
+            border-radius: 9px;
+
+            text-align: center;
+
+            font-size: 12px;
+
+            margin-bottom: 10px;
+
+            border: 1px solid #b9efc8;
+        }
+
+
+        /* INPUT GROUP */
 
         .input-group {
             margin-bottom: 10px;
@@ -207,11 +230,14 @@
             position: absolute;
 
             left: 13px;
+
             top: 50%;
 
             transform: translateY(-50%);
 
             font-size: 16px;
+
+            z-index: 2;
         }
 
 
@@ -253,7 +279,7 @@
         }
 
 
-        /* Register button */
+        /* REGISTER BUTTON */
 
         .register-btn {
             width: 100%;
@@ -303,7 +329,7 @@
         }
 
 
-        /* Login */
+        /* LOGIN */
 
         .login-text {
             text-align: center;
@@ -332,7 +358,7 @@
         }
 
 
-        /* Security text */
+        /* SECURITY TEXT */
 
         .secure {
             text-align: center;
@@ -345,12 +371,18 @@
         }
 
 
-        /* Mobile */
+        /* MOBILE */
 
         @media (max-width: 500px) {
 
+            body {
+                padding: 15px;
+            }
+
             .card {
-                width: calc(100% - 30px);
+                width: 100%;
+
+                max-width: 410px;
 
                 padding: 20px 22px;
 
@@ -359,6 +391,7 @@
 
             .logo {
                 width: 52px;
+
                 height: 52px;
 
                 font-size: 27px;
@@ -372,6 +405,7 @@
 
             .subtitle {
                 font-size: 12px;
+
                 margin-bottom: 13px;
             }
 
@@ -400,27 +434,30 @@
 <body>
 
 
-    <!-- Background decorations -->
+    <!-- BACKGROUND DECORATIONS -->
 
     <div class="circle circle-one"></div>
+
     <div class="circle circle-two"></div>
+
     <div class="circle circle-three"></div>
+
     <div class="circle circle-four"></div>
 
 
-    <!-- Register Card -->
+    <!-- REGISTER CARD -->
 
     <div class="card">
 
 
-        <!-- Logo -->
+        <!-- LOGO -->
 
         <div class="logo">
             🛒
         </div>
 
 
-        <!-- Heading -->
+        <!-- HEADING -->
 
         <h1>
             Create Account
@@ -432,25 +469,39 @@
         </p>
 
 
-        <!-- Error -->
+        <!-- DJANGO MESSAGES -->
 
-        {% if error %}
+        {% if messages %}
 
-        <div class="error">
-            {{ error }}
-        </div>
+            {% for message in messages %}
+
+                {% if message.tags == "success" %}
+
+                    <div class="success">
+                        {{ message }}
+                    </div>
+
+                {% else %}
+
+                    <div class="error">
+                        {{ message }}
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
 
         {% endif %}
 
 
-        <!-- Registration Form -->
+        <!-- REGISTRATION FORM -->
 
         <form method="POST">
 
             {% csrf_token %}
 
 
-            <!-- Full Name -->
+            <!-- FULL NAME -->
 
             <div class="input-group">
 
@@ -468,6 +519,7 @@
                         type="text"
                         name="name"
                         placeholder="Enter your full name"
+                        value="{{ request.POST.name|default:'' }}"
                         required
                     >
 
@@ -476,12 +528,12 @@
             </div>
 
 
-            <!-- Mobile / Gmail -->
+            <!-- MOBILE / EMAIL -->
 
             <div class="input-group">
 
                 <label>
-                    Mobile Number or Gmail
+                    Mobile Number or Email
                 </label>
 
                 <div class="input-box">
@@ -493,7 +545,8 @@
                     <input
                         type="text"
                         name="login_id"
-                        placeholder="Enter mobile number or Gmail"
+                        placeholder="Enter mobile number or email"
+                        value="{{ request.POST.login_id|default:'' }}"
                         required
                     >
 
@@ -502,7 +555,7 @@
             </div>
 
 
-            <!-- Password -->
+            <!-- PASSWORD -->
 
             <div class="input-group">
 
@@ -528,7 +581,7 @@
             </div>
 
 
-            <!-- Confirm Password -->
+            <!-- CONFIRM PASSWORD -->
 
             <div class="input-group">
 
@@ -554,7 +607,7 @@
             </div>
 
 
-            <!-- Register Button -->
+            <!-- REGISTER BUTTON -->
 
             <button
                 type="submit"
@@ -566,20 +619,20 @@
         </form>
 
 
-        <!-- Login -->
+        <!-- LOGIN LINK -->
 
         <div class="login-text">
 
             Already have an account?
 
-            <a href="/login/">
+            <a href="{% url 'login' %}">
                 Login
             </a>
 
         </div>
 
 
-        <!-- Security -->
+        <!-- SECURITY -->
 
         <div class="secure">
             🔒 Your information is securely stored
