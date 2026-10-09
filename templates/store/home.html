@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuyZo - Online Shopping</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 140px;
         }
 
         body {
             margin: 0;
+            padding-bottom: 78px;
             font-family: Arial, Helvetica, sans-serif;
             background: #f1f3f6;
             color: #172554;
@@ -33,25 +27,29 @@
             text-decoration: none;
         }
 
+        button,
+        input {
+            font: inherit;
+        }
 
-        /* ==================================================
-           HEADER
-        ================================================== */
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ================= HEADER ================= */
 
         .header {
             width: 100%;
-            background: #172554;
             min-height: 74px;
             padding: 12px 28px;
-
             display: flex;
             align-items: center;
-            gap: 28px;
-
+            gap: 24px;
+            background: #172554;
             position: sticky;
             top: 0;
             z-index: 1000;
-
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
@@ -68,43 +66,34 @@
 
         .search-form {
             flex: 1;
+            min-width: 0;
             max-width: 1000px;
             margin: 0 auto;
-
             display: flex;
             align-items: center;
         }
 
         .search-box {
             width: 100%;
+            min-width: 0;
             height: 46px;
-
+            padding: 0 16px;
             border: none;
             outline: none;
-
-            padding: 0 18px;
-
             border-radius: 7px 0 0 7px;
-
-            font-size: 16px;
-            color: #333;
-
             background: white;
+            color: #333;
+            font-size: 15px;
         }
 
         .search-button {
             height: 46px;
             min-width: 55px;
-
             border: none;
-
+            border-radius: 0 7px 7px 0;
             background: #ff9f1c;
             color: white;
-
-            border-radius: 0 7px 7px 0;
-
             font-size: 20px;
-
             cursor: pointer;
         }
 
@@ -112,68 +101,36 @@
             background: #f28c00;
         }
 
-        .header-account {
+        .desktop-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .desktop-link {
             color: white;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 700;
             white-space: nowrap;
         }
 
-        .header-account:hover {
+        .desktop-link:hover {
             color: #ff9f1c;
         }
 
-
-        /* ==================================================
-           CART MESSAGE
-        ================================================== */
-
-        .cart-message {
-            position: fixed;
-
-            top: 90px;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            background: #16a34a;
-            color: white;
-
-            padding: 13px 24px;
-
-            border-radius: 8px;
-
-            font-size: 15px;
-            font-weight: bold;
-
-            z-index: 5000;
-
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        }
-
-
-        /* ==================================================
-           CATEGORY NAVIGATION
-        ================================================== */
+        /* ================= CATEGORY NAVIGATION ================= */
 
         .category-nav {
             width: 100%;
-
-            background: white;
-
+            padding: 10px 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-
             gap: 10px;
-
-            padding: 10px 15px;
-
+            background: white;
             border-bottom: 1px solid #e5e7eb;
-
             overflow-x: auto;
             white-space: nowrap;
-
             scrollbar-width: none;
         }
 
@@ -185,20 +142,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
-            padding: 9px 18px;
-
+            flex-shrink: 0;
+            padding: 9px 16px;
             border-radius: 22px;
-
             background: #f3f4f6;
             color: #172554;
-
             font-size: 14px;
             font-weight: 700;
-
-            transition: 0.2s;
-
-            white-space: nowrap;
+            transition: background 0.2s, color 0.2s;
         }
 
         .category-btn:hover {
@@ -211,10 +162,26 @@
             color: white;
         }
 
+        /* ================= CART MESSAGE ================= */
 
-        /* ==================================================
-           MAIN PAGE
-        ================================================== */
+        .cart-message {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: calc(100% - 30px);
+            padding: 13px 22px;
+            border-radius: 8px;
+            background: #16a34a;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 5000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ================= MAIN CONTENT ================= */
 
         .main-container {
             width: 100%;
@@ -222,11 +189,7 @@
             margin: 0 auto;
         }
 
-
-        /* ==================================================
-           BANNER SECTION
-           HEIGHT AUTOMATICALLY COMES FROM IMAGE
-        ================================================== */
+        /* ================= BANNER SLIDER ================= */
 
         .banner-section {
             width: 100%;
@@ -235,100 +198,62 @@
 
         .banner-slider {
             position: relative;
-
             width: 100%;
-
             overflow: hidden;
-
-            border-radius: 12px;
-
-            background: #ffffff;
-
-            height: auto;
-
-            transition: height 0.35s ease;
+            background: white;
+            min-height: 0;
+            transition: height 0.3s ease;
         }
 
         .banner-slide {
             position: absolute;
-
             top: 0;
             left: 0;
-
             width: 100%;
-
+            visibility: hidden;
             transform: translateX(100%);
-
-            transition: transform 0.6s ease;
-
+            transition: transform 0.55s ease;
             z-index: 1;
         }
 
         .banner-slide.active {
+            visibility: visible;
             transform: translateX(0);
-
             z-index: 2;
         }
 
         .banner-slide a {
             display: block;
-
             width: 100%;
-
             line-height: 0;
-
-            background: #ffffff;
         }
 
         .banner-slide img {
             display: block;
-
             width: 100%;
-
             height: auto;
-
             object-fit: contain;
-
             object-position: center;
-
-            background: #ffffff;
         }
-
-
-        /* ==================================================
-           BANNER ARROWS
-        ================================================== */
 
         .banner-arrow {
             position: absolute;
-
             top: 50%;
-
             transform: translateY(-50%);
-
             width: 42px;
             height: 42px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: rgba(255, 255, 255, 0.92);
-
-            color: #172554;
-
-            font-size: 25px;
-
-            cursor: pointer;
-
-            z-index: 20;
-
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            box-shadow:
-                0 2px 8px rgba(0, 0, 0, 0.15);
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.93);
+            color: #172554;
+            font-size: 27px;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .banner-arrow:hover {
@@ -344,315 +269,194 @@
             right: 14px;
         }
 
-
-        /* ==================================================
-           BANNER FALLBACK
-        ================================================== */
-
         .banner-fallback {
             width: 100%;
             min-height: 300px;
-
+            padding: 30px 15px;
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
             justify-content: center;
-
             text-align: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #172554,
-                    #2563eb
-                );
-
+            background: linear-gradient(135deg, #172554, #2563eb);
             color: white;
         }
 
         .banner-fallback h1 {
             margin: 0 0 12px;
-
             font-size: 32px;
         }
 
         .banner-fallback p {
             margin: 0 0 20px;
-
             font-size: 16px;
         }
 
         .banner-shop-button {
             padding: 12px 25px;
-
-            background: #ff9f1c;
-
-            color: white;
-
             border-radius: 7px;
-
+            background: #ff9f1c;
+            color: white;
             font-weight: 800;
         }
 
-
-        /* ==================================================
-           PRODUCTS HEADER
-        ================================================== */
+        /* ================= PRODUCTS HEADING ================= */
 
         .products-header {
             width: calc(100% - 36px);
-
             margin: 28px auto 16px;
-
-            background: white;
-
             padding: 17px 20px;
-
-            border-radius: 10px;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            box-shadow:
-                0 2px 8px rgba(0, 0, 0, 0.07);
+            gap: 12px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
         }
 
         .products-title {
             margin: 0;
-
-            font-size: 24px;
-
-            font-weight: 800;
-
             color: #172554;
+            font-size: 24px;
+            font-weight: 800;
         }
 
         .products-count {
+            flex-shrink: 0;
             color: #64748b;
-
             font-size: 14px;
-
             font-weight: 600;
         }
 
-
-        /* ==================================================
-           PRODUCTS GRID
-        ================================================== */
+        /* ================= PRODUCT GRID ================= */
 
         .products-container {
             width: calc(100% - 36px);
-
             margin: 0 auto;
-
             display: grid;
-
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            align-items: stretch;
             gap: 18px;
         }
 
-
-        /* ==================================================
-           PRODUCT CARD
-        ================================================== */
-
         .product {
             position: relative;
-
-            background: white;
-
-            border-radius: 12px;
-
+            min-width: 0;
             padding: 14px;
-
             overflow: hidden;
-
-            box-shadow:
-                0 2px 9px rgba(0, 0, 0, 0.08);
-
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 9px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .product:hover {
             transform: translateY(-3px);
-
-            box-shadow:
-                0 7px 20px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
         }
 
-
-        /* ==================================================
-           WISHLIST
-        ================================================== */
+        /* ================= WISHLIST BUTTON ================= */
 
         .wishlist-form {
             position: absolute;
-
             top: 12px;
             right: 12px;
-
             z-index: 20;
         }
 
         .wishlist-button {
             width: 40px;
             height: 40px;
-
-            border-radius: 50%;
-
-            border: 1px solid #e5e7eb;
-
-            background: white;
-
-            color: #475569;
-
-            font-size: 23px;
-
-            cursor: pointer;
-
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-
+            border: 1px solid #e5e7eb;
+            border-radius: 50%;
+            background: white;
+            color: #475569;
+            font-size: 23px;
+            cursor: pointer;
             transition: 0.2s;
         }
 
-        .wishlist-button:hover {
-            color: #e11d48;
-
-            background: #fff1f2;
-
-            transform: scale(1.08);
-        }
-
+        .wishlist-button:hover,
         .wishlist-button.active {
             color: #e11d48;
+            background: #fff1f2;
         }
 
-
-        /* ==================================================
-           PRODUCT IMAGE
-        ================================================== */
+        /* ================= PRODUCT IMAGE ================= */
 
         .product-image-link {
             display: block;
-
             width: 100%;
-
-            background: #ffffff;
+            background: white;
         }
 
         .product-image {
             width: 100%;
-
             height: 220px;
-
             display: block;
-
             object-fit: contain;
-
             object-position: center;
-
             border-radius: 8px;
-
             background: white;
         }
 
-
-        /* ==================================================
-           PRODUCT CATEGORY
-        ================================================== */
+        /* ================= PRODUCT DETAILS ================= */
 
         .product-category {
             display: inline-block;
-
+            align-self: flex-start;
             margin-top: 12px;
-
             padding: 5px 10px;
-
             border-radius: 15px;
-
             background: #eef2ff;
-
             color: #3730a3;
-
             font-size: 11px;
-
             font-weight: 800;
-
             text-transform: uppercase;
         }
 
-
-        /* ==================================================
-           PRODUCT NAME
-        ================================================== */
-
         .product-name {
             margin: 9px 0 7px;
-
-            color: #172554;
-
-            font-size: 17px;
-
-            font-weight: 700;
-
-            line-height: 1.35;
-
             min-height: 45px;
+            color: #172554;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
         }
-
-
-        /* ==================================================
-           PRICE
-        ================================================== */
 
         .price {
-            color: #15803d;
-
-            font-size: 19px;
-
-            font-weight: 800;
-
             margin-bottom: 12px;
+            color: #15803d;
+            font-size: 19px;
+            font-weight: 800;
         }
 
-
-        /* ==================================================
-           QUANTITY
-        ================================================== */
+        /* ================= QUANTITY CONTROLS ================= */
 
         .quantity {
+            margin-bottom: 12px;
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             gap: 16px;
-
-            margin-bottom: 12px;
         }
 
         .quantity button {
             width: 34px;
             height: 34px;
-
             border: none;
-
             border-radius: 6px;
-
             background: #172554;
             color: white;
-
             font-size: 20px;
-
             cursor: pointer;
         }
 
@@ -662,136 +466,122 @@
 
         .quantity span {
             min-width: 50px;
-
             text-align: center;
-
             color: #334155;
-
             font-size: 14px;
-
             font-weight: 700;
         }
 
+        /* ================= ADD TO CART ================= */
 
-        /* ==================================================
-           ADD TO CART
-        ================================================== */
+        .cart-form {
+            margin-top: auto;
+        }
 
         .add-cart {
             width: 100%;
-
-            height: 43px;
-
+            min-height: 43px;
+            padding: 8px;
             border: none;
-
             border-radius: 7px;
-
             background: #16a34a;
             color: white;
-
             font-size: 15px;
-
             font-weight: 800;
-
             cursor: pointer;
-
-            transition: 0.2s;
+            transition: background 0.2s, transform 0.2s;
         }
 
         .add-cart:hover {
             background: #15803d;
-
             transform: translateY(-1px);
         }
 
-
-        /* ==================================================
-           NO PRODUCTS
-        ================================================== */
+        /* ================= EMPTY PRODUCT LIST ================= */
 
         .no-products {
             grid-column: 1 / -1;
-
-            background: white;
-
-            border-radius: 12px;
-
             padding: 70px 20px;
-
-            text-align: center;
-
+            background: white;
+            border-radius: 12px;
             color: #64748b;
-
             font-size: 17px;
-
-            box-shadow:
-                0 2px 8px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
-
-        /* ==================================================
-           FOOTER
-        ================================================== */
+        /* ================= FOOTER ================= */
 
         .footer {
             width: 100%;
-
             margin-top: 45px;
-
             padding: 28px 20px;
-
             background: #172554;
-
             color: white;
-
             text-align: center;
-
             font-size: 14px;
         }
 
+        /* ================= BOTTOM NAVIGATION ================= */
 
-        /* ==================================================
-           DESKTOP ACCOUNT AREA
-        ================================================== */
+        /*
+           Visible on laptop, tablet and mobile.
+           This fixes the previous display:none issue.
+        */
 
-        .desktop-links {
+        .bottom-nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            min-height: 70px;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
             display: flex;
+            align-items: stretch;
+            justify-content: space-around;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.10);
+            z-index: 3000;
+        }
 
+        .nav-item {
+            flex: 1;
+            min-width: 0;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-
-            gap: 18px;
-        }
-
-        .desktop-link {
-            color: white;
-
-            font-size: 14px;
-
+            justify-content: center;
+            gap: 4px;
+            color: #64748b;
+            font-size: 12px;
             font-weight: 700;
-
-            white-space: nowrap;
+            text-align: center;
+            transition: color 0.2s, background 0.2s;
         }
 
-        .desktop-link:hover {
+        .nav-icon {
+            font-size: 22px;
+            line-height: 1.1;
+        }
+
+        .nav-item.active,
+        .nav-item:hover {
             color: #ff9f1c;
         }
 
-
-        /* ==================================================
-           MOBILE BOTTOM NAVIGATION
-        ================================================== */
-
-        .bottom-nav {
-            display: none;
+        .nav-item:focus-visible,
+        .category-btn:focus-visible,
+        .desktop-link:focus-visible {
+            outline: 2px solid #ff9f1c;
+            outline-offset: 3px;
         }
 
-
-        /* ==================================================
-           TABLET
-        ================================================== */
+        /* ================= TABLET ================= */
 
         @media (max-width: 1100px) {
-
             .header {
                 gap: 16px;
                 padding: 12px 18px;
@@ -802,135 +592,79 @@
             }
 
             .products-container {
-                grid-template-columns:
-                    repeat(3, minmax(0, 1fr));
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
+            .category-nav {
+                justify-content: flex-start;
+            }
         }
 
-
-        /* ==================================================
-           MOBILE
-        ================================================== */
+        /* ================= MOBILE ================= */
 
         @media (max-width: 700px) {
-
             body {
-                padding-bottom: 72px;
+                padding-bottom: 80px;
             }
-
-
-            /* HEADER */
 
             .header {
                 min-height: auto;
-
-                padding: 12px;
-
-                display: block;
+                padding: 10px 12px 12px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
             }
 
             .logo {
+                width: 100%;
                 display: block;
-
                 text-align: center;
-
-                margin-bottom: 10px;
-
                 font-size: 25px;
             }
 
+            .logo-icon {
+                font-size: 24px;
+            }
+
             .search-form {
+                flex: 1 1 100%;
                 width: 100%;
                 max-width: none;
             }
 
             .search-box {
                 height: 43px;
-
                 font-size: 14px;
             }
 
             .search-button {
                 height: 43px;
-
                 min-width: 48px;
             }
 
-            .header-account {
+            .desktop-links {
                 display: none;
             }
 
-
-            /* CATEGORY */
-
             .category-nav {
                 justify-content: flex-start;
-
                 padding: 9px 10px;
-
                 gap: 7px;
             }
 
             .category-btn {
-                padding: 8px 14px;
-
+                padding: 8px 13px;
                 font-size: 13px;
             }
 
-
-            /* ==================================================
-               MOBILE BANNER
-               AUTOMATIC HEIGHT
-            ================================================== */
-
-            .banner-section {
-                width: 100%;
-
-                margin: 0;
-            }
-
             .banner-slider {
-                width: 100%;
-
-                height: auto;
-                min-height: 0;
-
                 border-radius: 0;
-
-                background: #ffffff;
             }
-
-            .banner-slide {
-                width: 100%;
-
-                height: auto;
-            }
-
-            .banner-slide a {
-                width: 100%;
-
-                height: auto;
-            }
-
-            .banner-slide img {
-                width: 100%;
-
-                height: auto;
-
-                object-fit: contain;
-
-                object-position: center;
-            }
-
-
-            /* MOBILE ARROWS */
 
             .banner-arrow {
                 width: 34px;
                 height: 34px;
-
-                font-size: 20px;
+                font-size: 22px;
             }
 
             .banner-prev {
@@ -941,45 +675,43 @@
                 right: 7px;
             }
 
+            .banner-fallback {
+                min-height: 210px;
+                padding: 25px 15px;
+            }
 
-            /* PRODUCTS HEADER */
+            .banner-fallback h1 {
+                font-size: 25px;
+            }
+
+            .banner-fallback p {
+                font-size: 14px;
+                line-height: 1.5;
+            }
 
             .products-header {
                 width: calc(100% - 20px);
-
                 margin: 18px auto 12px;
-
                 padding: 14px;
-
                 border-radius: 8px;
             }
 
             .products-title {
-                font-size: 20px;
+                font-size: 19px;
             }
 
             .products-count {
                 font-size: 12px;
             }
 
-
-            /* PRODUCTS */
-
             .products-container {
                 width: calc(100% - 20px);
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 10px;
             }
 
-
-            /* PRODUCT */
-
             .product {
                 padding: 9px;
-
                 border-radius: 9px;
             }
 
@@ -989,51 +721,40 @@
 
             .product-category {
                 margin-top: 8px;
-
-                font-size: 9px;
-
                 padding: 4px 7px;
+                font-size: 9px;
             }
 
             .product-name {
-                font-size: 14px;
-
                 min-height: 38px;
+                font-size: 14px;
             }
 
             .price {
-                font-size: 15px;
-
                 margin-bottom: 9px;
+                font-size: 15px;
             }
 
             .quantity {
                 gap: 7px;
-
                 margin-bottom: 9px;
             }
 
             .quantity button {
                 width: 30px;
                 height: 30px;
-
                 font-size: 18px;
             }
 
             .quantity span {
                 min-width: 34px;
-
                 font-size: 12px;
             }
 
             .add-cart {
-                height: 38px;
-
+                min-height: 38px;
                 font-size: 12px;
             }
-
-
-            /* WISHLIST */
 
             .wishlist-form {
                 top: 8px;
@@ -1043,91 +764,31 @@
             .wishlist-button {
                 width: 34px;
                 height: 34px;
-
                 font-size: 19px;
             }
 
-
-            /* FOOTER */
-
             .footer {
                 margin-top: 30px;
-
-                padding-bottom: 90px;
+                padding: 25px 15px;
             }
 
-
-            /* MOBILE BOTTOM NAV */
-
             .bottom-nav {
-                position: fixed;
-
-                left: 0;
-                bottom: 0;
-
-                width: 100%;
-
-                height: 68px;
-
-                background: white;
-
-                border-top: 1px solid #e5e7eb;
-
-                display: flex;
-
-                align-items: stretch;
-
-                justify-content: space-around;
-
-                z-index: 3000;
-
-                box-shadow:
-                    0 -3px 12px rgba(0, 0, 0, 0.10);
+                min-height: 66px;
             }
 
             .nav-item {
-                flex: 1;
-
-                display: flex;
-
-                flex-direction: column;
-
-                align-items: center;
-
-                justify-content: center;
-
-                color: #64748b;
-
+                padding: 7px 2px;
                 font-size: 11px;
-
-                font-weight: 700;
             }
 
             .nav-icon {
                 font-size: 21px;
-
-                line-height: 1;
-
-                margin-bottom: 5px;
             }
-
-            .nav-item.active {
-                color: #ff9f1c;
-            }
-
-            .nav-item:hover {
-                color: #ff9f1c;
-            }
-
         }
 
-
-        /* ==================================================
-           VERY SMALL MOBILE
-        ================================================== */
+        /* ================= VERY SMALL MOBILE ================= */
 
         @media (max-width: 380px) {
-
             .products-container {
                 gap: 8px;
             }
@@ -1148,1110 +809,536 @@
                 font-size: 11px;
             }
 
+            .nav-item {
+                font-size: 10px;
+            }
+
+            .nav-icon {
+                font-size: 19px;
+            }
         }
 
+        /* ================= REDUCED MOTION ================= */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
+    {% if cart_message %}
+        <div class="cart-message" id="cartMessage" role="status">
+            {{ cart_message }}
+        </div>
+    {% endif %}
 
-<!-- ==================================================
-     CART MESSAGE
-================================================== -->
+    <!-- HEADER -->
 
-{% if cart_message %}
+    <header class="header">
+        <a href="{% url 'home' %}" class="logo">
+            <span class="logo-icon">🛍️</span> BuyZo
+        </a>
 
-<div
-    class="cart-message"
-    id="cartMessage"
->
-    {{ cart_message }}
-</div>
-
-{% endif %}
-
-
-<!-- ==================================================
-     HEADER
-================================================== -->
-
-<header class="header">
-
-    <a
-        href="{% url 'home' %}"
-        class="logo"
-    >
-        <span class="logo-icon">🛍️</span>
-        BuyZo
-    </a>
-
-
-    <!-- SEARCH -->
-
-    <form
-        method="GET"
-        action="{% url 'home' %}"
-        class="search-form"
-    >
-
-        {% if category %}
+        <form method="GET" action="{% url 'home' %}" class="search-form">
+            {% if category %}
+                <input type="hidden" name="category" value="{{ category }}">
+            {% endif %}
 
             <input
-                type="hidden"
-                name="category"
-                value="{{ category }}"
+                type="search"
+                name="search"
+                value="{{ search|default:'' }}"
+                class="search-box"
+                placeholder="Search products, food, grocery, electronics..."
+                autocomplete="off"
+                aria-label="Search products"
             >
 
-        {% endif %}
+            <button type="submit" class="search-button" title="Search" aria-label="Search">
+                🔍
+            </button>
+        </form>
 
-        <input
-            type="text"
-            name="search"
-            value="{{ search|default:'' }}"
-            class="search-box"
-            placeholder="Search products, food, grocery, electronics..."
-            autocomplete="off"
+        <div class="desktop-links">
+            <a href="{% url 'cart' %}" class="desktop-link">🛒 Cart</a>
+            <a href="{% url 'account' %}" class="desktop-link">👤 Account</a>
+        </div>
+    </header>
+
+    <!-- CATEGORY NAVIGATION -->
+
+    <nav class="category-nav" aria-label="Product categories">
+        <a href="{% url 'home' %}"
+           class="category-btn {% if not category %}active{% endif %}">
+            🏠 Home
+        </a>
+
+        <a href="{% url 'home' %}?category=Food"
+           class="category-btn {% if category == 'Food' %}active{% endif %}">
+            🍔 Food
+        </a>
+
+        <a href="{% url 'home' %}?category=Grocery"
+           class="category-btn {% if category == 'Grocery' %}active{% endif %}">
+            🛒 Grocery
+        </a>
+
+        <a href="{% url 'home' %}?category=Books"
+           class="category-btn {% if category == 'Books' %}active{% endif %}">
+            📚 Books
+        </a>
+
+        <a href="{% url 'home' %}?category=Medicine"
+           class="category-btn {% if category == 'Medicine' %}active{% endif %}">
+            💊 Medicine
+        </a>
+
+        <a href="{% url 'home' %}?category=Electronics"
+           class="category-btn {% if category == 'Electronics' %}active{% endif %}">
+            📱 Electronics
+        </a>
+
+        <a href="{% url 'home' %}?category=Fashion"
+           class="category-btn {% if category == 'Fashion' %}active{% endif %}">
+            👕 Fashion
+        </a>
+    </nav>
+
+    <main class="main-container">
+
+        <!-- BANNERS -->
+
+        <section class="banner-section" aria-label="Promotional banners">
+            <div class="banner-slider" id="bannerSlider">
+
+                {% if banners %}
+                    {% for banner in banners %}
+                        <div class="banner-slide {% if forloop.first %}active{% endif %}">
+                            <a
+                                href="{% url 'home' %}?category={{ banner.category|urlencode }}"
+                                title="View {{ banner.category }} products"
+                            >
+                                <img
+                                    src="{{ banner.image.url }}"
+                                    alt="{{ banner.title }}"
+                                    {% if forloop.first %}
+                                        fetchpriority="high"
+                                    {% else %}
+                                        loading="lazy"
+                                    {% endif %}
+                                >
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                    {% if banners|length > 1 %}
+                        <button
+                            type="button"
+                            class="banner-arrow banner-prev"
+                            id="previousBannerButton"
+                            aria-label="Previous banner"
+                        >‹</button>
+
+                        <button
+                            type="button"
+                            class="banner-arrow banner-next"
+                            id="nextBannerButton"
+                            aria-label="Next banner"
+                        >›</button>
+                    {% endif %}
+
+                {% else %}
+                    <div class="banner-fallback">
+                        <h1>Shop Smart with BuyZo</h1>
+                        <p>Great products. Great prices. Delivered to you.</p>
+                        <a href="#products" class="banner-shop-button">SHOP NOW</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </section>
+
+        <!-- PRODUCTS HEADING -->
+
+        <section class="products-header" id="products">
+            <h2 class="products-title">
+                {% if category %}
+                    {{ category }} Products
+                {% elif search %}
+                    Search Results
+                {% else %}
+                    🛍️ Today's Products
+                {% endif %}
+            </h2>
+
+            <div class="products-count">
+                {{ products|length }} products
+            </div>
+        </section>
+
+        <!-- PRODUCTS -->
+
+        <section class="products-container" aria-label="Products">
+            {% for product in products %}
+                <article class="product">
+
+                    <!-- WISHLIST -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'toggle_wishlist' product.pk %}"
+                        class="wishlist-form"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="wishlist-button {% if product.pk in wishlist_product_ids %}active{% endif %}"
+                            title="Add or remove from Wishlist"
+                            aria-label="Toggle wishlist for {{ product.name }}"
+                        >
+                            {% if product.pk in wishlist_product_ids %}
+                                ♥
+                            {% else %}
+                                ♡
+                            {% endif %}
+                        </button>
+                    </form>
+
+                    <!-- PRODUCT IMAGE -->
+
+                    <a
+                        href="{% url 'product_detail' product.pk %}"
+                        class="product-image-link"
+                    >
+                        {% if product.image %}
+                            <img
+                                src="{{ product.image.url }}"
+                                alt="{{ product.name }}"
+                                class="product-image"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            <div
+                                class="product-image"
+                                style="display:flex;align-items:center;justify-content:center;font-size:50px;background:#f8fafc;"
+                            >
+                                🛒
+                            </div>
+                        {% endif %}
+                    </a>
+
+                    <!-- PRODUCT NAME -->
+
+                    <h3 class="product-name">{{ product.name }}</h3>
+
+                    <!-- PRICE -->
+
+                    <div class="price">
+                        ₹{{ product.price }}
+                        {% if product.category == "Grocery" or product.category == "Food" %}
+                            / kg
+                        {% endif %}
+                    </div>
+
+                    <!-- ADD TO CART -->
+
+                    <form
+                        method="POST"
+                        action="{% url 'add_to_cart' product.pk %}"
+                        class="cart-form"
+                    >
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="quantity"
+                            value="1"
+                            class="cart-quantity"
+                        >
+
+                        <button type="submit" class="add-cart">
+                            🛒 Add to Cart
+                        </button>
+                    </form>
+
+                </article>
+
+            {% empty %}
+                <div class="no-products">
+                    🛒
+                    <br><br>
+                    No products found.
+                    <br><br>
+
+                    {% if search %}
+                        Try searching for another product.
+                    {% elif category %}
+                        No products available in {{ category }}.
+                    {% else %}
+                        Please add products from Django Admin.
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </section>
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+            © 2026 BuyZo | Online Shopping
+        </footer>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION: LAPTOP + MOBILE -->
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+        <a
+            href="{% url 'home' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
         >
+            <span class="nav-icon">🏠</span>
+            <span>Home</span>
+        </a>
 
-        <button
-            type="submit"
-            class="search-button"
-            title="Search"
+        <a
+            href="{% url 'wishlist' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}"
         >
-            🔍
-        </button>
-
-    </form>
-
-
-    <div class="desktop-links">
+            <span class="nav-icon">❤️</span>
+            <span>Wishlist</span>
+        </a>
 
         <a
             href="{% url 'cart' %}"
-            class="desktop-link"
+            class="nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}"
         >
-            🛒 Cart
+            <span class="nav-icon">🛒</span>
+            <span>Cart</span>
         </a>
 
         <a
             href="{% url 'account' %}"
-            class="desktop-link"
+            class="nav-item {% if request.resolver_match.url_name == 'account' %}active{% endif %}"
         >
-            👤 Account
+            <span class="nav-icon">👤</span>
+            <span>Account</span>
         </a>
-
-    </div>
-
-</header>
-
-
-<!-- ==================================================
-     CATEGORY NAVIGATION
-================================================== -->
-
-<nav class="category-nav">
-
-    <a
-        href="{% url 'home' %}"
-        class="category-btn {% if not category %}active{% endif %}"
-    >
-        🏠 Home
-    </a>
-
-    <a
-        href="{% url 'home' %}?category=Food"
-        class="category-btn {% if category == 'Food' %}active{% endif %}"
-    >
-        🍔 Food
-    </a>
-
-    <a
-        href="{% url 'home' %}?category=Grocery"
-        class="category-btn {% if category == 'Grocery' %}active{% endif %}"
-    >
-        🛒 Grocery
-    </a>
-
-    <a
-        href="{% url 'home' %}?category=Books"
-        class="category-btn {% if category == 'Books' %}active{% endif %}"
-    >
-        📚 Books
-    </a>
-
-    <a
-        href="{% url 'home' %}?category=Medicine"
-        class="category-btn {% if category == 'Medicine' %}active{% endif %}"
-    >
-        💊 Medicine
-    </a>
-
-    <a
-        href="{% url 'home' %}?category=Electronics"
-        class="category-btn {% if category == 'Electronics' %}active{% endif %}"
-    >
-        📱 Electronics
-    </a>
-
-    <a
-        href="{% url 'home' %}?category=Fashion"
-        class="category-btn {% if category == 'Fashion' %}active{% endif %}"
-    >
-        👕 Fashion
-    </a>
-
-</nav>
-
-
-<!-- ==================================================
-     MAIN CONTENT
-================================================== -->
-
-<main class="main-container">
-
-
-    <!-- ==================================================
-         ADMIN BANNER CAROUSEL
-    ================================================== -->
-
-    <section class="banner-section">
-
-        <div
-            class="banner-slider"
-            id="bannerSlider"
-        >
-
-            {% if banners %}
-
-                {% for banner in banners %}
-
-                    <div
-                        class="banner-slide {% if forloop.first %}active{% endif %}"
-                    >
-
-                        <a
-                            href="{% url 'home' %}?category={{ banner.category|urlencode }}"
-                            title="View {{ banner.category }} products"
-                        >
-
-                            <img
-                                src="{{ banner.image.url }}"
-                                alt="{{ banner.title }}"
-                                onload="adjustBannerHeight()"
-                            >
-
-                        </a>
-
-                    </div>
-
-                {% endfor %}
-
-
-                {% if banners|length > 1 %}
-
-                    <button
-                        type="button"
-                        class="banner-arrow banner-prev"
-                        onclick="previousBanner()"
-                        aria-label="Previous banner"
-                    >
-                        ‹
-                    </button>
-
-                    <button
-                        type="button"
-                        class="banner-arrow banner-next"
-                        onclick="nextBanner()"
-                        aria-label="Next banner"
-                    >
-                        ›
-                    </button>
-
-                {% endif %}
-
-            {% else %}
-
-                <div class="banner-fallback">
-
-                    <h1>
-                        Shop Smart with BuyZo
-                    </h1>
-
-                    <p>
-                        Great products. Great prices. Delivered to you.
-                    </p>
-
-                    <a
-                        href="#products"
-                        class="banner-shop-button"
-                    >
-                        SHOP NOW
-                    </a>
-
-                </div>
-
-            {% endif %}
-
-        </div>
-
-    </section>
-
-
-    <!-- ==================================================
-         PRODUCTS HEADER
-    ================================================== -->
-
-    <section
-        class="products-header"
-        id="products"
-    >
-
-        <h2 class="products-title">
-
-            {% if category %}
-
-                {{ category }} Products
-
-            {% elif search %}
-
-                Search Results
-
-            {% else %}
-
-                🛍️ Today's Products
-
-            {% endif %}
-
-        </h2>
-
-        <div class="products-count">
-
-            {{ products|length }} products
-
-        </div>
-
-    </section>
-
-
-    <!-- ==================================================
-         PRODUCTS
-    ================================================== -->
-
-    <section class="products-container">
-
-        {% for product in products %}
-
-        <article
-            class="product"
-            data-category="{{ product.category }}"
-            data-name="{{ product.name|lower }}"
-        >
-
-
-            <!-- WISHLIST -->
-
-            <form
-                method="POST"
-                action="{% url 'toggle_wishlist' product.pk %}"
-                class="wishlist-form"
-            >
-
-                {% csrf_token %}
-
-                <button
-                    type="submit"
-                    class="wishlist-button {% if product.pk in wishlist_product_ids %}active{% endif %}"
-                    title="Add to Wishlist"
-                >
-
-                    {% if product.pk in wishlist_product_ids %}
-
-                        ♥️
-
-                    {% else %}
-
-                        ♡
-
-                    {% endif %}
-
-                </button>
-
-            </form>
-
-
-            <!-- PRODUCT IMAGE -->
-
-            <a
-                href="{% url 'product_detail' product.pk %}"
-                class="product-image-link"
-            >
-
-                {% if product.image %}
-
-                    <img
-                        src="{{ product.image.url }}"
-                        alt="{{ product.name }}"
-                        class="product-image"
-                        loading="lazy"
-                    >
-
-                {% else %}
-
-                    <div
-                        class="product-image"
-                        style="
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 50px;
-                            background: #f8fafc;
-                        "
-                    >
-                        🛒
-                    </div>
-
-                {% endif %}
-
-            </a>
-
-
-            <!-- PRODUCT NAME -->
-
-            <h3 class="product-name">
-
-                {{ product.name }}
-
-            </h3>
-
-
-            <!-- PRICE -->
-
-            <div class="price">
-
-                ₹{{ product.price }}
-
-                {% if product.category == "Grocery" or product.category == "Food" %}
-
-                    / kg
-
-                {% endif %}
-
-            </div>
-
-
-            <!-- ADD TO CART -->
-
-            <form
-                method="POST"
-                action="{% url 'add_to_cart' product.pk %}"
-            >
-
-                {% csrf_token %}
-
-                <input
-                    type="hidden"
-                    name="quantity"
-                    value="1"
-                    class="cart-quantity"
-                >
-
-                <button
-                    type="submit"
-                    class="add-cart"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </form>
-
-        </article>
-
-
-        {% empty %}
-
-
-        <!-- NO PRODUCTS -->
-
-        <div class="no-products">
-
-            🛒
-
-            <br><br>
-
-            No products found.
-
-            <br><br>
-
-            {% if search %}
-
-                Try searching for another product.
-
-            {% elif category %}
-
-                No products available in {{ category }}.
-
-            {% else %}
-
-                Please add products from Django Admin.
-
-            {% endif %}
-
-        </div>
-
-
-        {% endfor %}
-
-    </section>
-
-
-    <!-- ==================================================
-         FOOTER
-    ================================================== -->
-
-    <footer class="footer">
-
-        © 2026 BuyZo | Online Shopping
-
-    </footer>
-
-</main>
-
-
-<!-- ==================================================
-     MOBILE BOTTOM NAVIGATION
-================================================== -->
-
-<nav class="bottom-nav">
-
-    <a
-        href="{% url 'home' %}"
-        class="nav-item active"
-    >
-
-        <div class="nav-icon">
-            🏠
-        </div>
-
-        Home
-
-    </a>
-
-
-    <a
-        href="{% url 'wishlist' %}"
-        class="nav-item"
-    >
-
-        <div class="nav-icon">
-            ❤️
-        </div>
-
-        Wishlist
-
-    </a>
-
-
-    <a
-        href="{% url 'cart' %}"
-        class="nav-item"
-    >
-
-        <div class="nav-icon">
-            🛒
-        </div>
-
-        Cart
-
-    </a>
-
-
-    <a
-        href="{% url 'account' %}"
-        class="nav-item"
-    >
-
-        <div class="nav-icon">
-            👤
-        </div>
-
-        Account
-
-    </a>
-
-</nav>
-
-
-<!-- ==================================================
-     JAVASCRIPT
-================================================== -->
-
-<script>
-
-
-    /* ==================================================
-       QUANTITY + BUTTON
-    ================================================== */
-
-    function increaseQuantity(button) {
-
-        const product =
-            button.closest(".product");
-
-        const quantityInput =
-            product.querySelector(".cart-quantity");
-
-        const quantitySpan =
-            product.querySelector(".quantity span");
-
-        let quantity =
-            parseInt(quantityInput.value) || 1;
-
-        quantity++;
-
-        quantityInput.value =
-            quantity;
-
-        if (quantitySpan) {
-
-            quantitySpan.textContent =
-                quantity + " kg";
-
-        }
-
-    }
-
-
-    /* ==================================================
-       QUANTITY - BUTTON
-    ================================================== */
-
-    function decreaseQuantity(button) {
-
-        const product =
-            button.closest(".product");
-
-        const quantityInput =
-            product.querySelector(".cart-quantity");
-
-        const quantitySpan =
-            product.querySelector(".quantity span");
-
-        let quantity =
-            parseInt(quantityInput.value) || 1;
-
-        if (quantity > 1) {
-
-            quantity--;
-
-            quantityInput.value =
-                quantity;
-
-            if (quantitySpan) {
-
-                quantitySpan.textContent =
-                    quantity + " kg";
-
-            }
-
-        }
-
-    }
-
-
-    /* ==================================================
-       BANNER VARIABLES
-    ================================================== */
-
-    let currentBanner = 0;
-
-    const bannerSlides =
-        document.querySelectorAll(".banner-slide");
-
-    const bannerSlider =
-        document.getElementById("bannerSlider");
-
-
-    /* ==================================================
-       AUTOMATIC BANNER HEIGHT
-    ================================================== */
-
-    function adjustBannerHeight() {
-
-        if (!bannerSlider) {
-            return;
-        }
-
-        if (!bannerSlides.length) {
-            return;
-        }
-
-        const activeSlide =
-            bannerSlides[currentBanner];
-
-        if (!activeSlide) {
-            return;
-        }
-
-        const image =
-            activeSlide.querySelector("img");
-
-        if (!image) {
-            return;
-        }
-
-        if (
-            !image.naturalWidth ||
-            !image.naturalHeight
-        ) {
-            return;
-        }
-
-
-        /*
-            The image width is 100% of the
-            banner.
-
-            Calculate its natural height
-            using the image's original ratio.
-        */
-
-        const bannerWidth =
-            bannerSlider.clientWidth;
-
-        const imageRatio =
-            image.naturalHeight /
-            image.naturalWidth;
-
-        const calculatedHeight =
-            bannerWidth * imageRatio;
-
-
-        bannerSlider.style.height =
-            calculatedHeight + "px";
-
-    }
-
-
-    /* ==================================================
-       UPDATE BANNER HEIGHT AFTER IMAGE LOAD
-    ================================================== */
-
-    function waitForBannerImage() {
-
-        const activeSlide =
-            bannerSlides[currentBanner];
-
-        if (!activeSlide) {
-            return;
-        }
-
-        const image =
-            activeSlide.querySelector("img");
-
-        if (!image) {
-            return;
-        }
-
-        if (image.complete) {
-
-            adjustBannerHeight();
-
-        } else {
-
-            image.addEventListener(
-                "load",
-                adjustBannerHeight,
-                {
-                    once: true
-                }
+    </nav>
+
+    <script>
+        /* ================= BANNER SLIDER ================= */
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const slider = document.getElementById("bannerSlider");
+            const slides = Array.from(
+                document.querySelectorAll(".banner-slide")
             );
 
-        }
+            const previousButton =
+                document.getElementById("previousBannerButton");
 
-    }
+            const nextButton =
+                document.getElementById("nextBannerButton");
 
+            let currentIndex = 0;
+            let autoplayTimer = null;
 
-    /* ==================================================
-       NEXT BANNER
-       CURRENT MOVES LEFT
-       NEXT COMES FROM RIGHT
-    ================================================== */
-
-    function nextBanner() {
-
-        if (bannerSlides.length <= 1) {
-            return;
-        }
-
-        const currentSlide =
-            bannerSlides[currentBanner];
-
-        let nextIndex =
-            currentBanner + 1;
-
-        if (
-            nextIndex >=
-            bannerSlides.length
-        ) {
-
-            nextIndex = 0;
-
-        }
-
-        const nextSlide =
-            bannerSlides[nextIndex];
-
-
-        /* Prepare next banner on RIGHT */
-
-        nextSlide.style.transition =
-            "none";
-
-        nextSlide.style.transform =
-            "translateX(100%)";
-
-        nextSlide.style.zIndex =
-            "3";
-
-
-        /* Change active index */
-
-        currentBanner =
-            nextIndex;
-
-
-        /*
-            Calculate new banner height
-            before starting animation.
-        */
-
-        const nextImage =
-            nextSlide.querySelector("img");
-
-        if (
-            nextImage &&
-            nextImage.naturalWidth &&
-            nextImage.naturalHeight
-        ) {
-
-            const bannerWidth =
-                bannerSlider.clientWidth;
-
-            const ratio =
-                nextImage.naturalHeight /
-                nextImage.naturalWidth;
-
-            const newHeight =
-                bannerWidth * ratio;
-
-            bannerSlider.style.height =
-                newHeight + "px";
-
-        }
-
-
-        /* Force browser to apply position */
-
-        nextSlide.offsetHeight;
-
-
-        /* Current banner moves LEFT */
-
-        currentSlide.style.transition =
-            "transform 0.6s ease";
-
-        currentSlide.style.transform =
-            "translateX(-100%)";
-
-
-        /* Next banner moves CENTER */
-
-        nextSlide.style.transition =
-            "transform 0.6s ease";
-
-        nextSlide.style.transform =
-            "translateX(0)";
-
-
-        /* Reset old banner */
-
-        setTimeout(
-            function() {
-
-                currentSlide.style.transition =
-                    "none";
-
-                currentSlide.style.transform =
-                    "translateX(100%)";
-
-                currentSlide.style.zIndex =
-                    "1";
-
-                adjustBannerHeight();
-
-            },
-            650
-        );
-
-    }
-
-
-    /* ==================================================
-       PREVIOUS BANNER
-       CURRENT MOVES RIGHT
-       PREVIOUS COMES FROM LEFT
-    ================================================== */
-
-    function previousBanner() {
-
-        if (bannerSlides.length <= 1) {
-            return;
-        }
-
-        const currentSlide =
-            bannerSlides[currentBanner];
-
-        let previousIndex =
-            currentBanner - 1;
-
-        if (previousIndex < 0) {
-
-            previousIndex =
-                bannerSlides.length - 1;
-
-        }
-
-        const previousSlide =
-            bannerSlides[previousIndex];
-
-
-        /* Prepare previous banner on LEFT */
-
-        previousSlide.style.transition =
-            "none";
-
-        previousSlide.style.transform =
-            "translateX(-100%)";
-
-        previousSlide.style.zIndex =
-            "3";
-
-
-        /* Change active index */
-
-        currentBanner =
-            previousIndex;
-
-
-        /*
-            Calculate previous banner
-            height before animation.
-        */
-
-        const previousImage =
-            previousSlide.querySelector("img");
-
-        if (
-            previousImage &&
-            previousImage.naturalWidth &&
-            previousImage.naturalHeight
-        ) {
-
-            const bannerWidth =
-                bannerSlider.clientWidth;
-
-            const ratio =
-                previousImage.naturalHeight /
-                previousImage.naturalWidth;
-
-            const newHeight =
-                bannerWidth * ratio;
-
-            bannerSlider.style.height =
-                newHeight + "px";
-
-        }
-
-
-        /* Force browser to apply position */
-
-        previousSlide.offsetHeight;
-
-
-        /* Current banner moves RIGHT */
-
-        currentSlide.style.transition =
-            "transform 0.6s ease";
-
-        currentSlide.style.transform =
-            "translateX(100%)";
-
-
-        /* Previous banner moves CENTER */
-
-        previousSlide.style.transition =
-            "transform 0.6s ease";
-
-        previousSlide.style.transform =
-            "translateX(0)";
-
-
-        /* Reset old banner */
-
-        setTimeout(
-            function() {
-
-                currentSlide.style.transition =
-                    "none";
-
-                currentSlide.style.transform =
-                    "translateX(-100%)";
-
-                currentSlide.style.zIndex =
-                    "1";
-
-                adjustBannerHeight();
-
-            },
-            650
-        );
-
-    }
-
-
-    /* ==================================================
-       START FIRST BANNER
-    ================================================== */
-
-    if (bannerSlides.length) {
-
-        bannerSlides.forEach(
-            function(slide, index) {
-
-                slide.style.transition =
-                    "none";
-
-                if (index === 0) {
-
-                    slide.style.transform =
-                        "translateX(0)";
-
-                    slide.style.zIndex =
-                        "2";
-
-                } else {
-
-                    slide.style.transform =
-                        "translateX(100%)";
-
-                    slide.style.zIndex =
-                        "1";
-
+            function updateBannerHeight() {
+                if (!slider || slides.length === 0) {
+                    return;
                 }
 
+                const activeSlide = slides[currentIndex];
+
+                if (!activeSlide) {
+                    return;
+                }
+
+                const image = activeSlide.querySelector("img");
+
+                if (!image) {
+                    return;
+                }
+
+                if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+                    const width = slider.clientWidth;
+                    const height =
+                        width * image.naturalHeight / image.naturalWidth;
+
+                    slider.style.height = height + "px";
+                }
             }
-        );
 
+            function showBanner(newIndex, direction) {
+                if (slides.length <= 1) {
+                    return;
+                }
 
-        /*
-            Wait until the first image
-            is available.
-        */
+                const oldIndex = currentIndex;
 
-        waitForBannerImage();
+                newIndex = (newIndex + slides.length) % slides.length;
 
-    }
+                if (newIndex === oldIndex) {
+                    return;
+                }
 
+                const oldSlide = slides[oldIndex];
+                const newSlide = slides[newIndex];
 
-    /* ==================================================
-       ADJUST WHEN WINDOW SIZE CHANGES
-       IMPORTANT FOR MOBILE / LAPTOP
-    ================================================== */
+                const oldImage = oldSlide.querySelector("img");
+                const newImage = newSlide.querySelector("img");
 
-    window.addEventListener(
-        "resize",
-        function() {
+                /* Set the incoming slide just outside the slider. */
 
-            adjustBannerHeight();
+                newSlide.style.transition = "none";
+                newSlide.style.visibility = "visible";
+                newSlide.style.transform =
+                    direction === "next"
+                        ? "translateX(100%)"
+                        : "translateX(-100%)";
 
-        }
-    );
+                newSlide.style.zIndex = "3";
 
+                /* Calculate the new banner height before animation. */
 
-    /* ==================================================
-       ADJUST AFTER PAGE LOAD
-    ================================================== */
+                if (
+                    newImage &&
+                    newImage.naturalWidth > 0 &&
+                    newImage.naturalHeight > 0
+                ) {
+                    const height =
+                        slider.clientWidth *
+                        newImage.naturalHeight /
+                        newImage.naturalWidth;
 
-    window.addEventListener(
-        "load",
-        function() {
+                    slider.style.height = height + "px";
+                }
 
-            adjustBannerHeight();
+                /* Force the browser to apply the starting position. */
 
-        }
-    );
+                void newSlide.offsetWidth;
 
+                oldSlide.style.transition = "transform 0.55s ease";
+                newSlide.style.transition = "transform 0.55s ease";
 
-    /* ==================================================
-       AUTOMATIC BANNER
-       EVERY 5 SECONDS
-    ================================================== */
+                oldSlide.style.transform =
+                    direction === "next"
+                        ? "translateX(-100%)"
+                        : "translateX(100%)";
 
-    if (bannerSlides.length > 1) {
+                newSlide.style.transform = "translateX(0)";
 
-        setInterval(
-            function() {
+                currentIndex = newIndex;
 
-                nextBanner();
+                window.setTimeout(function () {
+                    oldSlide.classList.remove("active");
+                    oldSlide.style.visibility = "hidden";
+                    oldSlide.style.transition = "none";
+                    oldSlide.style.transform = "translateX(100%)";
+                    oldSlide.style.zIndex = "1";
 
-            },
-            7000
-        );
+                    newSlide.classList.add("active");
+                    newSlide.style.visibility = "visible";
+                    newSlide.style.zIndex = "2";
 
-    }
+                    updateBannerHeight();
+                }, 600);
+            }
 
+            function startAutoplay() {
+                stopAutoplay();
 
-    /* ==================================================
-       AUTO HIDE CART MESSAGE
-    ================================================== */
+                if (slides.length > 1) {
+                    autoplayTimer = window.setInterval(function () {
+                        showBanner(currentIndex + 1, "next");
+                    }, 7000);
+                }
+            }
 
-    setTimeout(
-        function() {
+            function stopAutoplay() {
+                if (autoplayTimer !== null) {
+                    window.clearInterval(autoplayTimer);
+                    autoplayTimer = null;
+                }
+            }
 
-            const message =
-                document.getElementById(
-                    "cartMessage"
-                );
+            if (slides.length > 0) {
+                slides.forEach(function (slide, index) {
+                    const image = slide.querySelector("img");
+
+                    slide.style.visibility = index === 0 ? "visible" : "hidden";
+                    slide.style.transform =
+                        index === 0 ? "translateX(0)" : "translateX(100%)";
+                    slide.style.zIndex = index === 0 ? "2" : "1";
+
+                    if (image) {
+                        image.addEventListener("load", updateBannerHeight);
+                        image.addEventListener("error", function () {
+                            console.error(
+                                "Banner image could not load:",
+                                image.src
+                            );
+                        });
+                    }
+                });
+
+                updateBannerHeight();
+
+                window.addEventListener("load", updateBannerHeight);
+
+                window.addEventListener("resize", updateBannerHeight);
+
+                if (previousButton) {
+                    previousButton.addEventListener("click", function () {
+                        showBanner(currentIndex - 1, "previous");
+                        startAutoplay();
+                    });
+                }
+
+                if (nextButton) {
+                    nextButton.addEventListener("click", function () {
+                        showBanner(currentIndex + 1, "next");
+                        startAutoplay();
+                    });
+                }
+
+                startAutoplay();
+
+                if (slider) {
+                    slider.addEventListener("mouseenter", stopAutoplay);
+                    slider.addEventListener("mouseleave", startAutoplay);
+                }
+            }
+
+            /* ================= CART MESSAGE ================= */
+
+            const message = document.getElementById("cartMessage");
 
             if (message) {
+                window.setTimeout(function () {
+                    message.style.transition = "opacity 0.3s ease";
+                    message.style.opacity = "0";
 
-                message.style.transition =
-                    "opacity 0.3s ease";
-
-                message.style.opacity =
-                    "0";
-
-                setTimeout(
-                    function() {
-
+                    window.setTimeout(function () {
                         message.remove();
-
-                    },
-                    300
-                );
-
+                    }, 350);
+                }, 3000);
             }
-
-        },
-        3000
-    );
-
-</script>
-
+        });
+    </script>
 
 </body>
-
 </html>

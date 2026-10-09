@@ -6,9 +6,13 @@ from django.views.static import serve
 
 
 urlpatterns = [
+    # Django Admin
     path("admin/", admin.site.urls),
+
+    # Store application URLs
     path("", include("store.urls")),
 ]
+
 
 # Serve media files
 if settings.DEBUG:
@@ -21,6 +25,8 @@ else:
         re_path(
             r"^media/(?P<path>.*)$",
             serve,
-            {"document_root": settings.MEDIA_ROOT},
+            {
+                "document_root": settings.MEDIA_ROOT,
+            },
         ),
     ]

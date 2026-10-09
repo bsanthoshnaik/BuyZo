@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "store",
 ]
 
@@ -55,7 +54,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -79,13 +77,10 @@ ROOT_URLCONF = "blinkit.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-
         "DIRS": [
             BASE_DIR / "templates",
         ],
-
         "APP_DIRS": True,
-
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
@@ -193,7 +188,7 @@ STORAGES = {
 
 
 # ==========================================
-# MEDIA FILES (PRODUCT IMAGES, BANNERS)
+# MEDIA FILES (PRODUCT IMAGES AND BANNERS)
 # ==========================================
 
 MEDIA_URL = "/media/"
@@ -234,6 +229,11 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
+
     SESSION_COOKIE_SECURE = True
+
     CSRF_COOKIE_SECURE = True
