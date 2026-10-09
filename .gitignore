@@ -1,3 +1,13 @@
-venv/  
-__pycache__/  
-*.pyc 
+venv/
+__pycache__/
+*.pyc
+
+# Local database files
+*.sqlite3
+
+# Environment variables
+.env
+
+# Local data files
+store_data.json
+store_products.json
