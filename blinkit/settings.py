@@ -23,8 +23,7 @@ SECRET_KEY = os.environ.get(
     "django-insecure-change-this-for-production"
 )
 
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
-
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true" or "runserver" in os.sys.argv
 ALLOWED_HOSTS = [
     "buyzo-f3gm.onrender.com",
     "localhost",

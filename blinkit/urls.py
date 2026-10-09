@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 
-
 urlpatterns = [
     # Django Admin
     path("admin/", admin.site.urls),
@@ -12,7 +11,6 @@ urlpatterns = [
     # Store application URLs
     path("", include("store.urls")),
 ]
-
 
 # Serve media files
 if settings.DEBUG:

@@ -8,9 +8,6 @@ import random
 import time
 import re
 
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
-
 from .models import (
     Customer,
     Product,
@@ -173,83 +170,123 @@ def register(request):
 
     if request.method == "POST":
 
-        name = request.POST.get("name", "").strip()
-        login_id = request.POST.get("login_id", "").strip()
-        password = request.POST.get("password", "")
-        confirm_password = request.POST.get("confirm_password", "")
+        name = request.POST.get(
+            "name",
+            ""
+        ).strip()
+
+        login_id = request.POST.get(
+            "login_id",
+            ""
+        ).strip()
+
+        password = request.POST.get(
+            "password",
+            ""
+        )
+
+        confirm_password = request.POST.get(
+            "confirm_password",
+            ""
+        )
 
         if not name:
-            messages.error(request, "Please enter your name.")
-            return render(request, "store/register.html")
+
+            messages.error(
+                request,
+                "Please enter your name."
+            )
+
+            return render(
+                request,
+                "store/register.html"
+            )
 
         if not login_id:
-            messages.error(request, "Please enter mobile number or email.")
-            return render(request, "store/register.html")
+
+            messages.error(
+                request,
+                "Please enter mobile number or email."
+            )
+
+            return render(
+                request,
+                "store/register.html"
+            )
 
         if not password:
-            messages.error(request, "Please enter a password.")
-            return render(request, "store/register.html")
 
-        if len(password) < 4:
-            messages.error(request, "Password must contain at least 4 characters.")
-            return render(request, "store/register.html")
+            messages.error(
+                request,
+                "Please enter a password."
+            )
 
-        if not confirm_password:
-            messages.error(request, "Please confirm your password.")
-            return render(request, "store/register.html")
+            return render(
+                request,
+                "store/register.html"
+            )
 
         if password != confirm_password:
-            messages.error(request, "Passwords do not match.")
-            return render(request, "store/register.html")
 
-        mobile_number = login_id.replace(" ", "")
-        is_mobile = re.fullmatch(r"[6-9][0-9]{9}", mobile_number)
-        is_email = False
+            messages.error(
+                request,
+                "Passwords do not match."
+            )
 
-        if not is_mobile:
-            try:
-                validate_email(login_id)
-                is_email = True
-            except ValidationError:
-                messages.error(request, "Please enter a valid 10-digit mobile number or valid email address.")
-                return render(request, "store/register.html")
+            return render(
+                request,
+                "store/register.html"
+            )
 
-        if is_mobile:
-            login_id = mobile_number
-            existing_customer = Customer.objects.filter(
-                Q(login_id__iexact=login_id) | Q(mobile=login_id)
-            ).first()
-        else:
-            login_id = login_id.lower()
-            existing_customer = Customer.objects.filter(
-                Q(login_id__iexact=login_id) | Q(email__iexact=login_id)
-            ).first()
+        if len(password) < 4:
+
+            messages.error(
+                request,
+                "Password must contain at least 4 characters."
+            )
+
+            return render(
+                request,
+                "store/register.html"
+            )
+
+        existing_customer = Customer.objects.filter(
+            login_id__iexact=login_id
+        ).first()
 
         if existing_customer:
-            messages.error(request, "This mobile number or email is already registered.")
-            return render(request, "store/register.html")
 
-        if is_mobile:
-            Customer.objects.create(
-                name=name,
-                login_id=login_id,
-                password=password,
-                mobile=login_id,
-                email=None
-            )
-        else:
-            Customer.objects.create(
-                name=name,
-                login_id=login_id,
-                password=password,
-                mobile=None,
-                email=login_id
+            messages.error(
+                request,
+                "This mobile number or email is already registered."
             )
 
-        messages.success(request, "Registration successful!")
-        return redirect("login")
+            return render(
+                request,
+                "store/register.html"
+            )
 
-    return render(request, "store/register.html")
+        customer = Customer.objects.create(
+            name=name,
+            login_id=login_id,
+            password=password
+        )
+
+        request.session["customer_id"] = customer.id
+
+        messages.success(
+            request,
+            "Registration successful!"
+        )
+
+        return redirect(
+            "home"
+        )
+
+    return render(
+        request,
+        "store/register.html"
+    )
 
 
 # LOGIN
@@ -258,35 +295,48 @@ def login_page(request):
 
     if request.method == "POST":
 
-        login_id = request.POST.get("login_id", "").strip()
-        password = request.POST.get("password", "")
+        login_id = request.POST.get(
+            "login_id",
+            ""
+        ).strip()
 
-        if not login_id:
-            messages.error(request, "Please enter your mobile number or email.")
-            return render(request, "store/login.html")
-
-        if not password:
-            messages.error(request, "Please enter your password.")
-            return render(request, "store/login.html")
-
-        normalized_login = login_id.replace(" ", "")
+        password = request.POST.get(
+            "password",
+            ""
+        )
 
         customer = Customer.objects.filter(
-            Q(login_id__iexact=normalized_login)
-            | Q(mobile=normalized_login)
-            | Q(email__iexact=normalized_login),
+            login_id__iexact=login_id,
             password=password
         ).first()
 
         if customer:
+
             request.session["customer_id"] = customer.id
-            messages.success(request, f"Welcome back, {customer.name}!")
-            return redirect("home")
 
-        messages.error(request, "Invalid mobile/email or password.")
-        return render(request, "store/login.html")
+            messages.success(
+                request,
+                f"Welcome back, {customer.name}!"
+            )
 
-    return render(request, "store/login.html")
+            return redirect(
+                "home"
+            )
+
+        messages.error(
+            request,
+            "Invalid mobile/email or password."
+        )
+
+        return render(
+            request,
+            "store/login.html"
+        )
+
+    return render(
+        request,
+        "store/login.html"
+    )
 
 
 # LOGOUT
@@ -943,6 +993,12 @@ def add_address(request):
     if customer is None:
         return redirect("login")
 
+    # Show the customer's currently saved active addresses.
+    addresses = Address.objects.filter(
+        customer=customer,
+        is_active=True
+    ).order_by("-created_at")
+
     if request.method == "POST":
 
         full_name = request.POST.get(
@@ -980,6 +1036,7 @@ def add_address(request):
             ""
         ).strip()
 
+        # Validate required fields.
         if not all([
             full_name,
             mobile,
@@ -990,15 +1047,43 @@ def add_address(request):
             pincode,
         ]):
 
-            messages.error(
+            return render(
                 request,
-                "Please fill all address details."
+                "store/add_address.html",
+                {
+                    "customer": customer,
+                    "addresses": addresses,
+                    "error": "Please fill in all address details.",
+                }
             )
 
-            return redirect(
-                "checkout"
+        # Validate an Indian 10-digit mobile number.
+        if not re.fullmatch(r"[6-9][0-9]{9}", mobile):
+
+            return render(
+                request,
+                "store/add_address.html",
+                {
+                    "customer": customer,
+                    "addresses": addresses,
+                    "error": "Please enter a valid 10-digit Indian mobile number.",
+                }
             )
 
+        # Validate a six-digit Indian PIN code.
+        if not re.fullmatch(r"[0-9]{6}", pincode):
+
+            return render(
+                request,
+                "store/add_address.html",
+                {
+                    "customer": customer,
+                    "addresses": addresses,
+                    "error": "Please enter a valid 6-digit PIN code.",
+                }
+            )
+
+        # Save the new address.
         Address.objects.create(
             customer=customer,
             full_name=full_name,
@@ -1016,12 +1101,17 @@ def add_address(request):
             "Address added successfully."
         )
 
-        return redirect(
-            "checkout"
-        )
+        return redirect("checkout")
 
-    return redirect(
-        "checkout"
+    # GET request: render the Add Address form instead of redirecting
+    # straight back to checkout.
+    return render(
+        request,
+        "store/add_address.html",
+        {
+            "customer": customer,
+            "addresses": addresses,
+        }
     )
 
 
