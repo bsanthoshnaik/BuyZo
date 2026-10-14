@@ -1,4 +1,3 @@
-
 """
 Django settings for blinkit project.
 """
@@ -25,8 +24,7 @@ SECRET_KEY = os.environ.get(
     "django-insecure-change-this-for-production"
 )
 
-# Enable DEBUG locally when running the Django development server.
-# On Render, DEBUG should be set to False.
+# DEBUG is disabled by default on Render.
 DEBUG = (
     os.environ.get("DEBUG", "False").lower() == "true"
     or ("runserver" in sys.argv and "RENDER" not in os.environ)
@@ -38,8 +36,8 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-# Allow additional hosts through an environment variable if required.
 extra_hosts = os.environ.get("ALLOWED_HOSTS", "")
+
 if extra_hosts:
     ALLOWED_HOSTS.extend(
         host.strip()
@@ -164,12 +162,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
             "django.contrib.auth.password_validation."
-            "CommonPasswordValidator"
-        ),
-    },
-    {
-        "NAME": (
-            "django.contrib.auth.password_validation."
             "NumericPasswordValidator"
         ),
     },
@@ -190,7 +182,7 @@ USE_TZ = True
 
 
 # ==========================================
-# STATIC FILES (CSS, JAVASCRIPT)
+# STATIC FILES
 # ==========================================
 
 STATIC_URL = "/static/"
@@ -210,21 +202,24 @@ STORAGES = {
 
 
 # ==========================================
-# MEDIA FILES (BANNERS AND PRODUCT IMAGES)
+# MEDIA FILES
 # ==========================================
 
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = Path(
-    os.environ.get("MEDIA_ROOT", str(BASE_DIR / "media"))
+    os.environ.get(
+        "MEDIA_ROOT",
+        str(BASE_DIR / "media")
+    )
 )
 
-# Optional: enable Django to serve media through a view.
-# This is useful for a small deployment or temporary testing.
-# Set SERVE_MEDIA_WITH_DJANGO=True on Render to enable it.
+# Enable media serving only when explicitly configured.
 SERVE_MEDIA_WITH_DJANGO = (
-    os.environ.get("SERVE_MEDIA_WITH_DJANGO", "False").lower()
-    == "true"
+    os.environ.get(
+        "SERVE_MEDIA_WITH_DJANGO",
+        "False"
+    ).lower() == "true"
 )
 
 
