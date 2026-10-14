@@ -1,9 +1,11 @@
+
 """
 Django settings for blinkit project.
 """
 
 from pathlib import Path
 import os
+import sys
 import dj_database_url
 
 
@@ -23,12 +25,27 @@ SECRET_KEY = os.environ.get(
     "django-insecure-change-this-for-production"
 )
 
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true" or "runserver" in os.sys.argv
+# Enable DEBUG locally when running the Django development server.
+# On Render, DEBUG should be set to False.
+DEBUG = (
+    os.environ.get("DEBUG", "False").lower() == "true"
+    or ("runserver" in sys.argv and "RENDER" not in os.environ)
+)
+
 ALLOWED_HOSTS = [
     "buyzo-f3gm.onrender.com",
     "localhost",
     "127.0.0.1",
 ]
+
+# Allow additional hosts through an environment variable if required.
+extra_hosts = os.environ.get("ALLOWED_HOSTS", "")
+if extra_hosts:
+    ALLOWED_HOSTS.extend(
+        host.strip()
+        for host in extra_hosts.split(",")
+        if host.strip()
+    )
 
 
 # ==========================================
@@ -147,6 +164,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": (
             "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        ),
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
             "NumericPasswordValidator"
         ),
     },
@@ -187,12 +210,22 @@ STORAGES = {
 
 
 # ==========================================
-# MEDIA FILES (PRODUCT IMAGES AND BANNERS)
+# MEDIA FILES (BANNERS AND PRODUCT IMAGES)
 # ==========================================
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = Path(
+    os.environ.get("MEDIA_ROOT", str(BASE_DIR / "media"))
+)
+
+# Optional: enable Django to serve media through a view.
+# This is useful for a small deployment or temporary testing.
+# Set SERVE_MEDIA_WITH_DJANGO=True on Render to enable it.
+SERVE_MEDIA_WITH_DJANGO = (
+    os.environ.get("SERVE_MEDIA_WITH_DJANGO", "False").lower()
+    == "true"
+)
 
 
 # ==========================================

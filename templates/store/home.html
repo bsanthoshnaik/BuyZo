@@ -37,7 +37,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ================= HEADER ================= */
+        /* HEADER */
 
         .header {
             width: 100%;
@@ -50,7 +50,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
         }
 
         .logo {
@@ -118,7 +118,7 @@
             color: #ff9f1c;
         }
 
-        /* ================= CATEGORY NAVIGATION ================= */
+        /* CATEGORY NAVIGATION */
 
         .category-nav {
             width: 100%;
@@ -149,7 +149,7 @@
             color: #172554;
             font-size: 14px;
             font-weight: 700;
-            transition: background 0.2s, color 0.2s;
+            transition: background .2s, color .2s;
         }
 
         .category-btn:hover {
@@ -162,7 +162,7 @@
             color: white;
         }
 
-        /* ================= CART MESSAGE ================= */
+        /* CART MESSAGE */
 
         .cart-message {
             position: fixed;
@@ -178,10 +178,10 @@
             font-weight: bold;
             text-align: center;
             z-index: 5000;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .2);
         }
 
-        /* ================= MAIN CONTENT ================= */
+        /* MAIN CONTENT */
 
         .main-container {
             width: 100%;
@@ -189,7 +189,7 @@
             margin: 0 auto;
         }
 
-        /* ================= BANNER SLIDER ================= */
+        /* BANNER SLIDER */
 
         .banner-section {
             width: 100%;
@@ -199,25 +199,29 @@
         .banner-slider {
             position: relative;
             width: 100%;
+            min-height: 100px;
             overflow: hidden;
-            background: white;
-            min-height: 0;
-            transition: height 0.3s ease;
+            background: #e5e7eb;
+            aspect-ratio: 16 / 5;
         }
 
         .banner-slide {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
+            height: 100%;
             visibility: hidden;
+            opacity: 0;
             transform: translateX(100%);
-            transition: transform 0.55s ease;
+            transition:
+                transform .5s ease,
+                opacity .3s ease;
             z-index: 1;
         }
 
         .banner-slide.active {
             visibility: visible;
+            opacity: 1;
             transform: translateX(0);
             z-index: 2;
         }
@@ -225,15 +229,17 @@
         .banner-slide a {
             display: block;
             width: 100%;
+            height: 100%;
             line-height: 0;
         }
 
         .banner-slide img {
             display: block;
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: contain;
             object-position: center;
+            background: #f8fafc;
         }
 
         .banner-arrow {
@@ -248,12 +254,12 @@
             justify-content: center;
             border: none;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.93);
+            background: rgba(255, 255, 255, .93);
             color: #172554;
             font-size: 27px;
             cursor: pointer;
             z-index: 20;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
         }
 
         .banner-arrow:hover {
@@ -270,6 +276,7 @@
         }
 
         .banner-fallback {
+            position: relative;
             width: 100%;
             min-height: 300px;
             padding: 30px 15px;
@@ -300,7 +307,7 @@
             font-weight: 800;
         }
 
-        /* ================= PRODUCTS HEADING ================= */
+        /* PRODUCTS HEADING */
 
         .products-header {
             width: calc(100% - 36px);
@@ -312,7 +319,7 @@
             gap: 12px;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
         }
 
         .products-title {
@@ -329,7 +336,7 @@
             font-weight: 600;
         }
 
-        /* ================= PRODUCT GRID ================= */
+        /* PRODUCT GRID */
 
         .products-container {
             width: calc(100% - 36px);
@@ -349,16 +356,16 @@
             flex-direction: column;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 9px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 9px rgba(0, 0, 0, .08);
+            transition: transform .2s ease, box-shadow .2s ease;
         }
 
         .product:hover {
             transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, .12);
         }
 
-        /* ================= WISHLIST BUTTON ================= */
+        /* WISHLIST */
 
         .wishlist-form {
             position: absolute;
@@ -380,7 +387,7 @@
             color: #475569;
             font-size: 23px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: .2s;
         }
 
         .wishlist-button:hover,
@@ -389,7 +396,7 @@
             background: #fff1f2;
         }
 
-        /* ================= PRODUCT IMAGE ================= */
+        /* PRODUCT IMAGE */
 
         .product-image-link {
             display: block;
@@ -407,7 +414,7 @@
             background: white;
         }
 
-        /* ================= PRODUCT DETAILS ================= */
+        /* PRODUCT DETAILS */
 
         .product-category {
             display: inline-block;
@@ -439,7 +446,7 @@
             font-weight: 800;
         }
 
-        /* ================= QUANTITY CONTROLS ================= */
+        /* QUANTITY */
 
         .quantity {
             margin-bottom: 12px;
@@ -472,7 +479,7 @@
             font-weight: 700;
         }
 
-        /* ================= ADD TO CART ================= */
+        /* ADD TO CART */
 
         .cart-form {
             margin-top: auto;
@@ -489,7 +496,7 @@
             font-size: 15px;
             font-weight: 800;
             cursor: pointer;
-            transition: background 0.2s, transform 0.2s;
+            transition: background .2s, transform .2s;
         }
 
         .add-cart:hover {
@@ -497,7 +504,7 @@
             transform: translateY(-1px);
         }
 
-        /* ================= EMPTY PRODUCT LIST ================= */
+        /* EMPTY PRODUCTS */
 
         .no-products {
             grid-column: 1 / -1;
@@ -507,10 +514,10 @@
             color: #64748b;
             font-size: 17px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
         }
 
-        /* ================= FOOTER ================= */
+        /* FOOTER */
 
         .footer {
             width: 100%;
@@ -522,12 +529,7 @@
             font-size: 14px;
         }
 
-        /* ================= BOTTOM NAVIGATION ================= */
-
-        /*
-           Visible on laptop, tablet and mobile.
-           This fixes the previous display:none issue.
-        */
+        /* BOTTOM NAVIGATION */
 
         .bottom-nav {
             position: fixed;
@@ -542,7 +544,7 @@
             justify-content: space-around;
             background: white;
             border-top: 1px solid #e5e7eb;
-            box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.10);
+            box-shadow: 0 -3px 12px rgba(0, 0, 0, .10);
             z-index: 3000;
         }
 
@@ -559,7 +561,7 @@
             font-size: 12px;
             font-weight: 700;
             text-align: center;
-            transition: color 0.2s, background 0.2s;
+            transition: color .2s, background .2s;
         }
 
         .nav-icon {
@@ -579,7 +581,7 @@
             outline-offset: 3px;
         }
 
-        /* ================= TABLET ================= */
+        /* TABLET */
 
         @media (max-width: 1100px) {
             .header {
@@ -600,7 +602,7 @@
             }
         }
 
-        /* ================= MOBILE ================= */
+        /* MOBILE */
 
         @media (max-width: 700px) {
             body {
@@ -658,7 +660,8 @@
             }
 
             .banner-slider {
-                border-radius: 0;
+                aspect-ratio: 16 / 7;
+                min-height: 110px;
             }
 
             .banner-arrow {
@@ -786,7 +789,7 @@
             }
         }
 
-        /* ================= VERY SMALL MOBILE ================= */
+        /* VERY SMALL MOBILE */
 
         @media (max-width: 380px) {
             .products-container {
@@ -818,7 +821,7 @@
             }
         }
 
-        /* ================= REDUCED MOTION ================= */
+        /* REDUCED MOTION */
 
         @media (prefers-reduced-motion: reduce) {
             html {
@@ -828,8 +831,8 @@
             *,
             *::before,
             *::after {
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
                 animation-iteration-count: 1 !important;
             }
         }
@@ -866,7 +869,12 @@
                 aria-label="Search products"
             >
 
-            <button type="submit" class="search-button" title="Search" aria-label="Search">
+            <button
+                type="submit"
+                class="search-button"
+                title="Search"
+                aria-label="Search"
+            >
                 🔍
             </button>
         </form>
@@ -924,23 +932,28 @@
             <div class="banner-slider" id="bannerSlider">
 
                 {% if banners %}
+
                     {% for banner in banners %}
-                        <div class="banner-slide {% if forloop.first %}active{% endif %}">
-                            <a
-                                href="{% url 'home' %}?category={{ banner.category|urlencode }}"
-                                title="View {{ banner.category }} products"
-                            >
-                                <img
-                                    src="{{ banner.image.url }}"
-                                    alt="{{ banner.title }}"
-                                    {% if forloop.first %}
-                                        fetchpriority="high"
-                                    {% else %}
-                                        loading="lazy"
-                                    {% endif %}
+
+                        {% if banner.image %}
+                            <div class="banner-slide {% if forloop.first %}active{% endif %}">
+                                <a
+                                    href="{% url 'home' %}?category={{ banner.category|urlencode }}"
+                                    title="View {{ banner.category }} products"
                                 >
-                            </a>
-                        </div>
+                                    <img
+                                        src="{{ banner.image.url }}"
+                                        alt="{{ banner.title|default:'BuyZo promotional banner' }}"
+                                        {% if forloop.first %}
+                                            fetchpriority="high"
+                                        {% else %}
+                                            loading="lazy"
+                                        {% endif %}
+                                    >
+                                </a>
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
 
                     {% if banners|length > 1 %}
@@ -949,22 +962,30 @@
                             class="banner-arrow banner-prev"
                             id="previousBannerButton"
                             aria-label="Previous banner"
-                        >‹</button>
+                        >
+                            ‹
+                        </button>
 
                         <button
                             type="button"
                             class="banner-arrow banner-next"
                             id="nextBannerButton"
                             aria-label="Next banner"
-                        >›</button>
+                        >
+                            ›
+                        </button>
                     {% endif %}
 
                 {% else %}
+
                     <div class="banner-fallback">
                         <h1>Shop Smart with BuyZo</h1>
                         <p>Great products. Great prices. Delivered to you.</p>
-                        <a href="#products" class="banner-shop-button">SHOP NOW</a>
+                        <a href="#products" class="banner-shop-button">
+                            SHOP NOW
+                        </a>
                     </div>
+
                 {% endif %}
 
             </div>
@@ -991,7 +1012,9 @@
         <!-- PRODUCTS -->
 
         <section class="products-container" aria-label="Products">
+
             {% for product in products %}
+
                 <article class="product">
 
                     <!-- WISHLIST -->
@@ -1024,30 +1047,37 @@
                         class="product-image-link"
                     >
                         {% if product.image %}
+
                             <img
                                 src="{{ product.image.url }}"
                                 alt="{{ product.name }}"
                                 class="product-image"
                                 loading="lazy"
                             >
+
                         {% else %}
+
                             <div
                                 class="product-image"
                                 style="display:flex;align-items:center;justify-content:center;font-size:50px;background:#f8fafc;"
                             >
                                 🛒
                             </div>
+
                         {% endif %}
                     </a>
 
                     <!-- PRODUCT NAME -->
 
-                    <h3 class="product-name">{{ product.name }}</h3>
+                    <h3 class="product-name">
+                        {{ product.name }}
+                    </h3>
 
                     <!-- PRICE -->
 
                     <div class="price">
                         ₹{{ product.price }}
+
                         {% if product.category == "Grocery" or product.category == "Food" %}
                             / kg
                         {% endif %}
@@ -1077,10 +1107,13 @@
                 </article>
 
             {% empty %}
+
                 <div class="no-products">
                     🛒
                     <br><br>
+
                     No products found.
+
                     <br><br>
 
                     {% if search %}
@@ -1091,7 +1124,9 @@
                         Please add products from Django Admin.
                     {% endif %}
                 </div>
+
             {% endfor %}
+
         </section>
 
         <!-- FOOTER -->
@@ -1102,9 +1137,10 @@
 
     </main>
 
-    <!-- BOTTOM NAVIGATION: LAPTOP + MOBILE -->
+    <!-- BOTTOM NAVIGATION -->
 
     <nav class="bottom-nav" aria-label="Main navigation">
+
         <a
             href="{% url 'home' %}"
             class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
@@ -1136,25 +1172,36 @@
             <span class="nav-icon">👤</span>
             <span>Account</span>
         </a>
+
     </nav>
 
-    <script>
-        /* ================= BANNER SLIDER ================= */
+    <!-- JAVASCRIPT -->
 
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
+
             const slider = document.getElementById("bannerSlider");
+
             const slides = Array.from(
                 document.querySelectorAll(".banner-slide")
             );
 
-            const previousButton =
-                document.getElementById("previousBannerButton");
+            const previousButton = document.getElementById(
+                "previousBannerButton"
+            );
 
-            const nextButton =
-                document.getElementById("nextBannerButton");
+            const nextButton = document.getElementById(
+                "nextBannerButton"
+            );
 
             let currentIndex = 0;
             let autoplayTimer = null;
+            let transitionTimer = null;
+
+            /*
+             * Set the slider height according to the active image.
+             * The CSS aspect ratio provides a fallback before images load.
+             */
 
             function updateBannerHeight() {
                 if (!slider || slides.length === 0) {
@@ -1169,42 +1216,54 @@
 
                 const image = activeSlide.querySelector("img");
 
-                if (!image) {
+                if (
+                    !image ||
+                    !image.naturalWidth ||
+                    !image.naturalHeight
+                ) {
                     return;
                 }
 
-                if (image.naturalWidth > 0 && image.naturalHeight > 0) {
-                    const width = slider.clientWidth;
-                    const height =
-                        width * image.naturalHeight / image.naturalWidth;
+                const width = slider.clientWidth;
 
-                    slider.style.height = height + "px";
+                if (!width) {
+                    return;
                 }
+
+                const height =
+                    width * image.naturalHeight / image.naturalWidth;
+
+                slider.style.height = height + "px";
             }
+
+            /*
+             * Show the selected banner.
+             */
 
             function showBanner(newIndex, direction) {
                 if (slides.length <= 1) {
                     return;
                 }
 
-                const oldIndex = currentIndex;
-
                 newIndex = (newIndex + slides.length) % slides.length;
 
-                if (newIndex === oldIndex) {
+                if (newIndex === currentIndex) {
                     return;
                 }
 
+                if (transitionTimer !== null) {
+                    window.clearTimeout(transitionTimer);
+                    transitionTimer = null;
+                }
+
+                const oldIndex = currentIndex;
                 const oldSlide = slides[oldIndex];
                 const newSlide = slides[newIndex];
 
-                const oldImage = oldSlide.querySelector("img");
-                const newImage = newSlide.querySelector("img");
-
-                /* Set the incoming slide just outside the slider. */
-
                 newSlide.style.transition = "none";
                 newSlide.style.visibility = "visible";
+                newSlide.style.opacity = "1";
+
                 newSlide.style.transform =
                     direction === "next"
                         ? "translateX(100%)"
@@ -1212,12 +1271,12 @@
 
                 newSlide.style.zIndex = "3";
 
-                /* Calculate the new banner height before animation. */
+                const newImage = newSlide.querySelector("img");
 
                 if (
                     newImage &&
-                    newImage.naturalWidth > 0 &&
-                    newImage.naturalHeight > 0
+                    newImage.naturalWidth &&
+                    newImage.naturalHeight
                 ) {
                     const height =
                         slider.clientWidth *
@@ -1227,36 +1286,63 @@
                     slider.style.height = height + "px";
                 }
 
-                /* Force the browser to apply the starting position. */
-
                 void newSlide.offsetWidth;
 
-                oldSlide.style.transition = "transform 0.55s ease";
-                newSlide.style.transition = "transform 0.55s ease";
+                oldSlide.style.transition =
+                    "transform .5s ease, opacity .3s ease";
+
+                newSlide.style.transition =
+                    "transform .5s ease, opacity .3s ease";
+
+                oldSlide.style.opacity = "0";
 
                 oldSlide.style.transform =
                     direction === "next"
                         ? "translateX(-100%)"
                         : "translateX(100%)";
 
+                newSlide.style.opacity = "1";
                 newSlide.style.transform = "translateX(0)";
 
                 currentIndex = newIndex;
 
-                window.setTimeout(function () {
+                transitionTimer = window.setTimeout(function () {
+
                     oldSlide.classList.remove("active");
+
                     oldSlide.style.visibility = "hidden";
+                    oldSlide.style.opacity = "0";
                     oldSlide.style.transition = "none";
                     oldSlide.style.transform = "translateX(100%)";
                     oldSlide.style.zIndex = "1";
 
                     newSlide.classList.add("active");
+
                     newSlide.style.visibility = "visible";
+                    newSlide.style.opacity = "1";
                     newSlide.style.zIndex = "2";
 
                     updateBannerHeight();
-                }, 600);
+
+                    transitionTimer = null;
+
+                }, 550);
             }
+
+            /*
+             * Stop automatic sliding.
+             */
+
+            function stopAutoplay() {
+                if (autoplayTimer !== null) {
+                    window.clearInterval(autoplayTimer);
+                    autoplayTimer = null;
+                }
+            }
+
+            /*
+             * Automatically show the next banner every 7 seconds.
+             */
 
             function startAutoplay() {
                 stopAutoplay();
@@ -1268,38 +1354,68 @@
                 }
             }
 
-            function stopAutoplay() {
-                if (autoplayTimer !== null) {
-                    window.clearInterval(autoplayTimer);
-                    autoplayTimer = null;
-                }
-            }
+            /*
+             * Initialize banner images and controls.
+             */
 
-            if (slides.length > 0) {
+            if (slider && slides.length > 0) {
+
                 slides.forEach(function (slide, index) {
+
                     const image = slide.querySelector("img");
 
-                    slide.style.visibility = index === 0 ? "visible" : "hidden";
-                    slide.style.transform =
-                        index === 0 ? "translateX(0)" : "translateX(100%)";
-                    slide.style.zIndex = index === 0 ? "2" : "1";
+                    if (index === 0) {
+                        slide.classList.add("active");
+                        slide.style.visibility = "visible";
+                        slide.style.opacity = "1";
+                        slide.style.transform = "translateX(0)";
+                        slide.style.zIndex = "2";
+                    } else {
+                        slide.classList.remove("active");
+                        slide.style.visibility = "hidden";
+                        slide.style.opacity = "0";
+                        slide.style.transform = "translateX(100%)";
+                        slide.style.zIndex = "1";
+                    }
 
                     if (image) {
-                        image.addEventListener("load", updateBannerHeight);
+
+                        image.addEventListener(
+                            "load",
+                            updateBannerHeight
+                        );
+
                         image.addEventListener("error", function () {
+
                             console.error(
                                 "Banner image could not load:",
                                 image.src
                             );
+
                         });
+
+                        /*
+                         * Handle images that loaded before this script ran.
+                         */
+
+                        if (image.complete && image.naturalWidth > 0) {
+                            updateBannerHeight();
+                        }
                     }
+
                 });
 
                 updateBannerHeight();
 
-                window.addEventListener("load", updateBannerHeight);
+                window.addEventListener(
+                    "load",
+                    updateBannerHeight
+                );
 
-                window.addEventListener("resize", updateBannerHeight);
+                window.addEventListener(
+                    "resize",
+                    updateBannerHeight
+                );
 
                 if (previousButton) {
                     previousButton.addEventListener("click", function () {
@@ -1317,26 +1433,33 @@
 
                 startAutoplay();
 
-                if (slider) {
-                    slider.addEventListener("mouseenter", stopAutoplay);
-                    slider.addEventListener("mouseleave", startAutoplay);
-                }
+                slider.addEventListener("mouseenter", stopAutoplay);
+                slider.addEventListener("mouseleave", startAutoplay);
+
+                slider.addEventListener("focusin", stopAutoplay);
+                slider.addEventListener("focusout", startAutoplay);
             }
 
-            /* ================= CART MESSAGE ================= */
+            /*
+             * CART MESSAGE
+             */
 
             const message = document.getElementById("cartMessage");
 
             if (message) {
+
                 window.setTimeout(function () {
-                    message.style.transition = "opacity 0.3s ease";
+
+                    message.style.transition = "opacity .3s ease";
                     message.style.opacity = "0";
 
                     window.setTimeout(function () {
                         message.remove();
                     }, 350);
+
                 }, 3000);
             }
+
         });
     </script>
 

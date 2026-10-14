@@ -24,27 +24,27 @@ from .models import (
 )
 
 
+# ============================================================
 # GET LOGGED-IN CUSTOMER
+# ============================================================
 
 def get_customer(request):
-
     customer_id = request.session.get("customer_id")
 
     if not customer_id:
         return None
 
     try:
-        return Customer.objects.get(
-            id=customer_id
-        )
+        return Customer.objects.get(id=customer_id)
     except Customer.DoesNotExist:
         return None
 
 
+# ============================================================
 # ACCOUNT
+# ============================================================
 
 def account(request):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -84,18 +84,18 @@ def account(request):
     )
 
 
-# HOME
+# ============================================================
+# HOME - PRODUCTS, BANNERS, SEARCH, CATEGORY, WISHLIST
+# ============================================================
 
 def home(request):
-
     customer = get_customer(request)
 
     # PRODUCTS
-
     products = Product.objects.all().order_by("-id")
 
     # BANNERS
-
+    # This assumes your Banner model has these fields.
     banners = Banner.objects.filter(
         is_active=True
     ).order_by(
@@ -104,41 +104,24 @@ def home(request):
     )
 
     # CATEGORY FILTER
-
-    category = request.GET.get(
-        "category"
-    )
+    category = request.GET.get("category", "").strip()
 
     if category:
-
-        products = products.filter(
-            category=category
-        )
+        products = products.filter(category=category)
 
     # SEARCH
-
-    search = request.GET.get(
-        "search"
-    )
+    search = request.GET.get("search", "").strip()
 
     if search:
-
-        search = search.strip()
-
-        if search:
-
-            products = products.filter(
-                Q(name__icontains=search)
-                |
-                Q(category__icontains=search)
-            )
+        products = products.filter(
+            Q(name__icontains=search)
+            | Q(category__icontains=search)
+        )
 
     # WISHLIST
-
     wishlist_product_ids = []
 
     if customer:
-
         wishlist_product_ids = list(
             WishlistItem.objects.filter(
                 customer=customer
@@ -148,8 +131,7 @@ def home(request):
             )
         )
 
-    # HOME PAGE
-
+    # RENDER HOME PAGE
     return render(
         request,
         "store/home.html",
@@ -164,107 +146,53 @@ def home(request):
     )
 
 
+# ============================================================
 # REGISTER
+# ============================================================
 
 def register(request):
-
     if request.method == "POST":
-
-        name = request.POST.get(
-            "name",
-            ""
-        ).strip()
-
-        login_id = request.POST.get(
-            "login_id",
-            ""
-        ).strip()
-
-        password = request.POST.get(
-            "password",
-            ""
-        )
-
-        confirm_password = request.POST.get(
-            "confirm_password",
-            ""
-        )
+        name = request.POST.get("name", "").strip()
+        login_id = request.POST.get("login_id", "").strip()
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
 
         if not name:
-
-            messages.error(
-                request,
-                "Please enter your name."
-            )
-
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Please enter your name.")
+            return render(request, "store/register.html")
 
         if not login_id:
-
             messages.error(
                 request,
                 "Please enter mobile number or email."
             )
-
-            return render(
-                request,
-                "store/register.html"
-            )
+            return render(request, "store/register.html")
 
         if not password:
-
-            messages.error(
-                request,
-                "Please enter a password."
-            )
-
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Please enter a password.")
+            return render(request, "store/register.html")
 
         if password != confirm_password:
-
-            messages.error(
-                request,
-                "Passwords do not match."
-            )
-
-            return render(
-                request,
-                "store/register.html"
-            )
+            messages.error(request, "Passwords do not match.")
+            return render(request, "store/register.html")
 
         if len(password) < 4:
-
             messages.error(
                 request,
                 "Password must contain at least 4 characters."
             )
-
-            return render(
-                request,
-                "store/register.html"
-            )
+            return render(request, "store/register.html")
 
         existing_customer = Customer.objects.filter(
             login_id__iexact=login_id
         ).first()
 
         if existing_customer:
-
             messages.error(
                 request,
                 "This mobile number or email is already registered."
             )
-
-            return render(
-                request,
-                "store/register.html"
-            )
+            return render(request, "store/register.html")
 
         customer = Customer.objects.create(
             name=name,
@@ -274,36 +202,21 @@ def register(request):
 
         request.session["customer_id"] = customer.id
 
-        messages.success(
-            request,
-            "Registration successful!"
-        )
+        messages.success(request, "Registration successful!")
 
-        return redirect(
-            "home"
-        )
+        return redirect("home")
 
-    return render(
-        request,
-        "store/register.html"
-    )
+    return render(request, "store/register.html")
 
 
+# ============================================================
 # LOGIN
+# ============================================================
 
 def login_page(request):
-
     if request.method == "POST":
-
-        login_id = request.POST.get(
-            "login_id",
-            ""
-        ).strip()
-
-        password = request.POST.get(
-            "password",
-            ""
-        )
+        login_id = request.POST.get("login_id", "").strip()
+        password = request.POST.get("password", "")
 
         customer = Customer.objects.filter(
             login_id__iexact=login_id,
@@ -311,7 +224,6 @@ def login_page(request):
         ).first()
 
         if customer:
-
             request.session["customer_id"] = customer.id
 
             messages.success(
@@ -319,30 +231,23 @@ def login_page(request):
                 f"Welcome back, {customer.name}!"
             )
 
-            return redirect(
-                "home"
-            )
+            return redirect("home")
 
         messages.error(
             request,
             "Invalid mobile/email or password."
         )
 
-        return render(
-            request,
-            "store/login.html"
-        )
+        return render(request, "store/login.html")
 
-    return render(
-        request,
-        "store/login.html"
-    )
+    return render(request, "store/login.html")
 
 
+# ============================================================
 # LOGOUT
+# ============================================================
 
 def logout(request):
-
     request.session.flush()
 
     messages.success(
@@ -350,29 +255,23 @@ def logout(request):
         "You have been logged out successfully."
     )
 
-    return redirect(
-        "login"
-    )
+    return redirect("login")
 
 
-# CHANGE PASSWORD - START OTP
+# ============================================================
+# FORGOT PASSWORD
+# ============================================================
 
 def forgot_password(request):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
     if request.method == "POST":
-
-        login_id = request.POST.get(
-            "login_id",
-            ""
-        ).strip()
+        login_id = request.POST.get("login_id", "").strip()
 
         if login_id.lower() != customer.login_id.lower():
-
             messages.error(
                 request,
                 "Please enter your registered mobile number or email."
@@ -381,131 +280,70 @@ def forgot_password(request):
             return render(
                 request,
                 "store/forgot_password.html",
-                {
-                    "customer": customer,
-                }
+                {"customer": customer}
             )
 
-        otp = str(
-            random.randint(
-                100000,
-                999999
-            )
-        )
+        otp = str(random.randint(100000, 999999))
 
         request.session["password_otp"] = otp
+        request.session["password_otp_customer_id"] = customer.id
+        request.session["password_otp_created"] = int(time.time())
 
-        request.session["password_otp_customer_id"] = (
-            customer.id
-        )
-
-        request.session["password_otp_created"] = int(
-            time.time()
-        )
-
+        # Development only: this does not send an email or SMS.
         request.session["development_otp"] = otp
 
-        messages.success(
-            request,
-            "OTP generated successfully."
-        )
+        messages.success(request, "OTP generated successfully.")
 
-        return redirect(
-            "verify_password_otp"
-        )
+        return redirect("verify_password_otp")
 
     return render(
         request,
         "store/forgot_password.html",
-        {
-            "customer": customer,
-        }
+        {"customer": customer}
     )
 
 
+# ============================================================
 # VERIFY PASSWORD OTP
+# ============================================================
 
 def verify_password_otp(request):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
-    otp = request.session.get(
-        "password_otp"
-    )
-
-    otp_customer_id = request.session.get(
-        "password_otp_customer_id"
-    )
-
-    otp_created = request.session.get(
-        "password_otp_created"
-    )
+    otp = request.session.get("password_otp")
+    otp_customer_id = request.session.get("password_otp_customer_id")
+    otp_created = request.session.get("password_otp_created")
 
     if not otp or otp_customer_id != customer.id:
+        messages.error(request, "Please request a new OTP.")
+        return redirect("forgot_password")
 
-        messages.error(
-            request,
-            "Please request a new OTP."
-        )
+    current_time = int(time.time())
 
-        return redirect(
-            "forgot_password"
-        )
-
-    current_time = int(
-        time.time()
-    )
-
-    if (
-        not otp_created
-        or current_time - otp_created > 300
-    ):
-
-        request.session.pop(
+    if not otp_created or current_time - otp_created > 300:
+        for key in (
             "password_otp",
-            None
-        )
-
-        request.session.pop(
             "password_otp_customer_id",
-            None
-        )
-
-        request.session.pop(
             "password_otp_created",
-            None
-        )
-
-        request.session.pop(
             "development_otp",
-            None
-        )
+        ):
+            request.session.pop(key, None)
 
         messages.error(
             request,
             "OTP expired. Please request a new OTP."
         )
 
-        return redirect(
-            "forgot_password"
-        )
+        return redirect("forgot_password")
 
     if request.method == "POST":
-
-        entered_otp = request.POST.get(
-            "otp",
-            ""
-        ).strip()
+        entered_otp = request.POST.get("otp", "").strip()
 
         if entered_otp != otp:
-
-            messages.error(
-                request,
-                "Invalid OTP. Please try again."
-            )
+            messages.error(request, "Invalid OTP. Please try again.")
 
             return render(
                 request,
@@ -520,29 +358,15 @@ def verify_password_otp(request):
 
         request.session["password_otp_verified"] = True
 
-        request.session.pop(
+        for key in (
             "password_otp",
-            None
-        )
-
-        request.session.pop(
             "password_otp_customer_id",
-            None
-        )
-
-        request.session.pop(
             "password_otp_created",
-            None
-        )
-
-        request.session.pop(
             "development_otp",
-            None
-        )
+        ):
+            request.session.pop(key, None)
 
-        return redirect(
-            "reset_password"
-        )
+        return redirect("reset_password")
 
     return render(
         request,
@@ -556,138 +380,81 @@ def verify_password_otp(request):
     )
 
 
-# RESET PASSWORD AFTER OTP VERIFICATION
+# ============================================================
+# RESET PASSWORD
+# ============================================================
 
 def reset_password(request):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
-    otp_verified = request.session.get(
-        "password_otp_verified"
-    )
-
-    if not otp_verified:
-
+    if not request.session.get("password_otp_verified"):
         messages.error(
             request,
             "Please verify OTP before changing your password."
         )
-
-        return redirect(
-            "forgot_password"
-        )
+        return redirect("forgot_password")
 
     if request.method == "POST":
-
-        password = request.POST.get(
-            "password",
-            ""
-        )
-
-        confirm_password = request.POST.get(
-            "confirm_password",
-            ""
-        )
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
 
         if not password:
-
-            messages.error(
-                request,
-                "Please enter a new password."
-            )
-
-            return render(
-                request,
-                "store/reset_password.html"
-            )
+            messages.error(request, "Please enter a new password.")
+            return render(request, "store/reset_password.html")
 
         if len(password) < 4:
-
             messages.error(
                 request,
                 "Password must contain at least 4 characters."
             )
-
-            return render(
-                request,
-                "store/reset_password.html"
-            )
+            return render(request, "store/reset_password.html")
 
         if password != confirm_password:
-
-            messages.error(
-                request,
-                "Passwords do not match."
-            )
-
-            return render(
-                request,
-                "store/reset_password.html"
-            )
+            messages.error(request, "Passwords do not match.")
+            return render(request, "store/reset_password.html")
 
         customer.password = password
+        customer.save(update_fields=["password"])
 
-        customer.save(
-            update_fields=["password"]
-        )
-
-        request.session.pop(
-            "password_otp_verified",
-            None
-        )
+        request.session.pop("password_otp_verified", None)
 
         messages.success(
             request,
             "Password changed successfully. Please login again."
         )
 
-        return redirect(
-            "login"
-        )
+        return redirect("login")
 
-    return render(
-        request,
-        "store/reset_password.html"
-    )
+    return render(request, "store/reset_password.html")
 
 
+# ============================================================
 # PRODUCT DETAIL
+# ============================================================
 
 def product_detail(request, product_id):
-
-    product = get_object_or_404(
-        Product,
-        id=product_id
-    )
-
+    product = get_object_or_404(Product, id=product_id)
     customer = get_customer(request)
 
     images = ProductImage.objects.filter(
         product=product
     ).order_by("id")
 
-    # PRODUCT VARIANTS
-
     variants = ProductVariant.objects.filter(
         product=product,
         is_active=True
     ).order_by("id")
 
-    # WISHLIST
-
     is_wishlisted = False
 
     if customer:
-
         is_wishlisted = WishlistItem.objects.filter(
             customer=customer,
             product=product
         ).exists()
-
-    # RELATED PRODUCTS
 
     related_products = Product.objects.filter(
         category=product.category
@@ -709,10 +476,11 @@ def product_detail(request, product_id):
     )
 
 
+# ============================================================
 # CART
+# ============================================================
 
 def cart(request):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -727,13 +495,7 @@ def cart(request):
     total = Decimal("0.00")
 
     for item in cart_items:
-
-        item.line_total = (
-            item.product.price
-            *
-            item.quantity
-        )
-
+        item.line_total = item.product.price * item.quantity
         total += item.line_total
 
     return render(
@@ -747,19 +509,17 @@ def cart(request):
     )
 
 
+# ============================================================
 # ADD TO CART
+# ============================================================
 
 def add_to_cart(request, product_id):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
-    product = get_object_or_404(
-        Product,
-        id=product_id
-    )
+    product = get_object_or_404(Product, id=product_id)
 
     cart_item = CartItem.objects.filter(
         customer=customer,
@@ -767,42 +527,31 @@ def add_to_cart(request, product_id):
     ).first()
 
     if cart_item:
-
         cart_item.quantity += Decimal("1")
-
         cart_item.save()
-
     else:
-
         CartItem.objects.create(
             customer=customer,
             product=product,
             quantity=Decimal("1")
         )
 
-    messages.success(
-        request,
-        f"{product.name} added to cart."
-    )
+    messages.success(request, f"{product.name} added to cart.")
 
-    return redirect(
-        "cart"
-    )
+    return redirect("cart")
 
 
+# ============================================================
 # BUY NOW
+# ============================================================
 
 def buy_now(request, product_id):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
-    product = get_object_or_404(
-        Product,
-        id=product_id
-    )
+    product = get_object_or_404(Product, id=product_id)
 
     cart_item = CartItem.objects.filter(
         customer=customer,
@@ -810,28 +559,23 @@ def buy_now(request, product_id):
     ).first()
 
     if cart_item:
-
         cart_item.quantity = Decimal("1")
-
         cart_item.save()
-
     else:
-
         CartItem.objects.create(
             customer=customer,
             product=product,
             quantity=Decimal("1")
         )
 
-    return redirect(
-        "checkout"
-    )
+    return redirect("checkout")
 
 
+# ============================================================
 # INCREASE CART QUANTITY
+# ============================================================
 
 def increase_cart(request, item_id):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -844,18 +588,16 @@ def increase_cart(request, item_id):
     )
 
     cart_item.quantity += Decimal("1")
-
     cart_item.save()
 
-    return redirect(
-        "cart"
-    )
+    return redirect("cart")
 
 
+# ============================================================
 # DECREASE CART QUANTITY
+# ============================================================
 
 def decrease_cart(request, item_id):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -868,24 +610,19 @@ def decrease_cart(request, item_id):
     )
 
     if cart_item.quantity > Decimal("1"):
-
         cart_item.quantity -= Decimal("1")
-
         cart_item.save()
-
     else:
-
         cart_item.delete()
 
-    return redirect(
-        "cart"
-    )
+    return redirect("cart")
 
 
+# ============================================================
 # REMOVE FROM CART
+# ============================================================
 
 def remove_from_cart(request, item_id):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -898,7 +635,6 @@ def remove_from_cart(request, item_id):
     )
 
     product_name = cart_item.product.name
-
     cart_item.delete()
 
     messages.success(
@@ -906,15 +642,14 @@ def remove_from_cart(request, item_id):
         f"{product_name} removed from cart."
     )
 
-    return redirect(
-        "cart"
-    )
+    return redirect("cart")
 
 
+# ============================================================
 # WISHLIST
+# ============================================================
 
 def wishlist(request):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -936,19 +671,17 @@ def wishlist(request):
     )
 
 
+# ============================================================
 # TOGGLE WISHLIST
+# ============================================================
 
 def toggle_wishlist(request, product_id):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
-    product = get_object_or_404(
-        Product,
-        id=product_id
-    )
+    product = get_object_or_404(Product, id=product_id)
 
     wishlist_item = WishlistItem.objects.filter(
         customer=customer,
@@ -956,16 +689,13 @@ def toggle_wishlist(request, product_id):
     ).first()
 
     if wishlist_item:
-
         wishlist_item.delete()
 
         messages.success(
             request,
             f"{product.name} removed from wishlist."
         )
-
     else:
-
         WishlistItem.objects.create(
             customer=customer,
             product=product
@@ -976,67 +706,33 @@ def toggle_wishlist(request, product_id):
             f"{product.name} added to wishlist."
         )
 
-    return redirect(
-        request.META.get(
-            "HTTP_REFERER",
-            "home"
-        )
-    )
+    return redirect(request.META.get("HTTP_REFERER", "home"))
 
 
+# ============================================================
 # ADD ADDRESS
+# ============================================================
 
 def add_address(request):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
-    # Show the customer's currently saved active addresses.
     addresses = Address.objects.filter(
         customer=customer,
         is_active=True
     ).order_by("-created_at")
 
     if request.method == "POST":
+        full_name = request.POST.get("full_name", "").strip()
+        mobile = request.POST.get("mobile", "").strip()
+        house = request.POST.get("house", "").strip()
+        street = request.POST.get("street", "").strip()
+        city = request.POST.get("city", "").strip()
+        state = request.POST.get("state", "").strip()
+        pincode = request.POST.get("pincode", "").strip()
 
-        full_name = request.POST.get(
-            "full_name",
-            ""
-        ).strip()
-
-        mobile = request.POST.get(
-            "mobile",
-            ""
-        ).strip()
-
-        house = request.POST.get(
-            "house",
-            ""
-        ).strip()
-
-        street = request.POST.get(
-            "street",
-            ""
-        ).strip()
-
-        city = request.POST.get(
-            "city",
-            ""
-        ).strip()
-
-        state = request.POST.get(
-            "state",
-            ""
-        ).strip()
-
-        pincode = request.POST.get(
-            "pincode",
-            ""
-        ).strip()
-
-        # Validate required fields.
         if not all([
             full_name,
             mobile,
@@ -1046,7 +742,6 @@ def add_address(request):
             state,
             pincode,
         ]):
-
             return render(
                 request,
                 "store/add_address.html",
@@ -1057,9 +752,7 @@ def add_address(request):
                 }
             )
 
-        # Validate an Indian 10-digit mobile number.
         if not re.fullmatch(r"[6-9][0-9]{9}", mobile):
-
             return render(
                 request,
                 "store/add_address.html",
@@ -1070,9 +763,7 @@ def add_address(request):
                 }
             )
 
-        # Validate a six-digit Indian PIN code.
         if not re.fullmatch(r"[0-9]{6}", pincode):
-
             return render(
                 request,
                 "store/add_address.html",
@@ -1083,7 +774,6 @@ def add_address(request):
                 }
             )
 
-        # Save the new address.
         Address.objects.create(
             customer=customer,
             full_name=full_name,
@@ -1096,15 +786,10 @@ def add_address(request):
             is_active=True
         )
 
-        messages.success(
-            request,
-            "Address added successfully."
-        )
+        messages.success(request, "Address added successfully.")
 
         return redirect("checkout")
 
-    # GET request: render the Add Address form instead of redirecting
-    # straight back to checkout.
     return render(
         request,
         "store/add_address.html",
@@ -1115,10 +800,11 @@ def add_address(request):
     )
 
 
+# ============================================================
 # REMOVE ADDRESS
+# ============================================================
 
 def remove_address(request, address_id):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -1131,25 +817,18 @@ def remove_address(request, address_id):
     )
 
     address.is_active = False
+    address.save(update_fields=["is_active"])
 
-    address.save(
-        update_fields=["is_active"]
-    )
+    messages.success(request, "Address removed successfully.")
 
-    messages.success(
-        request,
-        "Address removed successfully."
-    )
-
-    return redirect(
-        "checkout"
-    )
+    return redirect("checkout")
 
 
+# ============================================================
 # CHECKOUT
+# ============================================================
 
 def checkout(request):
-
     customer = get_customer(request)
 
     if customer is None:
@@ -1162,39 +841,22 @@ def checkout(request):
     ).order_by("-added_at")
 
     if not cart_items.exists():
-
-        messages.error(
-            request,
-            "Your cart is empty."
-        )
-
-        return redirect(
-            "home"
-        )
+        messages.error(request, "Your cart is empty.")
+        return redirect("home")
 
     subtotal = Decimal("0.00")
 
     for item in cart_items:
-
-        item.line_total = (
-            item.product.price
-            *
-            item.quantity
-        )
-
+        item.line_total = item.product.price * item.quantity
         subtotal += item.line_total
 
-    delivery_charge = Decimal("0.00")
-
-    if subtotal < Decimal("500.00"):
-
-        delivery_charge = Decimal("40.00")
-
-    total_amount = (
-        subtotal
-        +
-        delivery_charge
+    delivery_charge = (
+        Decimal("40.00")
+        if subtotal < Decimal("500.00")
+        else Decimal("0.00")
     )
+
+    total_amount = subtotal + delivery_charge
 
     addresses = Address.objects.filter(
         customer=customer,
@@ -1215,46 +877,27 @@ def checkout(request):
     )
 
 
+# ============================================================
 # PLACE ORDER
+# ============================================================
 
 @transaction.atomic
 def place_order(request):
-
     customer = get_customer(request)
 
     if customer is None:
         return redirect("login")
 
     if request.method != "POST":
+        return redirect("checkout")
 
-        return redirect(
-            "checkout"
-        )
-
-    address_id = request.POST.get(
-        "address_id"
-    )
-
-    payment_method = request.POST.get(
-        "payment_method",
-        ""
-    ).strip()
-
-    upi_id = request.POST.get(
-        "upi_id",
-        ""
-    ).strip()
+    address_id = request.POST.get("address_id")
+    payment_method = request.POST.get("payment_method", "").strip()
+    upi_id = request.POST.get("upi_id", "").strip()
 
     if not address_id:
-
-        messages.error(
-            request,
-            "Please select a delivery address."
-        )
-
-        return redirect(
-            "checkout"
-        )
+        messages.error(request, "Please select a delivery address.")
+        return redirect("checkout")
 
     address = get_object_or_404(
         Address,
@@ -1266,104 +909,45 @@ def place_order(request):
     cart_items = list(
         CartItem.objects.filter(
             customer=customer
-        ).select_related(
-            "product"
-        )
+        ).select_related("product")
     )
 
     if not cart_items:
-
-        messages.error(
-            request,
-            "Your cart is empty."
-        )
-
-        return redirect(
-            "cart"
-        )
+        messages.error(request, "Your cart is empty.")
+        return redirect("cart")
 
     subtotal = Decimal("0.00")
 
     for item in cart_items:
-
-        item.line_total = (
-            item.product.price
-            *
-            item.quantity
-        )
-
+        item.line_total = item.product.price * item.quantity
         subtotal += item.line_total
 
-    delivery_charge = Decimal("0.00")
-
-    if subtotal < Decimal("500.00"):
-
-        delivery_charge = Decimal("40.00")
-
-    total_amount = (
-        subtotal
-        +
-        delivery_charge
+    delivery_charge = (
+        Decimal("40.00")
+        if subtotal < Decimal("500.00")
+        else Decimal("0.00")
     )
 
-    # PAYMENT VALIDATION
+    total_amount = subtotal + delivery_charge
 
-    if payment_method not in [
-        "COD",
-        "ONLINE",
-    ]:
+    if payment_method not in ["COD", "ONLINE"]:
+        messages.error(request, "Please select a payment method.")
+        return redirect("checkout")
 
-        messages.error(
-            request,
-            "Please select a payment method."
-        )
-
-        return redirect(
-            "checkout"
-        )
-
+    # This is a demo payment flow, not a real UPI payment verification.
     payment_status = "Pending"
 
     if payment_method == "ONLINE":
-
-        if not upi_id:
-
-            messages.error(
-                request,
-                "Please enter your UPI ID."
-            )
-
-            return redirect(
-                "checkout"
-            )
-
-        if "@" not in upi_id:
-
-            messages.error(
-                request,
-                "Please enter a valid UPI ID."
-            )
-
-            return redirect(
-                "checkout"
-            )
-
-        payment_status = "Pending"
-
-    elif payment_method == "COD":
-
+        if not upi_id or "@" not in upi_id:
+            messages.error(request, "Please enter a valid UPI ID.")
+            return redirect("checkout")
+    else:
         upi_id = ""
-
-        payment_status = "Pending"
-
-    # CREATE ORDER
 
     order_number = (
         "BZ"
-        +
-        time.strftime("%Y%m%d%H%M%S")
-        +
-        uuid.uuid4().hex[:6].upper()
+        + time.strftime("%Y%m%d%H%M%S")
+        + uuid.uuid4().hex[:6].upper()
     )
 
     order = Order.objects.create(
@@ -1378,10 +962,7 @@ def place_order(request):
         status="Placed",
     )
 
-    # CREATE ORDER ITEMS
-
     for item in cart_items:
-
         OrderItem.objects.create(
             order=order,
             product=item.product,
@@ -1390,54 +971,38 @@ def place_order(request):
             total=item.line_total,
         )
 
-    # CREATE PAYMENT RECORD
-
     Payment.objects.create(
         order=order,
-        payment_method=(
-            "UPI"
-            if payment_method == "ONLINE"
-            else "COD"
-        ),
+        payment_method="UPI" if payment_method == "ONLINE" else "COD",
         transaction_id=None,
         amount=total_amount,
         status="Pending",
     )
 
-    # CLEAR CART
-
-    CartItem.objects.filter(
-        customer=customer
-    ).delete()
+    CartItem.objects.filter(customer=customer).delete()
 
     messages.success(
         request,
         f"Order {order.order_number} placed successfully!"
     )
 
-    return redirect(
-        "order_success",
-        order_id=order.id
-    )
+    return redirect("order_success", order_id=order.id)
 
 
+# ============================================================
 # ORDER SUCCESS
+# ============================================================
 
 def order_success(request, order_id):
-
     customer = get_customer(request)
 
     if customer is None:
-        return redirect(
-            "login"
-        )
+        return redirect("login")
 
     order = get_object_or_404(
-        Order.objects
-        .select_related(
+        Order.objects.select_related(
             "address"
-        )
-        .prefetch_related(
+        ).prefetch_related(
             "items__product"
         ),
         id=order_id,
@@ -1454,32 +1019,23 @@ def order_success(request, order_id):
     )
 
 
+# ============================================================
 # MY ORDERS
+# ============================================================
 
 def orders(request):
-
     customer = get_customer(request)
 
     if customer is None:
-        return redirect(
-            "login"
-        )
+        return redirect("login")
 
-    customer_orders = (
-        Order.objects
-        .filter(
-            customer=customer
-        )
-        .select_related(
-            "address"
-        )
-        .prefetch_related(
-            "items__product"
-        )
-        .order_by(
-            "-created_at"
-        )
-    )
+    customer_orders = Order.objects.filter(
+        customer=customer
+    ).select_related(
+        "address"
+    ).prefetch_related(
+        "items__product"
+    ).order_by("-created_at")
 
     return render(
         request,
@@ -1491,23 +1047,20 @@ def orders(request):
     )
 
 
+# ============================================================
 # ORDER DETAIL
+# ============================================================
 
 def order_detail(request, order_id):
-
     customer = get_customer(request)
 
     if customer is None:
-        return redirect(
-            "login"
-        )
+        return redirect("login")
 
     order = get_object_or_404(
-        Order.objects
-        .select_related(
+        Order.objects.select_related(
             "address"
-        )
-        .prefetch_related(
+        ).prefetch_related(
             "items__product"
         ),
         id=order_id,

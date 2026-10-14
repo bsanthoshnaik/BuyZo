@@ -1,8 +1,14 @@
+
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
 from . import views
 
 
+# ==========================================
 # URL PATTERNS
+# ==========================================
 
 urlpatterns = [
 
@@ -178,3 +184,18 @@ urlpatterns = [
         name="toggle_wishlist"
     ),
 ]
+
+
+# ==========================================
+# MEDIA FILES: BANNERS AND PRODUCT IMAGES
+# ==========================================
+
+# Serve media during local development.
+# On Render, this can also be enabled using:
+# SERVE_MEDIA_WITH_DJANGO=True
+
+if settings.DEBUG or settings.SERVE_MEDIA_WITH_DJANGO:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT,
+    )
