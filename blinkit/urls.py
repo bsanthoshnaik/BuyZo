@@ -4,21 +4,25 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 
+
 urlpatterns = [
     # Django Admin
     path("admin/", admin.site.urls),
 
-    # Store application URLs
+    # Store application
     path("", include("store.urls")),
 ]
 
-# Serve media files
+
+# Serve media files in development
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,
-        document_root=settings.MEDIA_ROOT
+        document_root=settings.MEDIA_ROOT,
     )
-else:
+
+# Serve media files in production when explicitly enabled
+elif getattr(settings, "SERVE_MEDIA_WITH_DJANGO", False):
     urlpatterns += [
         re_path(
             r"^media/(?P<path>.*)$",
